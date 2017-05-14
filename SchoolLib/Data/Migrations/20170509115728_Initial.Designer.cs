@@ -10,9 +10,10 @@ using SchoolLib.Models.People;
 namespace SchoolLib.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170509115728_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -189,8 +190,7 @@ namespace SchoolLib.Data.Migrations
                         .HasMaxLength(15);
 
                     b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(30);
+                        .IsRequired();
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -202,8 +202,7 @@ namespace SchoolLib.Data.Migrations
 
                     b.Property<decimal>("Price");
 
-                    b.Property<DateTime>("Published")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Published");
 
                     b.Property<int>("Status");
 
@@ -245,8 +244,7 @@ namespace SchoolLib.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("AcceptanceDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("AcceptanceDate");
 
                     b.Property<int>("BookId");
 
@@ -254,8 +252,7 @@ namespace SchoolLib.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<DateTime>("IssueDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("IssueDate");
 
                     b.Property<string>("Note")
                         .HasMaxLength(250);
@@ -306,8 +303,7 @@ namespace SchoolLib.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Date");
 
                     b.Property<string>("Note")
                         .HasMaxLength(250);
@@ -330,11 +326,9 @@ namespace SchoolLib.Data.Migrations
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
-                    b.Property<DateTime>("FirstRegistrationDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("FirstRegistrationDate");
 
-                    b.Property<DateTime>("LastRegistrationDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("LastRegistrationDate");
 
                     b.Property<int>("Status");
 
@@ -417,8 +411,7 @@ namespace SchoolLib.Data.Migrations
                     b.Property<int>("Grade");
 
                     b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasMaxLength(20);
+                        .IsRequired();
 
                     b.ToTable("StudyBook");
 
