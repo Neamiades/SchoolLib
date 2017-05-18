@@ -15,14 +15,14 @@ namespace SchoolLib.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Тут Ви можете ознайомитися з метою нашої системи.";
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "Ви можете зв'язатися з нами використовуючи інформацію на цій сторінці.";
 
             return View();
         }

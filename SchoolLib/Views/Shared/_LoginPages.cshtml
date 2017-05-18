@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using SchoolLib.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+<ul class="nav navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">Книжки</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="About">Читачі</a></li>
+    }
+    else
+    {
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Статистика</a></li>
+    }
+</ul>
