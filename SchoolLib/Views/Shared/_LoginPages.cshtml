@@ -8,11 +8,9 @@
 <ul class="nav navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li><a asp-area="" asp-controller="Home" asp-action="Index">Книжки</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="About">Читачі</a></li>
+        <li><a asp-area="" asp-controller="Books" asp-action="Index">Книжки</a></li>
+        <li><a asp-area="" asp-controller="Readers" asp-action="Index">Читачі</a></li>
     }
-    else
-    {
-        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Статистика</a></li>
-    }
+    <li><a asp-area="" asp-controller="Statistic" asp-action="Index">Статистика</a></li>
+    
 </ul>

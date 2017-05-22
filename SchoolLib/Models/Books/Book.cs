@@ -36,9 +36,6 @@ namespace SchoolLib.Models.Books
         [MaxLength(250, ErrorMessage = "Описание книги не может содержать больше 250 символов")]
         public string Note { get; set; }
 
-        [StringLength(30)]
-        public string Discriminator { get; set; }
-
         public BookStatus Status { get; set; }
 
         public Inventory Inventory { get; set; }
