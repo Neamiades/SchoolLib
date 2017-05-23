@@ -1,26 +1,23 @@
 ﻿@model IEnumerable<SchoolLib.Models.Books.Book>
+@using SchoolLib.Controllers
 
 @{
     ViewData["Title"] = "Книжки";
-    string ListPage = ViewData["type"].Equals("book")   ? "_Books"
+    string ListPage = ViewData["type"].Equals("book") ? "_Books"
                     : ViewData["type"].Equals("stbook") ? "_StudyBooks"
-                    :                                     "_AdditionalBooks";
+                    : "_AdditionalBooks";
 }
 
 <h2>Книжки</h2>
 
 <p>
-    <a asp-controller="AdditionalBooks" asp-action="Create" asp-route-type="adbook">Додати нову книжку</a>
-    <a asp-controller="StudyBooks" asp-action="Create" asp-route-type="stbook">Додати новий підручник</a>
+    <a asp-controller="AdditionalBooks" asp-action="Create" asp-route-type="adbook" class="btn btn-default">Додати нову книжку</a>
+    <a asp-controller="StudyBooks" asp-action="Create" asp-route-type="stbook" class="btn btn-default">Додати новий підручник</a>
 </p>
 <hr />
 <form asp-controller="Book" asp-action="Index" method="post">
     <div>
-        <select name="type">
-            <option value="book">Всі книжки</option>
-            <option value="stbook">Підручники</option>
-            <option value="adbook">Додаткова література</option>
-        </select>
+        @Html.DropDownList("type", ViewData["bookTypesList"] as List<SelectListItem>)
         <input type="text" name="name" placeholder="Назва..." value="@ViewData["name"]" />
         <input type="text" name="author" placeholder="Автор..." value="@ViewData["author"]" />
         <input type="text" name="price" placeholder="Ціна..." value="@ViewData["price"]" />

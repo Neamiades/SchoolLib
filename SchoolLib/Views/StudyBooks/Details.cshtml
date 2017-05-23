@@ -1,79 +1,37 @@
-@model SchoolLib.Models.Books.StudyBook
+﻿@model SchoolLib.Models.Books.StudyBook
+@using SchoolLib.Models.Books
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Деталі";
 }
 
-<h2>Details</h2>
+<h2>Деталі</h2>
 
 <div>
-    <h4>StudyBook</h4>
+    <h4>Підручник</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Grade)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Grade)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Subject)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Subject)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Author)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AuthorCipher)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AuthorCipher)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Published)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Published)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Note)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Note)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Discriminator)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Discriminator)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
+        <dt>Назва</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+        <dt>Автор</dt>
+        <dd>@Html.DisplayFor(model => model.Author)</dd>
+        <dt>Авторський шифр</dt>
+        <dd>@Html.DisplayFor(model => model.AuthorCipher)</dd>
+        <dt>Предмет</dt>
+        <dd>@Html.DisplayFor(model => model.Subject)</dd>
+        <dt>Клас</dt>
+        <dd>@Html.DisplayFor(model => model.Grade)</dd>
+        <dt>Рік публікації</dt>
+        <dd>@Html.DisplayFor(model => model.Published)</dd>
+        <dt>Ціна</dt>
+        <dd>@Html.DisplayFor(model => model.Price)</dd>
+        <dt>Примітка</dt>
+        <dd>@Html.DisplayFor(model => model.Note)</dd>
+        <dt>Статус</dt>
+        <dd>@(Model.Status == BookStatus.InStock ? "В наявності" : "На руках")</dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Редагувати</a> |
+    <a asp-controller="Books" asp-action="Index">Повернутися до списку</a>
 </div>

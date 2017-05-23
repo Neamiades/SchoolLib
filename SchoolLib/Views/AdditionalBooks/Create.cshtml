@@ -67,15 +67,6 @@
                 <span asp-validation-for="Note" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group" style="display: none;">  @*style="display: none;"*@
-            <label asp-for="Status" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="Status" class="form-control" value="0">
-                    <option value="0">У фонді</option>
-                </select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Додати" class="btn btn-default" />
@@ -85,7 +76,7 @@
 </form>
 
 <div>
-    <a asp-controler="Book" asp-action="Index">Повернутися до списку</a>
+    <a asp-controller="Books" asp-action="Index">Повернутися до списку</a>
 </div>
 
 @section Scripts {

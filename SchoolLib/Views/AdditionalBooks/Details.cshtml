@@ -1,4 +1,5 @@
 ﻿@model SchoolLib.Models.Books.AdditionalBook
+@using SchoolLib.Models.Books
 
 @{
     ViewData["Title"] = "Деталі";
@@ -10,63 +11,27 @@
     <h4>Книга</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayText("Назва");
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayText("Автор");
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Author)
-        </dd>
-        <dt>
-            @Html.DisplayText("Авторський шифр");
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AuthorCipher)
-        </dd>
-        <dt>
-            @Html.DisplayText("Мова");
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Language)
-        </dd>
-        <dt>
-            @Html.DisplayText("Жанр");
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Genre)
-        </dd>
-        <dt>
-            @Html.DisplayText("Дата публікації");
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Published)
-        </dd>
-        <dt>
-           @Html.DisplayText("Ціна");
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt>
-            @Html.DisplayText("Примітка");
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Note)
-        </dd>
-        <dt>
-            @Html.DisplayText("Статус");
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
+        <dt>Назва</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+        <dt>Автор</dt>
+        <dd>@Html.DisplayFor(model => model.Author)</dd>
+        <dt>Авторський шифр</dt>
+        <dd>@Html.DisplayFor(model => model.AuthorCipher)</dd>
+        <dt>Мова</dt>
+        <dd>@Html.DisplayFor(model => model.Language)</dd>
+        <dt>Жанр</dt>
+        <dd>@Html.DisplayFor(model => model.Genre)</dd>
+        <dt>Рік публікації</dt>
+        <dd>@Html.DisplayFor(model => model.Published)</dd>
+        <dt>Ціна</dt>
+        <dd>@Html.DisplayFor(model => model.Price)</dd>
+        <dt>Примітка</dt>
+        <dd>@Html.DisplayFor(model => model.Note)</dd>
+        <dt>Статус</dt>
+        <dd>@(Model.Status == BookStatus.InStock ? "В наявності" : "На руках")</dd>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Редагувати</a> |
-    <a asp-controler="Book" asp-action="Index">Повернутися до списку</a>
+    <a asp-controller="Books" asp-action="Index">Повернутися до списку</a>
 </div>

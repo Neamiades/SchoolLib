@@ -1,98 +1,83 @@
-@model SchoolLib.Models.Books.StudyBook
+﻿@model SchoolLib.Models.Books.StudyBook
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Редагування";
 }
 
-<h2>Edit</h2>
+<h2>Редагування</h2>
 
 <form asp-action="Edit">
     <div class="form-horizontal">
-        <h4>StudyBook</h4>
+        <h4>Книга</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
         <div class="form-group">
-            <label asp-for="Grade" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Grade" class="form-control" />
-                <span asp-validation-for="Grade" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Subject" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Subject" class="form-control" />
-                <span asp-validation-for="Subject" class="text-danger"></span>
-            </div>
-        </div>
-    <input type="hidden" asp-for="Id" />
-        <div class="form-group">
-            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <label asp-for="Name" class="col-md-2 control-label">Назва</label>
             <div class="col-md-10">
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Author" class="col-md-2 control-label"></label>
+            <label asp-for="Author" class="col-md-2 control-label">Автор</label>
             <div class="col-md-10">
                 <input asp-for="Author" class="form-control" />
                 <span asp-validation-for="Author" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="AuthorCipher" class="col-md-2 control-label"></label>
+            <label asp-for="AuthorCipher" class="col-md-2 control-label">Авторський шифр</label>
             <div class="col-md-10">
                 <input asp-for="AuthorCipher" class="form-control" />
                 <span asp-validation-for="AuthorCipher" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Published" class="col-md-2 control-label"></label>
+            <label asp-for="Subject" class="col-md-2 control-label">Предмет</label>
+            <div class="col-md-10">
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Grade" class="col-md-2 control-label">Клас</label>
+            <div class="col-md-10">
+                <input asp-for="Grade" class="form-control" />
+                <span asp-validation-for="Grade" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Published" class="col-md-2 control-label">Рік публікації</label>
             <div class="col-md-10">
                 <input asp-for="Published" class="form-control" />
                 <span asp-validation-for="Published" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Price" class="col-md-2 control-label"></label>
+            <label asp-for="Price" class="col-md-2 control-label">Ціна</label>
             <div class="col-md-10">
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Note" class="col-md-2 control-label"></label>
+            <label asp-for="Note" class="col-md-2 control-label">Примітка</label>
             <div class="col-md-10">
                 <input asp-for="Note" class="form-control" />
                 <span asp-validation-for="Note" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Discriminator" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Discriminator" class="form-control" />
-                <span asp-validation-for="Discriminator" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Status" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="Status" class="form-control"></select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Зберегти" class="btn btn-default" />
             </div>
         </div>
     </div>
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Books" asp-action="Index">Повернутися до списку</a>
 </div>
 
 @section Scripts {

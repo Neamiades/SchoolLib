@@ -1,22 +1,25 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 
 namespace SchoolLib.Controllers
 {
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
+        List<SelectListItem> bookTypeDropdownList = new List<SelectListItem>();
 
         public BooksController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
+            bookTypeDropdownList.Add(new SelectListItem { Text = "Всі книжки", Value = "book", Selected = true });
+            bookTypeDropdownList.Add(new SelectListItem { Text = "Підручники", Value = "stbook", Selected = false });
+            bookTypeDropdownList.Add(new SelectListItem { Text = "Додаткова література", Value = "adbook", Selected = false });
         }
 
         [HttpGet]
@@ -28,6 +31,7 @@ namespace SchoolLib.Controllers
             ViewData["price"] = string.Empty;
             ViewData["status"] = string.Empty;
             ViewData["books"] = await _context.Books.ToListAsync();//new List<Book>();
+            ViewData["bookTypesList"] = bookTypeDropdownList;
 
             return View(await _context.Books.ToListAsync());
         }
@@ -42,127 +46,20 @@ namespace SchoolLib.Controllers
             ViewData["status"] = status;
             ViewData["books"] = await _context.Books.ToListAsync();
 
+            switch (type)
+            {
+                case "sbook":
+                    bookTypeDropdownList[1].Selected = true;
+                    break;
+                case "adbook":
+                    bookTypeDropdownList[2].Selected = true;
+                    break;
+                default:
+                    bookTypeDropdownList[0].Selected = true;
+                    break;
+            }
+            ViewData["bookTypesList"] = bookTypeDropdownList;
             return View();
-        }
-
-        // GET: Books/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _context.Books
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return View(book);
-        }
-
-        // GET: Books/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Books/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Author,AuthorCipher,Published,Price,Note,Status")] Book book)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(book);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(book);
-        }
-
-        // GET: Books/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _context.Books.SingleOrDefaultAsync(m => m.Id == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-            return View(book);
-        }
-
-        // POST: Books/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Author,AuthorCipher,Published,Price,Note,Status")] Book book)
-        {
-            if (id != book.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(book);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BookExists(book.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            return View(book);
-        }
-
-        // GET: Books/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _context.Books
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return View(book);
-        }
-
-        // POST: Books/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var book = await _context.Books.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
         }
 
         private bool BookExists(int id)

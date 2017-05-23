@@ -54,13 +54,13 @@ namespace SchoolLib.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Author,AuthorCipher,Language,Genre,Published,Price,Note,Status")] AdditionalBook additionalBook)
+        public async Task<IActionResult> Create([Bind("Id,Name,Author,AuthorCipher,Language,Genre,Published,Price,Note")] AdditionalBook additionalBook)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(additionalBook);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Book");
+                return RedirectToAction("Index", "Books");
             }
             return View(additionalBook);
         }
@@ -86,7 +86,7 @@ namespace SchoolLib.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Author,AuthorCipher,Language,Genre,Published,Price,Note,Status")] AdditionalBook additionalBook)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Author,AuthorCipher,Language,Genre,Published,Price,Note")] AdditionalBook additionalBook)
         {
             if (id != additionalBook.Id)
             {
@@ -111,7 +111,7 @@ namespace SchoolLib.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Books");
             }
             return View(additionalBook);
         }
@@ -142,7 +142,7 @@ namespace SchoolLib.Controllers
             var additionalBook = await _context.AdditionalBooks.SingleOrDefaultAsync(m => m.Id == id);
             _context.AdditionalBooks.Remove(additionalBook);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Books");
         }
 
         private bool AdditionalBookExists(int id)

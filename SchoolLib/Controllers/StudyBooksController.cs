@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
@@ -54,13 +51,13 @@ namespace SchoolLib.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Grade,Subject,Id,Name,Author,AuthorCipher,Published,Price,Note,Status")] StudyBook studyBook)
+        public async Task<IActionResult> Create([Bind("Id,Name,Author,AuthorCipher,Grade,Subject,Published,Price,Note")] StudyBook studyBook)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(studyBook);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Books");
             }
             return View(studyBook);
         }
@@ -86,7 +83,7 @@ namespace SchoolLib.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Grade,Subject,Id,Name,Author,AuthorCipher,Published,Price,Note,Status")] StudyBook studyBook)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Author,AuthorCipher,Grade,Subject,Published,Price,Note,Status")] StudyBook studyBook)
         {
             if (id != studyBook.Id)
             {
@@ -111,7 +108,7 @@ namespace SchoolLib.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Books");
             }
             return View(studyBook);
         }
@@ -142,7 +139,7 @@ namespace SchoolLib.Controllers
             var studyBook = await _context.StudyBook.SingleOrDefaultAsync(m => m.Id == id);
             _context.StudyBook.Remove(studyBook);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Books");
         }
 
         private bool StudyBookExists(int id)

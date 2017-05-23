@@ -1,6 +1,9 @@
-﻿@model IEnumerable<SchoolLib.Models.Books.Book>
+﻿@model IEnumerable<Book>
 @using SchoolLib.Models.Books
 
+@{ 
+    string bookType, controllerName;
+}
 <table class="table">
     <thead>
         <tr>
@@ -18,6 +21,16 @@
     <tbody>
         @foreach (var item in Model)
         {
+            if (item.Discriminator == "AdditionalBook")
+            {
+                bookType = "Книга";
+                controllerName = "AdditionalBooks";
+            }
+            else
+            {
+                bookType = "Підручник";
+                controllerName = "StudyBooks";
+            }
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
@@ -32,14 +45,7 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
-                    @if(item is AdditionalBook)
-                    {
-                        Html.DisplayText("Книга");
-                    }
-                    else
-                    {
-                        Html.DisplayText("Підручник");
-                    }
+                    @bookType
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Published)
@@ -48,12 +54,12 @@
                     @Html.DisplayFor(modelItem => item.Note)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status)
+                    @(item.Status == BookStatus.InStock ? "В наявності" : "На руках")
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                    <a asp-controller="@controllerName" asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                    <a asp-controller="@controllerName" asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
+                    <a asp-controller="@controllerName" asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
                 </td>
             </tr>
         }
