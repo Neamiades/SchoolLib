@@ -1,11 +1,9 @@
-﻿@model IEnumerable<SchoolLib.Models.Books.Book>
-@using SchoolLib.Controllers
+﻿@using SchoolLib.Models.Books
+@model IEnumerable<Book>
 
 @{
     ViewData["Title"] = "Книжки";
-    string ListPage = ViewData["type"].Equals("book") ? "_Books"
-                    : ViewData["type"].Equals("stbook") ? "_StudyBooks"
-                    : "_AdditionalBooks";
+    string ListPage = $"_{ViewData["type"] as string}s";
 }
 
 <h2>Книжки</h2>
@@ -15,17 +13,33 @@
     <a asp-controller="StudyBooks" asp-action="Create" asp-route-type="stbook" class="btn btn-default">Додати новий підручник</a>
 </p>
 <hr />
-<form asp-controller="Book" asp-action="Index" method="post">
+<form asp-controller="Books" asp-action="Index" method="post">
     <div>
         @Html.DropDownList("type", ViewData["bookTypesList"] as List<SelectListItem>)
         <input type="text" name="name" placeholder="Назва..." value="@ViewData["name"]" />
         <input type="text" name="author" placeholder="Автор..." value="@ViewData["author"]" />
+        <input type="text" name="authorCipher" placeholder="Авторський шифр..." value="@ViewData["authorCipher"]" />
+        <input type="text" name="published" placeholder="Рік публікації..." value="@ViewData["published"]" />
         <input type="text" name="price" placeholder="Ціна..." value="@ViewData["price"]" />
-        <input type="text" name="status" placeholder="Статус..." value="@ViewData["status"]" />
+        <input type="text" name="note" placeholder="Примітка..." value="@ViewData["Published"]" />
+        @Html.DropDownList("status", ViewData["bookStatusList"] as List<SelectListItem>)
         <br /><br />
         <input type="submit" value="Пошук" />
     </div>
 </form>
 <div>
-    @{await Html.RenderPartialAsync(ListPage, ViewData["books"]);}
+    @{
+        if (ListPage == "_Books")
+        {
+            await Html.RenderPartialAsync(ListPage, Model);
+        }
+        else if (ListPage == "_StudyBooks")
+        {
+            await Html.RenderPartialAsync(ListPage, Model as IEnumerable<StudyBook>);
+        }
+        else
+        {
+            await Html.RenderPartialAsync(ListPage, Model as IEnumerable<AdditionalBook>);
+        }
+    }
 </div>

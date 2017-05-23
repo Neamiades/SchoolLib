@@ -4,12 +4,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolLib.Models.Books
 {
+    //public enum BookStatus
+    //{
+    //    InStock,
+    //    OnHands
+    //}
+    [Flags]
     public enum BookStatus
     {
-        InStock,
-        OnHands
+        InStock = 0x0,
+        OnHands = 0x1,
+        All = InStock | OnHands
     }
-
     public abstract class Book
     {
         public int Id { get; set; }
@@ -25,9 +31,10 @@ namespace SchoolLib.Models.Books
         [Required]
         [MinLength(3), MaxLength(15, ErrorMessage = "Шифр автора должен содержать меньше 15 символов")]
         public string AuthorCipher { get; set; }
-
-        [Column(TypeName = "date")]
-        public DateTime Published { get; set; }
+        
+        /* !todo: Исправить верхнюю грань диапазона на текущий год */
+        [Required, Range(1564, 2017, ErrorMessage = "Рік видання має можливий діапазон від {1} до {2}")]
+        public short Published { get; set; }
 
         [Required]
         public decimal Price { get; set; }
