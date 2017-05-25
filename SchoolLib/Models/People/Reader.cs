@@ -4,8 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolLib.Models.People
 {
-    public enum ReaderType { Worker, Student }
-    public enum ReaderStatus { Enabled, Disabled, Removed }
+    [Flags]
+    public enum ReaderStatus
+    {
+        Enabled = 1,
+        Disabled = 2,
+        Removed = 4,
+        Any = Enabled | Disabled | Removed
+    }
 
     [Table("Readers")]
     public class Reader
@@ -22,6 +28,9 @@ namespace SchoolLib.Models.People
         
         [Column(TypeName = "date")]
         public DateTime FirstRegistrationDate { get; set; }
+
+        [StringLength(30)]
+        public string Discriminator { get; set; }
 
         public ReaderProfile ReaderProfile { get; set; }
     }

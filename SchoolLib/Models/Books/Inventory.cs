@@ -8,15 +8,19 @@ namespace SchoolLib.Models.Books
     {
         public int Id { get; set; }
 
+        [Required, Range(1, 100000, ErrorMessage = "Номер акту має діапазон від {1} до {2}")]
         public int ActNumber { get; set; }
 
-        [Column(TypeName = "date")]
+        /*!todo: Исправить диапазон даты*/
+        [Required, Column(TypeName = "date")]
+        [Range(typeof(DateTime), "1/1/2004", "6/30/2017",
+        ErrorMessage = "Значення для року інвентаризації має бути між {1} та {2}")]
         public DateTime Year { get; set; }
 
-        [Required, StringLength(50, MinimumLength = 5)]
+        [StringLength(50, MinimumLength = 4)]
         public string Couse { get; set; }
 
-        [MaxLength(250)]
+        [MaxLength(250, ErrorMessage = "Максимальна довжина примітки складає 250 символів")]
         public string Note { get; set; }
 
         public int BookId { get; set; }

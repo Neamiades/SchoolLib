@@ -7,13 +7,12 @@ using SchoolLib.Data;
 using SchoolLib.Models.Books;
 using SchoolLib.Models.People;
 
-namespace SchoolLib.Data.Migrations
+namespace SchoolLib.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170509115728_Initial")]
-    partial class Initial
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -183,18 +182,23 @@ namespace SchoolLib.Data.Migrations
 
                     b.Property<string>("Author")
                         .IsRequired()
-                        .HasMaxLength(25);
+                        .HasMaxLength(30);
 
                     b.Property<string>("AuthorCipher")
                         .IsRequired()
                         .HasMaxLength(15);
 
                     b.Property<string>("Discriminator")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.Property<string>("InventoryNum")
+                        .IsRequired()
+                        .HasMaxLength(6);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(20);
+                        .HasMaxLength(60);
 
                     b.Property<string>("Note")
                         .IsRequired()
@@ -202,7 +206,7 @@ namespace SchoolLib.Data.Migrations
 
                     b.Property<decimal>("Price");
 
-                    b.Property<DateTime>("Published");
+                    b.Property<short>("Published");
 
                     b.Property<int>("Status");
 
@@ -223,13 +227,13 @@ namespace SchoolLib.Data.Migrations
                     b.Property<int>("BookId");
 
                     b.Property<string>("Couse")
-                        .IsRequired()
-                        .HasMaxLength(30);
+                        .HasMaxLength(50);
 
                     b.Property<string>("Note")
                         .HasMaxLength(250);
 
-                    b.Property<DateTime>("Year");
+                    b.Property<DateTime>("Year")
+                        .HasColumnType("date");
 
                     b.HasKey("Id");
 
@@ -250,7 +254,7 @@ namespace SchoolLib.Data.Migrations
 
                     b.Property<string>("Couse")
                         .IsRequired()
-                        .HasMaxLength(30);
+                        .HasMaxLength(50);
 
                     b.Property<DateTime>("IssueDate");
 
@@ -282,7 +286,8 @@ namespace SchoolLib.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<DateTime>("ReceiptDate");
+                    b.Property<DateTime>("ReceiptDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("WayBill");
 
@@ -303,7 +308,8 @@ namespace SchoolLib.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<DateTime>("Date");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
 
                     b.Property<string>("Note")
                         .HasMaxLength(250);
@@ -324,11 +330,14 @@ namespace SchoolLib.Data.Migrations
                         .HasColumnName("ReaderId");
 
                     b.Property<string>("Discriminator")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(30);
 
-                    b.Property<DateTime>("FirstRegistrationDate");
+                    b.Property<DateTime>("FirstRegistrationDate")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime>("LastRegistrationDate");
+                    b.Property<DateTime>("LastRegistrationDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("Status");
 
@@ -348,23 +357,25 @@ namespace SchoolLib.Data.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(10);
+                        .HasMaxLength(15);
 
-                    b.Property<short>("House");
+                    b.Property<string>("House")
+                        .IsRequired()
+                        .HasMaxLength(5);
 
                     b.Property<string>("Patronimic")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(25);
 
                     b.Property<int>("ReaderId");
 
                     b.Property<string>("Street")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(25);
 
                     b.Property<string>("SurName")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.HasKey("Id");
 
@@ -378,7 +389,7 @@ namespace SchoolLib.Data.Migrations
                 {
                     b.HasBaseType("SchoolLib.Models.Books.Book");
 
-                    b.Property<string>("Genre")
+                    b.Property<string>("Cipher")
                         .IsRequired()
                         .HasMaxLength(20);
 
@@ -411,7 +422,8 @@ namespace SchoolLib.Data.Migrations
                     b.Property<int>("Grade");
 
                     b.Property<string>("Subject")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(20);
 
                     b.ToTable("StudyBook");
 
