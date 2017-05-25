@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolLib.Models.Books
 {
@@ -11,7 +12,7 @@ namespace SchoolLib.Models.Books
         public string Place { get; set; }
 
         public int WayBill { get; set; }
-
+        
         public DateTime ReceiptDate { get; set; }
 
         [MaxLength(250)]

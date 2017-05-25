@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolLib.Models.Books
 {
@@ -9,9 +10,10 @@ namespace SchoolLib.Models.Books
 
         public int ActNumber { get; set; }
 
+        [Column(TypeName = "date")]
         public DateTime Year { get; set; }
 
-        [Required, StringLength(30, MinimumLength = 5)]
+        [Required, StringLength(50, MinimumLength = 5)]
         public string Couse { get; set; }
 
         [MaxLength(250)]

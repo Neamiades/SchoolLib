@@ -58,6 +58,7 @@ namespace SchoolLib.Controllers
         {
             if (ModelState.IsValid)
             {
+                additionalBook.Status = BookStatus.InStock;
                 _context.Add(additionalBook);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Books");

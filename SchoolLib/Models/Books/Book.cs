@@ -12,8 +12,8 @@ namespace SchoolLib.Models.Books
     [Flags]
     public enum BookStatus
     {
-        InStock = 0x0,
-        OnHands = 0x1,
+        InStock = 1,
+        OnHands = 2,
         All = InStock | OnHands
     }
     public abstract class Book
@@ -21,11 +21,11 @@ namespace SchoolLib.Models.Books
         public int Id { get; set; }
 
         [Required]
-        [MinLength(2), MaxLength(20, ErrorMessage = "Название должно содержать меньше 20 символов")]
+        [MinLength(2), MaxLength(60, ErrorMessage = "Название должно содержать меньше 60 символов")]
         public string Name { get; set; }
 
         [Required]
-        [MinLength(4), MaxLength(25, ErrorMessage = "Имя автора должно содержать меньше 25 символов")]
+        [MinLength(4), MaxLength(30, ErrorMessage = "Имя автора должно содержать меньше 30 символов")]
         public string Author { get; set; }
 
         [Required]

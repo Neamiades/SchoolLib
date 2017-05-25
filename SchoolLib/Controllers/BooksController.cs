@@ -31,12 +31,12 @@ namespace SchoolLib.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["type"] = "Book";
-            ViewData["name"] = string.Empty;
-            ViewData["author"] = string.Empty;
-            ViewData["authorCipher"] = string.Empty;
-            ViewData["published"] = string.Empty;
-            ViewData["note"] = string.Empty;
-            ViewData["price"] = string.Empty;
+            ViewData["name"] = null;
+            ViewData["author"] = null;
+            ViewData["authorCipher"] = null;
+            ViewData["published"] = null;
+            ViewData["note"] = null;
+            ViewData["price"] = null;
             ViewData["bookTypesList"] = bookTypeDropdownList;
             ViewData["bookStatusList"] = bookStatusDropdownList;
 
@@ -49,9 +49,9 @@ namespace SchoolLib.Controllers
             string name,
             string author, 
             string authorCipher,
-            short published,
+            short? published,
             string note,
-            decimal price,
+            decimal? price,
             BookStatus status)
         {
             //switch (type)
@@ -72,12 +72,14 @@ namespace SchoolLib.Controllers
             ViewData["author"] = author;
             ViewData["authorCipher"] = authorCipher;
             ViewData["published"] = published;
-            ViewData["note"] = note;
             ViewData["price"] = price;
+            ViewData["note"] = note;
             ViewData["bookTypesList"] = bookTypeDropdownList;
             ViewData["bookStatusList"] = bookStatusDropdownList;
 
-            var books = _context.Books.Where(b => b.Discriminator == type && b.Status == status);
+            var books = _context.Books.Where(b => status.HasFlag(b.Status));
+            if (type != "Book")
+                books = books.Where(b => b.Discriminator == type);
             if (!string.IsNullOrWhiteSpace(name))
                 books = books.Where(b => b.Name == name);
             if (!string.IsNullOrWhiteSpace(author))
@@ -85,12 +87,11 @@ namespace SchoolLib.Controllers
             if (!string.IsNullOrWhiteSpace(authorCipher))
                 books = books.Where(b => b.AuthorCipher == authorCipher);
             if (!string.IsNullOrWhiteSpace(note))
-                books = books.Where(b => b.Name == name);
-            if (published != 0)
+                books = books.Where(b => b.Note == note);
+            if (published.HasValue)
                 books = books.Where(b => b.Published == published);
-            if (price != 0)
+            if (price.HasValue)
                 books = books.Where(b => b.Price == price);
-
             return View(await books.ToListAsync());
         }
 

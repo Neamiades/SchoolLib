@@ -8,14 +8,12 @@ namespace SchoolLib.Models.Books
     public class Issuance
     {
         public int Id { get; set; }
-
-        [Column(TypeName = "date")]
+        
         public DateTime IssueDate { get; set; }
-
-        [Column(TypeName = "date")]
+        
         public DateTime AcceptanceDate { get; set; }
 
-        [Required, StringLength(30,MinimumLength = 5)]
+        [Required, StringLength(50, MinimumLength = 5)]
         public string Couse { get; set; }
 
         [StringLength(250)]

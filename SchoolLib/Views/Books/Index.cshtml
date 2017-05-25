@@ -21,7 +21,7 @@
         <input type="text" name="authorCipher" placeholder="Авторський шифр..." value="@ViewData["authorCipher"]" />
         <input type="text" name="published" placeholder="Рік публікації..." value="@ViewData["published"]" />
         <input type="text" name="price" placeholder="Ціна..." value="@ViewData["price"]" />
-        <input type="text" name="note" placeholder="Примітка..." value="@ViewData["Published"]" />
+        <input type="text" name="note" placeholder="Примітка..." value="@ViewData["note"]" />
         @Html.DropDownList("status", ViewData["bookStatusList"] as List<SelectListItem>)
         <br /><br />
         <input type="submit" value="Пошук" />
@@ -35,11 +35,11 @@
         }
         else if (ListPage == "_StudyBooks")
         {
-            await Html.RenderPartialAsync(ListPage, Model as IEnumerable<StudyBook>);
+            await Html.RenderPartialAsync(ListPage, Model.Cast<StudyBook>());
         }
         else
         {
-            await Html.RenderPartialAsync(ListPage, Model as IEnumerable<AdditionalBook>);
+            await Html.RenderPartialAsync(ListPage, Model.Cast<AdditionalBook>());
         }
     }
 </div>
