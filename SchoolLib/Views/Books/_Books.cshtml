@@ -7,6 +7,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>@Html.DisplayNameFor(model => model.InventoryNum)</th>
             <th>Назва</th>
             <th>Автор</th>
             <th>Шифр автора</th>
@@ -32,6 +33,9 @@
                 controllerName = "StudyBooks";
             }
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InventoryNum)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>

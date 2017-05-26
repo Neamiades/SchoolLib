@@ -13,6 +13,13 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Id" />
         <div class="form-group">
+            <label asp-for="InventoryNum" class="col-md-2 control-label">Інвентарний номер</label>
+            <div class="col-md-10">
+                <input asp-for="InventoryNum" class="form-control" />
+                <span asp-validation-for="InventoryNum" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="Name" class="col-md-2 control-label">Назва</label>
             <div class="col-md-10">
                 <input asp-for="Name" class="form-control" />
@@ -41,10 +48,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Genre" class="col-md-2 control-label">Жанр</label>
+            <label asp-for="Cipher" class="col-md-2 control-label">Шифр</label>
             <div class="col-md-10">
-                <input asp-for="Genre" class="form-control" />
-                <span asp-validation-for="Genre" class="text-danger"></span>
+                <input asp-for="Cipher" class="form-control" />
+                <span asp-validation-for="Cipher" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">

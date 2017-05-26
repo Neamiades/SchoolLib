@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace SchoolLib.Models.Books
@@ -15,6 +16,7 @@ namespace SchoolLib.Models.Books
         public int Id { get; set; }
 
         [Required]
+        [DisplayName("Інвентарний номер")]
         [StringLength(6, MinimumLength = 6, ErrorMessage = "Інвентарний номер повинен мати 6 цифер")]
         public string InventoryNum { get; set; }
 

@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
@@ -54,7 +51,7 @@ namespace SchoolLib.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Author,AuthorCipher,Language,Genre,Published,Price,Note")] AdditionalBook additionalBook)
+        public async Task<IActionResult> Create([Bind("Id,InventoryNum,Name,Author,AuthorCipher,Language,Cipher,Published,Price,Note")] AdditionalBook additionalBook)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +84,7 @@ namespace SchoolLib.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Author,AuthorCipher,Language,Genre,Published,Price,Note")] AdditionalBook additionalBook)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,InventoryNum,Name,Author,AuthorCipher,Language,Cipher,Published,Price,Note")] AdditionalBook additionalBook)
         {
             if (id != additionalBook.Id)
             {

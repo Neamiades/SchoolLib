@@ -4,6 +4,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>Інвентарний номер</th>
             <th>Назва</th>
             <th>Автор</th>
             <th>Шифр автора</th>
@@ -20,6 +21,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InventoryNum)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>

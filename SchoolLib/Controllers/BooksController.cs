@@ -54,19 +54,6 @@ namespace SchoolLib.Controllers
             decimal? price,
             BookStatus status)
         {
-            //switch (type)
-            //{
-            //    case "StudyBook":
-            //        bookTypeDropdownList[1].Selected = true;
-            //        break;
-            //    case "AdditionalBook":
-            //        bookTypeDropdownList[2].Selected = true;
-            //        break;
-            //    default:
-            //        bookTypeDropdownList[0].Selected = true;
-            //        break;
-            //}
-
             ViewData["type"] = type;
             ViewData["name"] = name;
             ViewData["author"] = author;

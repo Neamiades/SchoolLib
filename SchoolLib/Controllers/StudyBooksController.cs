@@ -51,7 +51,7 @@ namespace SchoolLib.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Author,AuthorCipher,Grade,Subject,Published,Price,Note")] StudyBook studyBook)
+        public async Task<IActionResult> Create([Bind("Id,InventoryNum,Name,Author,AuthorCipher,Grade,Subject,Published,Price,Note")] StudyBook studyBook)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace SchoolLib.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Author,AuthorCipher,Grade,Subject,Published,Price,Note,Status")] StudyBook studyBook)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,InventoryNum,Name,Author,AuthorCipher,Grade,Subject,Published,Price,Note,Status")] StudyBook studyBook)
         {
             if (id != studyBook.Id)
             {

@@ -31,12 +31,13 @@ namespace SchoolLib.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<Book>().HasIndex(u => u.InventoryNum).IsUnique();
             //builder.Entity<Reader>()
             //       .HasOne(p => p.ReaderProfile)
             //       .WithOne(t => t.Reader)
             //       .OnDelete(DeleteBehavior.Restrict);
             //builder.Entity<User>().Property(u => u.Age).HasDefaultValue(18);
-            //builder.Entity<AdditionalBook>().Property(b => b.Genre).IsRequired();
+            //builder.Entity<AdditionalBook>().Property(b => b.Cipher).IsRequired();
             //builder.Entity<AdditionalBook>().Property(b => b.Language).IsRequired();
 
             // Customize the ASP.NET Identity model and override the defaults if needed.
