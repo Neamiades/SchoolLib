@@ -22,7 +22,7 @@
         <input type="text" name="published" placeholder="Рік публікації..." value="@ViewData["published"]" />
         <input type="text" name="price" placeholder="Ціна..." value="@ViewData["price"]" />
         <input type="text" name="note" placeholder="Примітка..." value="@ViewData["note"]" />
-        @Html.DropDownList("status", ViewData["bookStatusList"] as List<SelectListItem>)
+        @Html.DropDownList("status", Html.GetEnumSelectList(typeof(BookStatus)))
         <br /><br />
         <input type="submit" value="Пошук" />
     </div>

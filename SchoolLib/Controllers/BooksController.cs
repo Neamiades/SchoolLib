@@ -13,7 +13,6 @@ namespace SchoolLib.Controllers
     {
         private readonly ApplicationDbContext _context;
         List<SelectListItem> bookTypeDropdownList = new List<SelectListItem>();
-        List<SelectListItem> bookStatusDropdownList = new List<SelectListItem>();
 
         public BooksController(ApplicationDbContext context)
         {
@@ -21,10 +20,6 @@ namespace SchoolLib.Controllers
             bookTypeDropdownList.Add(new SelectListItem { Text = "Всі книжки", Value = "Book", Selected = true });
             bookTypeDropdownList.Add(new SelectListItem { Text = "Підручники", Value = "StudyBook", Selected = false });
             bookTypeDropdownList.Add(new SelectListItem { Text = "Додаткова література", Value = "AdditionalBook", Selected = false });
-
-            bookStatusDropdownList.Add(new SelectListItem { Text = "Всі", Value = "All", Selected = true });
-            bookStatusDropdownList.Add(new SelectListItem { Text = "В бібліотеці", Value = "InStock", Selected = false });
-            bookStatusDropdownList.Add(new SelectListItem { Text = "У читача", Value = "OnHands", Selected = false });
         }
 
         [HttpGet]
@@ -38,7 +33,6 @@ namespace SchoolLib.Controllers
             ViewData["note"] = null;
             ViewData["price"] = null;
             ViewData["bookTypesList"] = bookTypeDropdownList;
-            ViewData["bookStatusList"] = bookStatusDropdownList;
 
             return View(await _context.Books.ToListAsync());
         }
@@ -62,7 +56,6 @@ namespace SchoolLib.Controllers
             ViewData["price"] = price;
             ViewData["note"] = note;
             ViewData["bookTypesList"] = bookTypeDropdownList;
-            ViewData["bookStatusList"] = bookStatusDropdownList;
 
             var books = _context.Books.Where(b => status.HasFlag(b.Status));
             if (type != "Book")
