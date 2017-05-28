@@ -1,0 +1,33 @@
+﻿@model SchoolLib.Models.Books.Provenance
+
+@{
+    ViewData["Title"] = "Видалення походження";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h3>Ви впевнені, що бажаєте видалити це?</h3>
+<div>
+    <h4>@Html.DisplayNameFor(model => model)</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <input type="hidden" asp-for="Id" />
+        <dt>@Html.DisplayNameFor(model => model.Book)</dt>
+        <dd>@Html.DisplayFor(model => model.Book.InventoryNum)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Place)</dt>
+        <dd>@Html.DisplayFor(model => model.Place)</dd>
+        <dt>@Html.DisplayNameFor(model => model.WayBill)</dt>
+        <dd>@Html.DisplayFor(model => model.WayBill)</dd>
+        <dt>@Html.DisplayNameFor(model => model.ReceiptDate)</dt>
+        <dd>@Html.DisplayFor(model => model.ReceiptDate)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Note)</dt>
+        <dd>@Html.DisplayFor(model => model.Note)</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
+</div>

@@ -5,32 +5,45 @@
     ViewData["Title"] = "Деталі";
 }
 
-<h2>Деталі</h2>
+<h2>@ViewData["Title"]</h2>
 
 <div>
-    <h4>Книга</h4>
+    <h4>@Html.DisplayNameFor(model => model)</h4>
+    <p>
+        <a asp-controller="Inventories" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-default">Інвентаризація</a>
+        <a asp-controller="Provenances" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-default">Походження</a>
+    </p>
     <hr />
     <dl class="dl-horizontal">
-        <dt>Інвентарний номер</dt>
+        <dt>@Html.DisplayNameFor(model => model.InventoryNum)</dt>
         <dd>@Html.DisplayFor(model => model.InventoryNum)</dd>
-        <dt>Назва</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
         <dd>@Html.DisplayFor(model => model.Name)</dd>
-        <dt>Автор</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.Author)</dt>
         <dd>@Html.DisplayFor(model => model.Author)</dd>
-        <dt>Авторський шифр</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.AuthorCipher)</dt>
         <dd>@Html.DisplayFor(model => model.AuthorCipher)</dd>
-        <dt>Мова</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.Language)</dt>
         <dd>@Html.DisplayFor(model => model.Language)</dd>
-        <dt>Шифр</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.Cipher)</dt>
         <dd>@Html.DisplayFor(model => model.Cipher)</dd>
-        <dt>Рік публікації</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.Published)</dt>
         <dd>@Html.DisplayFor(model => model.Published)</dd>
-        <dt>Ціна</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.Price)</dt>
         <dd>@Html.DisplayFor(model => model.Price)</dd>
-        <dt>Примітка</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.Note)</dt>
         <dd>@Html.DisplayFor(model => model.Note)</dd>
-        <dt>Статус</dt>
-        <dd>@(Model.Status == BookStatus.InStock ? "В наявності" : "На руках")</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Status)</dt>
+        <dd>@Html.DisplayFor(model => model.Status)</dd>
     </dl>
 </div>
 <div>

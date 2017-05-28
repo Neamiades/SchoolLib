@@ -1,0 +1,32 @@
+﻿@model SchoolLib.Models.Books.Inventory
+
+@{
+    ViewData["Title"] = "Деталі";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <h4>@Html.DisplayNameFor(model => model)</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Book)</dt>
+        <dd>
+            <a asp-controller="Book" asp-action="Details" asp-route-id="@Model.Book.Id">
+                @Html.DisplayFor(model => model.Book.InventoryNum)
+            </a>
+        </dd>
+        <dt>@Html.DisplayNameFor(model => model.ActNumber)</dt>
+        <dd>@Html.DisplayFor(model => model.ActNumber)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Year)</dt>
+        <dd>@Html.DisplayFor(model => model.Year)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Couse)</dt>
+        <dd>@Html.DisplayFor(model => model.Couse)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Note)</dt>
+        <dd>@Html.DisplayFor(model => model.Note)</dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Редагувати</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

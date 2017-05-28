@@ -32,6 +32,7 @@ namespace SchoolLib.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<Book>().HasIndex(u => u.InventoryNum).IsUnique();
+            builder.Entity<Reader>().HasIndex(u => u.IdNum).IsUnique();
             //builder.Entity<Reader>()
             //       .HasOne(p => p.ReaderProfile)
             //       .WithOne(t => t.Reader)

@@ -5,34 +5,43 @@
     ViewData["Title"] = "Видалення книги";
 }
 
-<h2>Видалення</h2>
+<h2>@ViewData["Title"]</h2>
 
 <h3>Ви впевнені в тому, що бажаєте видалити цю книгу?</h3>
 <div>
-    <h4>Книга</h4>
+    <h4>@Html.DisplayNameFor(model => model)</h4>
     <hr />
     <dl class="dl-horizontal">
         <input type="hidden" asp-for="Id" />
-        <dt>Інвентарний номер</dt>
+        <dt>@Html.DisplayNameFor(model => model.InventoryNum)</dt>
         <dd>@Html.DisplayFor(model => model.InventoryNum)</dd>
-        <dt>Назва</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
         <dd>@Html.DisplayFor(model => model.Name)</dd>
-        <dt>Автор</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.Author)</dt>
         <dd>@Html.DisplayFor(model => model.Author)</dd>
-        <dt>Авторський шифр</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.AuthorCipher)</dt>
         <dd>@Html.DisplayFor(model => model.AuthorCipher)</dd>
-        <dt>Мова</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.Language)</dt>
         <dd>@Html.DisplayFor(model => model.Language)</dd>
-        <dt>Шифр</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.Cipher)</dt>
         <dd>@Html.DisplayFor(model => model.Cipher)</dd>
-        <dt>Рік публікації</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.Published)</dt>
         <dd>@Html.DisplayFor(model => model.Published)</dd>
-        <dt>Ціна</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.Price)</dt>
         <dd>@Html.DisplayFor(model => model.Price)</dd>
-        <dt>Примітка</dt>
+
+        <dt>@Html.DisplayNameFor(model => model.Note)</dt>
         <dd>@Html.DisplayFor(model => model.Note)</dd>
-        <dt>Статус</dt>
-        <dd>@(Model.Status == BookStatus.InStock ? "В наявності" : "На руках")</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Status)</dt>
+        <dd>@Html.DisplayFor(model => model.Status)</dd>
     </dl>
     
     <form asp-action="Delete">

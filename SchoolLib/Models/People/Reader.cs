@@ -9,13 +9,13 @@ namespace SchoolLib.Models.People
     [DisplayName("Статус читача")]
     public enum ReaderStatus
     {
-        [DisplayName("Активний")]
+        [Display(Name = "Активний")]
         Enabled = 1,
-        [DisplayName("Деактивований")]
+        [Display(Name = "Деактивований")]
         Disabled = 2,
-        [DisplayName("Вибув")]
+        [Display(Name = "Вибув")]
         Removed = 4,
-        [DisplayName("Всі")]
+        [Display(Name = "Всі")]
         All = Enabled | Disabled | Removed
     }
 
@@ -28,18 +28,24 @@ namespace SchoolLib.Models.People
         public int Id { get; set; }
 
         [Required]
-        [DisplayName("Статус")]
+        [Display(Name = "Ідентифікаційний номер")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:D6}")]
+        [Range(1, 100000, ErrorMessage = "Ідентифікаційний номер має можливий діапазон від {1} до {2}")]
+        public int IdNum { get; set; }
+
+        [Required]
+        [Display(Name = "Статус")]
         public ReaderStatus Status { get; set; }
 
-        [DisplayName("Дата перереєстрації")]
+        [Display(Name = "Дата перереєстрації")]
         [Column(TypeName = "date")]
         public DateTime LastRegistrationDate { get; set; }
 
-        [DisplayName("Дата реєстрації")]
+        [Display(Name = "Дата реєстрації")]
         [Column(TypeName = "date")]
         public DateTime FirstRegistrationDate { get; set; }
 
-        [DisplayName("Тип")]
+        [Display(Name = "Тип")]
         [StringLength(30)]
         public string Discriminator { get; set; }
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
+using System.Data.SqlClient;
 
 namespace SchoolLib.Controllers
 {
@@ -47,17 +48,31 @@ namespace SchoolLib.Controllers
         }
 
         // POST: StudyBooks/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,InventoryNum,Name,Author,AuthorCipher,Grade,Subject,Published,Price,Note")] StudyBook studyBook)
+        public async Task<IActionResult> Create(
+            [Bind("Id,InventoryNum,Name,Author,AuthorCipher,Grade,Subject,Published,Price,Note")]
+            StudyBook studyBook
+            )
         {
             if (ModelState.IsValid)
             {
                 studyBook.Status = BookStatus.InStock;
-                _context.Add(studyBook);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.Add(studyBook);
+                    await _context.SaveChangesAsync();
+                }
+                catch (SqlException e) when (e.Number == 2601)
+                {
+                    ModelState.AddModelError("InventoryNum", "Даний номер вже існує в базі даних");
+                    return View(studyBook);
+                }
+                catch (System.Exception e)
+                {
+                    ModelState.AddModelError("InventoryNum", "Даний номер вже існує в базі даних");
+                    return View(studyBook);
+                }
                 return RedirectToAction("Index", "Books");
             }
             return View(studyBook);
@@ -80,11 +95,13 @@ namespace SchoolLib.Controllers
         }
 
         // POST: StudyBooks/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,InventoryNum,Name,Author,AuthorCipher,Grade,Subject,Published,Price,Note,Status")] StudyBook studyBook)
+        public async Task<IActionResult> Edit(
+            int id,
+            [Bind("Id,InventoryNum,Name,Author,AuthorCipher,Grade,Subject,Published,Price,Note,Status")]
+            StudyBook studyBook
+            )
         {
             if (id != studyBook.Id)
             {
@@ -108,6 +125,16 @@ namespace SchoolLib.Controllers
                     {
                         throw;
                     }
+                }
+                catch (SqlException e) when (e.Number == 2601)
+                {
+                    ModelState.AddModelError("InventoryNum", "Даний номер вже існує в базі даних");
+                    return View(studyBook);
+                }
+                catch (System.Exception e)
+                {
+                    ModelState.AddModelError("InventoryNum", "Даний номер вже існує в базі даних");
+                    return View(studyBook);
                 }
                 return RedirectToAction("Index", "Books");
             }

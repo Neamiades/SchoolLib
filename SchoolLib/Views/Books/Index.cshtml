@@ -6,23 +6,26 @@
     string ListPage = $"_{ViewData["type"] as string}s";
 }
 
-<h2>Книжки</h2>
+<h2>@ViewData["Title"]</h2>
 
 <p>
-    <a asp-controller="AdditionalBooks" asp-action="Create" asp-route-type="adbook" class="btn btn-default">Додати нову книжку</a>
-    <a asp-controller="StudyBooks" asp-action="Create" asp-route-type="stbook" class="btn btn-default">Додати новий підручник</a>
+    <a asp-controller="AdditionalBooks" asp-action="Create" class="btn btn-default">Додати нову книжку</a>
+    <a asp-controller="StudyBooks" asp-action="Create" class="btn btn-default">Додати новий підручник</a>
+    <a asp-controller="Inventories" asp-action="Index" class="btn btn-default">Інвентаризація книг</a>
+    <a asp-controller="Provenances" asp-action="Index" class="btn btn-default">Походження книг</a>
 </p>
 <hr />
 <form asp-controller="Books" asp-action="Index" method="post">
     <div>
         @Html.DropDownList("type", ViewData["bookTypesList"] as List<SelectListItem>)
+        @*@Html.TextBox("price", "Ціна...", new { type = "number" })*@
         <input type="text" name="name" placeholder="Назва..." value="@ViewData["name"]" />
         <input type="text" name="author" placeholder="Автор..." value="@ViewData["author"]" />
         <input type="text" name="authorCipher" placeholder="Авторський шифр..." value="@ViewData["authorCipher"]" />
-        <input type="text" name="published" placeholder="Рік публікації..." value="@ViewData["published"]" />
+        <input type="number" name="published" placeholder="Рік публікації..." value="@ViewData["published"]" />
         <input type="text" name="price" placeholder="Ціна..." value="@ViewData["price"]" />
         <input type="text" name="note" placeholder="Примітка..." value="@ViewData["note"]" />
-        @Html.DropDownList("status", Html.GetEnumSelectList(typeof(BookStatus)))
+        @Html.DropDownList("status", ViewData["bookStatusList"] as List<SelectListItem>)
         <br /><br />
         <input type="submit" value="Пошук" />
     </div>

@@ -11,14 +11,14 @@ namespace SchoolLib.Models.People
         public int Id { get; set; }
 
         [Column(TypeName = "date")]
-        [DisplayName("Дата")]
+        [Display(Name = "Дата")]
         public DateTime Date { get; set; }
 
-        [DisplayName("Причина")]
+        [Display(Name = "Причина")]
         [Required, StringLength(30, MinimumLength = 5, ErrorMessage = "Опис причини може містити від 5 до 30 символів")]
         public string Couse { get; set; }
 
-        [DisplayName("Примітка")]
+        [Display(Name = "Примітка")]
         [StringLength(250, ErrorMessage = "Опис не може містити більше 250 символів")]
         public string Note { get; set; }
 

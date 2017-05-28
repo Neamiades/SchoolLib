@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
+using System.Data.SqlClient;
 
 namespace SchoolLib.Controllers
 {
@@ -47,17 +48,35 @@ namespace SchoolLib.Controllers
         }
 
         // POST: AdditionalBooks/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,InventoryNum,Name,Author,AuthorCipher,Language,Cipher,Published,Price,Note")] AdditionalBook additionalBook)
+        public async Task<IActionResult> Create(
+            [Bind("Id,InventoryNum,Name,Author,AuthorCipher,Language,Cipher,Published,Price,Note")]
+            AdditionalBook additionalBook
+            )
         {
+            if (string.IsNullOrEmpty(additionalBook.Name))
+            {
+                ModelState.AddModelError("Name", "Некоретна навза");
+            }
             if (ModelState.IsValid)
             {
                 additionalBook.Status = BookStatus.InStock;
-                _context.Add(additionalBook);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.Add(additionalBook);
+                    await _context.SaveChangesAsync();
+                }
+                catch (SqlException e) when (e.Number == 2601)
+                {
+                    ModelState.AddModelError("InventoryNum", "Даний номер вже існує в базі даних");
+                    return View(additionalBook);
+                }
+                catch (System.Exception e)
+                {
+                    ModelState.AddModelError("InventoryNum", "Даний номер вже існує в базі даних");
+                    return View(additionalBook);
+                }
                 return RedirectToAction("Index", "Books");
             }
             return View(additionalBook);
@@ -80,11 +99,13 @@ namespace SchoolLib.Controllers
         }
 
         // POST: AdditionalBooks/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,InventoryNum,Name,Author,AuthorCipher,Language,Cipher,Published,Price,Note")] AdditionalBook additionalBook)
+        public async Task<IActionResult> Edit(
+            int id,
+            [Bind("Id,InventoryNum,Name,Author,AuthorCipher,Language,Cipher,Published,Price,Note,Status")]
+            AdditionalBook additionalBook
+            )
         {
             if (id != additionalBook.Id)
             {
@@ -108,6 +129,16 @@ namespace SchoolLib.Controllers
                     {
                         throw;
                     }
+                }
+                catch (SqlException e) when (e.Number == 2601)
+                {
+                    ModelState.AddModelError("InventoryNum", "Даний номер вже існує в базі даних");
+                    return View(additionalBook);
+                }
+                catch (System.Exception e)
+                {
+                    ModelState.AddModelError("InventoryNum", "Даний номер вже існує в базі даних");
+                    return View(additionalBook);
                 }
                 return RedirectToAction("Index", "Books");
             }

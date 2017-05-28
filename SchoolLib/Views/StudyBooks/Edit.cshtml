@@ -4,77 +4,78 @@
     ViewData["Title"] = "Редагування";
 }
 
-<h2>Редагування</h2>
+<h2>@ViewData["Title"]</h2>
 
 <form asp-action="Edit">
     <div class="form-horizontal">
-        <h4>Книга</h4>
+        <h4>@Html.DisplayNameFor(m => m)</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Id" />
         <div class="form-group">
-            <label asp-for="InventoryNum" class="col-md-2 control-label">Інвентарний номер</label>
+            <label asp-for="InventoryNum" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="InventoryNum" class="form-control" />
                 <span asp-validation-for="InventoryNum" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Name" class="col-md-2 control-label">Назва</label>
+            <label asp-for="Name" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Author" class="col-md-2 control-label">Автор</label>
+            <label asp-for="Author" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Author" class="form-control" />
                 <span asp-validation-for="Author" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="AuthorCipher" class="col-md-2 control-label">Авторський шифр</label>
+            <label asp-for="AuthorCipher" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="AuthorCipher" class="form-control" />
                 <span asp-validation-for="AuthorCipher" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Subject" class="col-md-2 control-label">Предмет</label>
+            <label asp-for="Subject" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Subject" class="form-control" />
                 <span asp-validation-for="Subject" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Grade" class="col-md-2 control-label">Клас</label>
+            <label asp-for="Grade" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Grade" class="form-control" />
                 <span asp-validation-for="Grade" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Published" class="col-md-2 control-label">Рік публікації</label>
+            <label asp-for="Published" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Published" class="form-control" />
                 <span asp-validation-for="Published" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Price" class="col-md-2 control-label">Ціна</label>
+            <label asp-for="Price" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Note" class="col-md-2 control-label">Примітка</label>
+            <label asp-for="Note" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Note" class="form-control" />
                 <span asp-validation-for="Note" class="text-danger"></span>
             </div>
         </div>
+        <input type="hidden" asp-for="Status" />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Зберегти" class="btn btn-default" />

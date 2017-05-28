@@ -5,36 +5,44 @@
     ViewData["Title"] = "Видалення підручника";
 }
 
-<h2>Видалення</h2>
+<h2>@ViewData["Title"]</h2>
 
 <h3>Ви впевнені в тому, що бажаєте видалити цей підручник?</h3>
 <div>
-    <h4>Підручник</h4>
+    <h4>@Html.DisplayNameFor(model => model)</h4>
     <hr />
     <dl class="dl-horizontal">
         <input type="hidden" asp-for="Id" />
-        <dt>Інвентарний номер</dt>
+        <dt>@Html.DisplayNameFor(model => model.InventoryNum)</dt>
         <dd>@Html.DisplayFor(model => model.InventoryNum)</dd>
-        <dt>Назва</dt>
-        <dd>@Html.DisplayFor(model => model.Name)</dd>
-        <dt>Автор</dt>
-        <dd>@Html.DisplayFor(model => model.Author)</dd>
-        <dt>Авторський шифр</dt>
-        <dd>@Html.DisplayFor(model => model.AuthorCipher)</dd>
-        <dt>Предмет</dt>
-        <dd>@Html.DisplayFor(model => model.Subject)</dd>
-        <dt>Клас</dt>
-        <dd>@Html.DisplayFor(model => model.Grade)</dd>
-        <dt>Рік публікації</dt>
-        <dd>@Html.DisplayFor(model => model.Published)</dd>
-        <dt>Ціна</dt>
-        <dd>@Html.DisplayFor(model => model.Price)</dd>
-        <dt>Примітка</dt>
-        <dd>@Html.DisplayFor(model => model.Note)</dd>
-        <dt>Статус</dt>
-        <dd>@(Model.Status == BookStatus.InStock ? "В наявності" : "На руках")</dd>
-    </dl>
 
+        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Author)</dt>
+        <dd>@Html.DisplayFor(model => model.Author)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.AuthorCipher)</dt>
+        <dd>@Html.DisplayFor(model => model.AuthorCipher)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Subject)</dt>
+        <dd>@Html.DisplayFor(model => model.Subject)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Grade)</dt>
+        <dd>@Html.DisplayFor(model => model.Grade)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Published)</dt>
+        <dd>@Html.DisplayFor(model => model.Published)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Price)</dt>
+        <dd>@Html.DisplayFor(model => model.Price)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Note)</dt>
+        <dd>@Html.DisplayFor(model => model.Note)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Status)</dt>
+        <dd>@Html.DisplayFor(model => model.Status)</dd>
+    </dl>
     <form asp-action="Delete">
         <div class="form-actions no-color">
             <input type="submit" value="Видалити" class="btn btn-default" /> |
