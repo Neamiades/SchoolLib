@@ -31,8 +31,10 @@ namespace SchoolLib.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<Book>().HasIndex(u => u.InventoryNum).IsUnique();
-            builder.Entity<Reader>().HasIndex(u => u.IdNum).IsUnique();
+            builder.Entity<Book>().HasIndex(b => b.InventoryNum).IsUnique();
+            builder.Entity<Reader>().HasIndex(r => r.IdNum).IsUnique();
+            builder.Entity<Inventory>().HasIndex(i => i.ActNumber).IsUnique();
+            builder.Entity<Provenance>().HasIndex(p => p.WayBill).IsUnique();
             //builder.Entity<Reader>()
             //       .HasOne(p => p.ReaderProfile)
             //       .WithOne(t => t.Reader)

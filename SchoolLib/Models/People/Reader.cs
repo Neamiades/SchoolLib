@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolLib.Data.Validators;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -39,11 +40,13 @@ namespace SchoolLib.Models.People
 
         [Display(Name = "Дата перереєстрації")]
         [Column(TypeName = "date")]
-        public DateTime LastRegistrationDate { get; set; }
+        [DateRange("-12")]
+        public string LastRegistrationDate { get; set; }
 
         [Display(Name = "Дата реєстрації")]
         [Column(TypeName = "date")]
-        public DateTime FirstRegistrationDate { get; set; }
+        [DateRange("-12")]
+        public string FirstRegistrationDate { get; set; }
 
         [Display(Name = "Тип")]
         [StringLength(30)]

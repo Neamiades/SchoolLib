@@ -44,8 +44,6 @@ namespace SchoolLib.Models.Books
 
         /* !todo: Исправить верхнюю грань диапазона на текущий год */
         [Display(Name = "Рік публікації")]
-        //[DataType(DataType.Date)]
-        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         [Range(1564, 2017, ErrorMessage = "Значення року видання має бути між {1} та {2}")]
         public short Published { get; set; }
 
@@ -53,12 +51,10 @@ namespace SchoolLib.Models.Books
         [Required(ErrorMessage = "Необхідно встановити ціну")]
         //[UIHint("Decimal")]
         //[DataType(DataType.Currency)]
-        [StringLength(6, ErrorMessage = "Ціна не може перевищувати 1000 грн")]
         [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Некоректна ціна")]
-        //[Range(0.0, 1000.0, ErrorMessage = "Книга може мати вартість від 0 до 1000 грн")]
+        [StringLength(6, ErrorMessage = "Ціна не може перевищувати 1000 грн")] // !todo: Изменить на свой валидатор
         public string Price { get; set; }
-
-        //[Remote(action: "CheckEmail", controller: "Book", ErrorMessage = "Email уже используется")]
+        
         [Display(Name = "Примітка")]
         [StringLength(250, ErrorMessage = "Опис книги не може містити більше 250 символів")]
         public string Note { get; set; }

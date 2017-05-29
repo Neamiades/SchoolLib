@@ -61,6 +61,11 @@ namespace SchoolLib.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ActNumber,Year,Couse,Note,BookId")] Inventory inventory)
         {
+            if (_context.Inventories.Any
+                    (i => i.ActNumber == inventory.ActNumber || i.Id == inventory.Id))
+            {
+                ModelState.AddModelError("ActNumber", "Інвентаризаційний запис с даним номером акту вже існує");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(inventory);
@@ -97,7 +102,11 @@ namespace SchoolLib.Controllers
             {
                 return NotFound();
             }
-
+            if (_context.Inventories.Any
+                    (i => i.ActNumber == inventory.ActNumber && i.Id != inventory.Id))
+            {
+                ModelState.AddModelError("ActNumber", "Інвентаризаційний запис с даним номером акту вже існує");
+            }
             if (ModelState.IsValid)
             {
                 try

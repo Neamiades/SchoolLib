@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using SchoolLib.Data.Validators;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,14 +20,14 @@ namespace SchoolLib.Models.Books
         [Display(Name = "Номер накладної")]
         [Required, Range(1,100000, ErrorMessage = "Номер накладної має діапазон від {1} до {2}")]
         public int WayBill { get; set; }
-
-        /*!todo: Исправить диапазон даты*/
+        
+        [Required(ErrorMessage = "Необхідно встановити дату")]
         [Display(Name = "Дата прийняття")]
-        [Required]
-        [Column(TypeName = "date")]
-        //[Range(typeof(DateTime), "1/1/2004", "6/30/2017",
-        //ErrorMessage = "Значення для року прийняття має бути між {1} та {2}")]
-        public DateTime ReceiptDate { get; set; }
+        [DateRange("01.01.1990",
+            ErrorMessage = "Значення має бути між 01.01.1990 та сьогоднішнім числом у форматі дд.мм.рррр")]
+        //[Remote(action: "CheckDate", controller: "Provenances",
+        //    ErrorMessage = "Значення має бути між 01.01.1990 та сьогоднішнім числом")]
+        public string ReceiptDate { get; set; }
 
         [Display(Name = "Примітка")]
         [StringLength(250, ErrorMessage = "Максимальна довжина примітки складає 250 символів")]
@@ -35,3 +37,6 @@ namespace SchoolLib.Models.Books
         public Book Book { get; set; }
     }
 }
+//[Column(TypeName = "date")]
+//[Range(typeof(DateTime), "1/1/2004", "6/30/2017",
+//ErrorMessage = "Значення для року прийняття має бути між {1} та {2}")]

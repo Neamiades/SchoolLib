@@ -55,24 +55,16 @@ namespace SchoolLib.Controllers
             StudyBook studyBook
             )
         {
+            if (_context.StudyBook.Any
+                    (sb => sb.InventoryNum == studyBook.InventoryNum || sb.Id == studyBook.Id))
+            {
+                ModelState.AddModelError("InventoryNum", "Підручник с даним інвентарним номером вже існує");
+            }
             if (ModelState.IsValid)
             {
                 studyBook.Status = BookStatus.InStock;
-                try
-                {
-                    _context.Add(studyBook);
-                    await _context.SaveChangesAsync();
-                }
-                catch (SqlException e) when (e.Number == 2601)
-                {
-                    ModelState.AddModelError("InventoryNum", "Даний номер вже існує в базі даних");
-                    return View(studyBook);
-                }
-                catch (System.Exception e)
-                {
-                    ModelState.AddModelError("InventoryNum", "Даний номер вже існує в базі даних");
-                    return View(studyBook);
-                }
+                _context.Add(studyBook);
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Books");
             }
             return View(studyBook);
@@ -107,7 +99,11 @@ namespace SchoolLib.Controllers
             {
                 return NotFound();
             }
-
+            if (_context.StudyBook.Any
+                    (sb => sb.InventoryNum == studyBook.InventoryNum && sb.Id != studyBook.Id))
+            {
+                ModelState.AddModelError("InventoryNum", "Книга с даним інвентарним номером вже існує");
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -125,16 +121,6 @@ namespace SchoolLib.Controllers
                     {
                         throw;
                     }
-                }
-                catch (SqlException e) when (e.Number == 2601)
-                {
-                    ModelState.AddModelError("InventoryNum", "Даний номер вже існує в базі даних");
-                    return View(studyBook);
-                }
-                catch (System.Exception e)
-                {
-                    ModelState.AddModelError("InventoryNum", "Даний номер вже існує в базі даних");
-                    return View(studyBook);
                 }
                 return RedirectToAction("Index", "Books");
             }

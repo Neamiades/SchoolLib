@@ -1,4 +1,5 @@
-﻿using SchoolLib.Models.People;
+﻿using SchoolLib.Data.Validators;
+using SchoolLib.Models.People;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -13,15 +14,15 @@ namespace SchoolLib.Models.Books
         /*!todo: Исправить диапазон даты*/
         [Required]
         [Display(Name = "Дата видачі")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
-        [Range(typeof(DateTime), "6/1/2017", "6/30/2017",
-        ErrorMessage = "Значення для дати видачі має бути між {1} та {2}")]
-        public DateTime IssueDate { get; set; }
+        [DateRange("-5",
+            ErrorMessage = "Значення для дати видачі має бути між 01.01.1990 та сьогоднішнім числом у форматі дд.мм.рррр")]
+        public string IssueDate { get; set; }
 
         /*!todo: Исправить диапазон даты*/
         [Display(Name = "Дата прийняття")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
-        public DateTime AcceptanceDate { get; set; }
+        [DateRange("-5",
+            ErrorMessage = "Значення для дати видачі має бути між 01.01.1990 та сьогоднішнім числом у форматі дд.мм.рррр")]
+        public string AcceptanceDate { get; set; }
 
         [Display(Name = "Причина")]
         [Required, StringLength(50, MinimumLength = 5, ErrorMessage = "Довжина причини має від 4 до 50 символів")]

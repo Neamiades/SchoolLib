@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolLib.Data.Validators;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,7 +13,8 @@ namespace SchoolLib.Models.People
 
         [Column(TypeName = "date")]
         [Display(Name = "Дата")]
-        public DateTime Date { get; set; }
+        [DateRange("now")]
+        public string Date { get; set; }
 
         [Display(Name = "Причина")]
         [Required, StringLength(30, MinimumLength = 5, ErrorMessage = "Опис причини може містити від 5 до 30 символів")]

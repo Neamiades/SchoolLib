@@ -105,14 +105,6 @@ namespace SchoolLib.Controllers
             return RedirectToAction("Details", "StudyBooks", new { id = id });
         }
 
-        [AcceptVerbs("Get", "Post")]
-        public IActionResult CheckEmail(string email)
-        {
-            if (email == "admin@mail.ru" || email == "aaa@gmail.com")
-                return Json(false);
-            return Json(true);
-        }
-
         private bool BookExists(int id)
         {
             return _context.Books.Any(e => e.Id == id);

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
+using System.Globalization;
 
 namespace SchoolLib.Controllers
 {
@@ -61,6 +62,11 @@ namespace SchoolLib.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Place,WayBill,ReceiptDate,Note,BookId")] Provenance provenance)
         {
+            if (_context.Provenances.Any
+                    (p => p.WayBill == provenance.WayBill || p.Id == provenance.Id))
+            {
+                ModelState.AddModelError("WayBill", "Запис про походження с даним номером накладної вже існує");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(provenance);
@@ -97,7 +103,11 @@ namespace SchoolLib.Controllers
             {
                 return NotFound();
             }
-
+            if (_context.Provenances.Any
+                    (p => p.WayBill == provenance.WayBill && p.Id != provenance.Id))
+            {
+                ModelState.AddModelError("WayBill", "Запис про походження с даним номером накладної вже існує");
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -150,6 +160,19 @@ namespace SchoolLib.Controllers
             _context.Provenances.Remove(provenance);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        public IActionResult CheckDate(string strDate)
+        {
+            IFormatProvider culture = new CultureInfo("uk-UA");
+            DateTime date, low;
+            //DateTime date = DateTime.Parse(strDate, culture, DateTimeStyles.AssumeLocal);
+            low = DateTime.ParseExact("01.01.1990", "dd.mm.yyyy", culture);
+            if (!DateTime.TryParse(strDate, culture, DateTimeStyles.AssumeLocal, out date) ||
+                date > DateTime.Now || date < low)
+                return Json(false);
+            return Json(true);
         }
 
         private bool ProvenanceExists(int id)
