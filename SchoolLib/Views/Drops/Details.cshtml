@@ -1,0 +1,30 @@
+@model SchoolLib.Models.People.Drop
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <h4>@Html.DisplayNameFor(model => model)</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Reader)</dt>
+        <dd>
+            <a asp-controller="Books" asp-action="Details" asp-route-id="@Model.Reader.Id">
+                @Html.DisplayFor(model => model.Reader.IdNum)
+            </a>
+        </dd>
+        <dt>@Html.DisplayNameFor(model => model.Date)</dt>
+        <dd>@Html.DisplayFor(model => model.Date)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Couse)</dt>
+        <dd>@Html.DisplayFor(model => model.Couse)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Note)</dt>
+        <dd>@Html.DisplayFor(model => model.Note)</dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

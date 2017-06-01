@@ -32,6 +32,7 @@ namespace SchoolLib.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["type"] = "Book";
+            ViewData["id"] = null;
             ViewData["name"] = null;
             ViewData["author"] = null;
             ViewData["authorCipher"] = null;
@@ -47,6 +48,7 @@ namespace SchoolLib.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(
             string type,
+            int? id,
             string name,
             string author, 
             string authorCipher,
@@ -56,6 +58,7 @@ namespace SchoolLib.Controllers
             BookStatus status)
         {
             ViewData["type"] = type;
+            ViewData["id"] = id;
             ViewData["name"] = name;
             ViewData["author"] = author;
             ViewData["authorCipher"] = authorCipher;
@@ -68,6 +71,8 @@ namespace SchoolLib.Controllers
             var books = _context.Books.Where(b => status.HasFlag(b.Status));
             if (type != "Book")
                 books = books.Where(b => b.Discriminator == type);
+            if (id.HasValue)
+                books = books.Where(b => b.Id == id);
             if (!string.IsNullOrWhiteSpace(name))
                 books = books.Where(b => b.Name == name);
             if (!string.IsNullOrWhiteSpace(author))
@@ -103,6 +108,49 @@ namespace SchoolLib.Controllers
             }
 
             return RedirectToAction("Details", "StudyBooks", new { id = id });
+        }
+
+        // GET: Readers/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var book = await _context.Books.SingleOrDefaultAsync(m => m.Id == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            else if (book.Discriminator == "AdditionalBook")
+            {
+                return RedirectToAction("Edit", "AdditionalBooks", new { id = id });
+            }
+
+            return RedirectToAction("Edit", "StudyBooks", new { id = id });
+        }
+
+        // GET: Readers/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var book = await _context.Books
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            else if (book.Discriminator == "AdditionalBook")
+            {
+                return RedirectToAction("Delete", "AdditionalBooks", new { id = id });
+            }
+
+            return RedirectToAction("Delete", "StudyBooks", new { id = id });
         }
 
         private bool BookExists(int id)

@@ -12,7 +12,7 @@ namespace SchoolLib.Data
         public DbSet<Reader>         Readers         { get; set; }
         public DbSet<Student>        Students        { get; set; }
         public DbSet<Worker>         Workers         { get; set; }
-        public DbSet<ReaderProfile>  ReaderProfiles  { get; set; }
+        //public DbSet<ReaderProfile>  ReaderProfiles  { get; set; }
         public DbSet<Drop>           Drops           { get; set; }
 
         public DbSet<Book>           Books           { get; set; }
@@ -31,9 +31,6 @@ namespace SchoolLib.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<Book>().HasIndex(b => b.InventoryNum).IsUnique();
-            builder.Entity<Reader>().HasIndex(r => r.IdNum).IsUnique();
-            builder.Entity<Inventory>().HasIndex(i => i.ActNumber).IsUnique();
             builder.Entity<Provenance>().HasIndex(p => p.WayBill).IsUnique();
             //builder.Entity<Reader>()
             //       .HasOne(p => p.ReaderProfile)

@@ -3,12 +3,14 @@ using SchoolLib.Models.People;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolLib.Models.Books
 {
     [DisplayName("Видача")]
     public class Issuance
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /*!todo: Исправить диапазон даты*/
@@ -32,9 +34,11 @@ namespace SchoolLib.Models.Books
         [StringLength(250, ErrorMessage = "Максимальна довжина примітки складає 250 символів")]
         public string Note { get; set; }
 
+        [Display(Name = "Ідентифікаційний номер")]
         public int ReaderId { get; set; }
         public Reader Reader { get; set; }
 
+        [Display(Name = "Інвентарний номер")]
         public int BookId { get; set; }
         public Book Book { get; set; }
     }

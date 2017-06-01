@@ -1,43 +1,35 @@
-﻿@model SchoolLib.Models.Books.Inventory
+@model SchoolLib.Models.People.Drop
 
 @{
-    ViewData["Title"] = "Додавання інвентаризації";
+    ViewData["Title"] = "Create";
 }
 
 <h2>@ViewData["Title"]</h2>
 
 <form asp-action="Create">
     <div class="form-horizontal">
-        <h4>@Html.DisplayNameFor(m => m)</h4>
+        <h4>@Html.DisplayNameFor(model => model)</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="BookId" class="col-md-2 control-label"></label>
+            <label asp-for="ReaderId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                @if (ViewBag.BookId != null)
+                @if (ViewBag.ReaderId != null)
                 {
-                    <label asp-for="BookId" class="form-control">@ViewBag.BookId</label>
-                    <input type="hidden" asp-for="BookId" class="form-control" value="@ViewBag.BookId"/>
+                    <label asp-for="ReaderId" class="form-control">@ViewBag.ReaderId</label>
+                    <input type="hidden" asp-for="ReaderId" class="form-control" value="@ViewBag.ReaderId" />
                 }
                 else
                 {
-                    <input asp-for="BookId" class="form-control" />
+                    <input asp-for="ReaderId" class="form-control" />
                 }
-                <span asp-validation-for="BookId" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="ActNumber" class="col-md-2 control-label"></label>
+            <label asp-for="Date" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="ActNumber" class="form-control" />
-                <span asp-validation-for="ActNumber" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Year" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Year" class="form-control" />
-                <span asp-validation-for="Year" class="text-danger"></span>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
@@ -56,14 +48,14 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Додати" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
 </form>
 
 <div>
-    <a asp-action="Index">Назад до списку</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

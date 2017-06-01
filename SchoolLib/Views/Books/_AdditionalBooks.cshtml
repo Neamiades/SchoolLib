@@ -1,17 +1,16 @@
-﻿@model IEnumerable<SchoolLib.Models.Books.AdditionalBook>
+﻿@model IEnumerable<AdditionalBook>
 @using SchoolLib.Models.Books
 
 <table class="table">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.InventoryNum)</th>
+            <th>@Html.DisplayNameFor(model => model.Id)</th>
             <th>@Html.DisplayNameFor(model => model.Name)</th>
             <th>@Html.DisplayNameFor(model => model.Author)</th>
             <th>@Html.DisplayNameFor(model => model.AuthorCipher)</th>
             <th>@Html.DisplayNameFor(model => model.Price)</th>
             <th>@Html.DisplayNameFor(model => model.Language)</th>
             <th>@Html.DisplayNameFor(model => model.Cipher)</th>
-            <th>@Html.DisplayNameFor(model => model.Discriminator)</th>
             <th>@Html.DisplayNameFor(model => model.Published)</th>
             <th>@Html.DisplayNameFor(model => model.Note)</th>
             <th>@Html.DisplayNameFor(model => model.Status)</th>
@@ -22,7 +21,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.InventoryNum)</td>
+                <td>@Html.DisplayFor(modelItem => item.Id)</td>
                 <td>@Html.DisplayFor(modelItem => item.Name)</td>
                 <td>@Html.DisplayFor(modelItem => item.Author)</td>
                 <td>@Html.DisplayFor(modelItem => item.AuthorCipher)</td>
@@ -33,9 +32,9 @@
                 <td>@Html.DisplayFor(modelItem => item.Note)</td>
                 <td>@Html.DisplayFor(modelItem => item.Status)</td>
                 <td>
-                    <a asp-controller="AddidionalBooks" asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
-                    <a asp-controller="AddidionalBooks" asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
-                    <a asp-controller="AddidionalBooks" asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
                 </td>
             </tr>
         }

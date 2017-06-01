@@ -1,14 +1,14 @@
-﻿using SchoolLib.Data.Validators;
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SchoolLib.Data.Validators;
 
 namespace SchoolLib.Models.Books
 {
     [DisplayName("Інвентаризація")]
     public class Inventory
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Display(Name = "Номер акту")]
@@ -30,6 +30,7 @@ namespace SchoolLib.Models.Books
         [MaxLength(250, ErrorMessage = "Максимальна довжина примітки складає 250 символів")]
         public string Note { get; set; }
 
+        [Display(Name = "Інвентарний номер")]
         public int BookId { get; set; }
         public Book Book { get; set; }
     }

@@ -4,27 +4,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
-using SchoolLib.Models.Books;
+using SchoolLib.Models.People;
 
 namespace SchoolLib.Controllers
 {
-    public class InventoriesController : Controller
+    public class DropsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public InventoriesController(ApplicationDbContext context)
+        public DropsController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: Inventories
+        // GET: Drops
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Inventories.Include(i => i.Book);
+            var applicationDbContext = _context.Drops.Include(d => d.Reader);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Inventories/Details/5
+        // GET: Drops/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,44 +32,45 @@ namespace SchoolLib.Controllers
                 return NotFound();
             }
 
-            var inventory = await _context.Inventories
-                .Include(i => i.Book)
+            var drop = await _context.Drops
+                .Include(d => d.Reader)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (inventory == null)
+            if (drop == null)
             {
-                return RedirectToAction("Create", new { id = id } );
+                return NotFound();
             }
 
-            return View(inventory);
+            return View(drop);
         }
 
-        // GET: Inventories/Create
+        // GET: Drops/Create
         [HttpGet]
         public IActionResult Create(int? id)
         {
-            ViewData["BookId"] = id;
+            ViewData["ReaderId"] = id;
+            
             return View();
         }
 
-        // POST: Inventories/Create
+        // POST: Drops/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ActNumber,Year,Couse,Note,BookId")] Inventory inventory)
+        public async Task<IActionResult> Create([Bind("Id,Date,Couse,Note,ReaderId")] Drop drop)
         {
-            if (_context.Inventories.Any(i => i.BookId == inventory.BookId))
+            if (_context.Drops.Any(d => d.ReaderId == drop.ReaderId))
             {
-                ModelState.AddModelError("BookId", "Інвентаризаційний запис с даним номером вже існує");
+                ModelState.AddModelError("ReaderId", "Запис про вибуття з даним ідентифікаційним номером вже існує");
             }
             if (ModelState.IsValid)
             {
-                _context.Add(inventory);
+                _context.Add(drop);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(inventory);
+            return View(drop);
         }
 
-        // GET: Inventories/Edit/5
+        // GET: Drops/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,49 +78,46 @@ namespace SchoolLib.Controllers
                 return NotFound();
             }
 
-            var inventory = await _context.Inventories.SingleOrDefaultAsync(m => m.Id == id);
-            if (inventory == null)
+            var drop = await _context.Drops.SingleOrDefaultAsync(m => m.Id == id);
+            if (drop == null)
             {
                 return NotFound();
             }
-            return View(inventory);
+            ViewData["ReaderId"] = drop.ReaderId;
+            return View(drop);
         }
 
-        // POST: Inventories/Edit/5
+        // POST: Drops/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int curBookId, [Bind("Id,ActNumber,Year,Couse,Note,BookId")] Inventory inventory)
+        public async Task<IActionResult> Edit(int id, int curReaderId, [Bind("Id,Date,Couse,Note,ReaderId")] Drop drop)
         {
-            if (id != inventory.Id)
+            if (id != drop.Id)
                 return NotFound();
-            
-            if (_context.Inventories.Any(i => i.BookId == inventory.BookId && i.BookId != curBookId))
-                ModelState.AddModelError("BookId", "Інвентаризаційний запис с даним номером вже існує");
+
+            if (_context.Drops.Any(d => d.ReaderId == drop.ReaderId && d.ReaderId != curReaderId))
+                ModelState.AddModelError("ReaderId", "Запис про вибуття з даним ідентифікаційним номером вже існує");
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(inventory);
+                    _context.Update(drop);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!InventoryExists(inventory.Id))
-                    {
+                    if (!DropExists(drop.Id))
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction("Index");
             }
-            return View(inventory);
+            return View(drop);
         }
 
-        // GET: Inventories/Delete/5
+        // GET: Drops/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,31 +125,31 @@ namespace SchoolLib.Controllers
                 return NotFound();
             }
 
-            var inventory = await _context.Inventories
-                .Include(i => i.Book)
+            var drop = await _context.Drops
+                .Include(d => d.Reader)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (inventory == null)
+            if (drop == null)
             {
                 return NotFound();
             }
 
-            return View(inventory);
+            return View(drop);
         }
 
-        // POST: Inventories/Delete/5
+        // POST: Drops/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var inventory = await _context.Inventories.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Inventories.Remove(inventory);
+            var drop = await _context.Drops.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Drops.Remove(drop);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool InventoryExists(int id)
+        private bool DropExists(int id)
         {
-            return _context.Inventories.Any(e => e.Id == id);
+            return _context.Drops.Any(e => e.Id == id);
         }
     }
 }

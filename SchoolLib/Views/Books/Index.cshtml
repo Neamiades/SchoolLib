@@ -3,7 +3,9 @@
 
 @{
     ViewData["Title"] = "Книжки";
-    string ListPage = $"_{ViewData["type"] as string}s";
+    var isAdBook = (string)ViewData["type"] == "AdditionalBook";
+
+    //string ListPage = $"_{ViewData["type"] as string}s";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -18,7 +20,7 @@
 <form asp-controller="Books" asp-action="Index" method="post">
     <div>
         @Html.DropDownList("type", ViewData["bookTypesList"] as List<SelectListItem>)
-        @*@Html.TextBox("price", "Ціна...", new { type = "number" })*@
+        <input type="number" name="id" placeholder="Інвентарний номер..." value="@ViewData["id"]" />
         <input type="text" name="name" placeholder="Назва..." value="@ViewData["name"]" />
         <input type="text" name="author" placeholder="Автор..." value="@ViewData["author"]" />
         <input type="text" name="authorCipher" placeholder="Авторський шифр..." value="@ViewData["authorCipher"]" />
@@ -30,7 +32,7 @@
         <input type="submit" value="Пошук" />
     </div>
 </form>
-<div>
+@*<div>
     @{
         if (ListPage == "_Books")
         {
@@ -45,4 +47,82 @@
             await Html.RenderPartialAsync(ListPage, Model.Cast<AdditionalBook>());
         }
     }
+</div>*@
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Id)</th>
+                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                <th>@Html.DisplayNameFor(model => model.Author)</th>
+                <th>@Html.DisplayNameFor(model => model.AuthorCipher)</th>
+                <th>@Html.DisplayNameFor(model => model.Price)</th>
+                @if (isAdBook)
+                {
+                    <th>@Html.DisplayNameFor(model => ((AdditionalBook)model).Language)</th>
+                    <th>@Html.DisplayNameFor(model => ((AdditionalBook)model).Cipher)</th>
+                }
+                else
+                {
+                    <th>@Html.DisplayNameFor(model => ((StudyBook)model).Subject)</th>
+                    <th>@Html.DisplayNameFor(model => ((StudyBook)model).Grade)</th>
+                }
+                <th>@Html.DisplayNameFor(model => model.Discriminator)</th>
+                <th>@Html.DisplayNameFor(model => model.Published)</th>
+                <th>@Html.DisplayNameFor(model => model.Note)</th>
+                <th>@Html.DisplayNameFor(model => model.Status)</th>
+                <th />
+            </tr>
+        </thead>
+        <tbody>
+            @if (isAdBook)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Author)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AuthorCipher)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                        <th>@Html.DisplayFor(modelItem => ((AdditionalBook)item).Language)</th>
+                        <th>@Html.DisplayFor(modelItem => ((AdditionalBook)item).Cipher)</th>
+                        <td>@Html.DisplayFor(modelItem => item.Discriminator)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Published)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Note)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Author)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AuthorCipher)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                        <th>@Html.DisplayFor(modelItem => ((StudyBook)item).Subject)</th>
+                        <th>@Html.DisplayFor(modelItem => ((StudyBook)item).Grade)</th>
+                        <td>@Html.DisplayFor(modelItem => item.Discriminator)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Published)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Note)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
 </div>

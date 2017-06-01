@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
-using System.Data.SqlClient;
 
 namespace SchoolLib.Controllers
 {
@@ -51,14 +50,13 @@ namespace SchoolLib.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("Id,InventoryNum,Name,Author,AuthorCipher,Language,Cipher,Published,Price,Note")]
+            [Bind("Id,Name,Author,AuthorCipher,Language,Cipher,Published,Price,Note")]
             AdditionalBook additionalBook
             )
         {
-            if (_context.StudyBook.Any
-                    (ab => ab.InventoryNum == additionalBook.InventoryNum || ab.Id == additionalBook.Id))
+            if (_context.Books.Any(b => b.Id == additionalBook.Id))
             {
-                ModelState.AddModelError("InventoryNum", "Книга с даним інвентарним номером вже існує");
+                ModelState.AddModelError("Id", "Книга с даним інвентарним номером вже існує");
             }
             if (ModelState.IsValid)
             {
@@ -91,7 +89,7 @@ namespace SchoolLib.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
             int id,
-            [Bind("Id,InventoryNum,Name,Author,AuthorCipher,Language,Cipher,Published,Price,Note,Status")]
+            [Bind("Id,Name,Author,AuthorCipher,Language,Cipher,Published,Price,Note,Status")]
             AdditionalBook additionalBook
             )
         {
@@ -99,10 +97,9 @@ namespace SchoolLib.Controllers
             {
                 return NotFound();
             }
-            if (_context.StudyBook.Any
-                    (ab => ab.InventoryNum == additionalBook.InventoryNum && ab.Id != additionalBook.Id))
+            if (_context.Books.Any(b => b.Id == additionalBook.Id && b.Id != id))
             {
-                ModelState.AddModelError("InventoryNum", "Книга с даним інвентарним номером вже існує");
+                ModelState.AddModelError("Id", "Книга с даним інвентарним номером вже існує");
             }
             if (ModelState.IsValid)
             {

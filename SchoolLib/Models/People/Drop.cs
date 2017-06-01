@@ -9,6 +9,7 @@ namespace SchoolLib.Models.People
     [DisplayName("Вибуття")]
     public class Drop
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Column(TypeName = "date")]
@@ -24,6 +25,7 @@ namespace SchoolLib.Models.People
         [StringLength(250, ErrorMessage = "Опис не може містити більше 250 символів")]
         public string Note { get; set; }
 
+        [Display(Name = "Ідентифікаційний номер")]
         public int ReaderId { get; set; }
         public Reader Reader { get; set; }
     }
