@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,7 +60,7 @@ namespace SchoolLib.Controllers
         {
             if (_context.Workers.Any(w => w.Id == worker.Id))
             {
-                ModelState.AddModelError("Id", "Співробітник с даним ідентифікаційним номером вже існує");
+                ModelState.AddModelError("Id", "РЎРїС–РІСЂРѕР±С–С‚РЅРёРє Р· РґР°РЅРёРј С–РґРµРЅС‚РёС„С–РєР°С†С–Р№РЅРёРј РЅРѕРјРµСЂРѕРј РІСЃРµ С–СЃРЅСѓС”");
             }
             if (ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace SchoolLib.Controllers
             }
             if (_context.Workers.Any(w => w.Id == worker.Id && w.Id != id))
             {
-                ModelState.AddModelError("Id", "Співробітник с даним інвентарним номером вже існує");
+                ModelState.AddModelError("Id", "РЎРїС–РІСЂРѕР±С–С‚РЅРёРє Р· РґР°РЅРёРј С–РґРµРЅС‚РёС„С–РєР°С†С–Р№РЅРёРј РЅРѕРјРµСЂРѕРј РІСЃРµ С–СЃРЅСѓС”");
             }
             if (ModelState.IsValid)
             {

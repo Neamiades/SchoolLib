@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -19,14 +18,14 @@ namespace SchoolLib.Controllers
         public ReadersController(ApplicationDbContext context)
         {
             _context = context;
-            readerTypeDropdownList.Add(new SelectListItem { Text = "Âñ³ ÷èòà÷³", Value = "Reader", Selected = true });
-            readerTypeDropdownList.Add(new SelectListItem { Text = "Ó÷í³", Value = "Student", Selected = false });
-            readerTypeDropdownList.Add(new SelectListItem { Text = "Ñï³âðîá³òíèêè", Value = "Worker", Selected = false });
+            readerTypeDropdownList.Add(new SelectListItem { Text = "Ð’ÑÑ– Ñ‡Ð¸Ñ‚Ð°Ñ‡Ñ–", Value = "Reader", Selected = true });
+            readerTypeDropdownList.Add(new SelectListItem { Text = "Ð£Ñ‡Ð½Ñ–", Value = "Student", Selected = false });
+            readerTypeDropdownList.Add(new SelectListItem { Text = "Ð¡Ð¿Ñ–Ð²Ñ€Ð¾Ð±Ñ–Ñ‚Ð½Ð¸ÐºÐ¸", Value = "Worker", Selected = false });
 
-            readerStatusDropdownList.Add(new SelectListItem { Text = "Âñ³", Value = "All", Selected = true });
-            readerStatusDropdownList.Add(new SelectListItem { Text = "Àêòèâí³", Value = "Enabled", Selected = false });
-            readerStatusDropdownList.Add(new SelectListItem { Text = "Äåàêòèâîâàí³", Value = "Disabled", Selected = false });
-            readerStatusDropdownList.Add(new SelectListItem { Text = "Âèáóëè", Value = "Removed", Selected = false });
+            readerStatusDropdownList.Add(new SelectListItem { Text = "Ð’ÑÑ–", Value = "All", Selected = true });
+            readerStatusDropdownList.Add(new SelectListItem { Text = "ÐÐºÑ‚Ð¸Ð²Ð½Ñ–", Value = "Enabled", Selected = false });
+            readerStatusDropdownList.Add(new SelectListItem { Text = "Ð”ÐµÐ°ÐºÑ‚Ð¸Ð²Ð¾Ð²Ð°Ð½Ñ–", Value = "Disabled", Selected = false });
+            readerStatusDropdownList.Add(new SelectListItem { Text = "Ð’Ð¸Ð±ÑƒÐ»Ð¸", Value = "Removed", Selected = false });
         }
 
         [HttpGet]
@@ -93,7 +92,7 @@ namespace SchoolLib.Controllers
                 readers = readers.Where(r => r.House == house);
             if (apartment.HasValue)
                 readers = readers.Where(r => r.Apartment == apartment);
-            /* !todo:Èñïðàâèòü ñðàâíåíèå äàò */
+            /* !todo:ÃˆÃ±Ã¯Ã°Ã Ã¢Ã¨Ã²Ã¼ Ã±Ã°Ã Ã¢Ã­Ã¥Ã­Ã¨Ã¥ Ã¤Ã Ã² */
             if (!string.IsNullOrWhiteSpace(lastRegDate))
                 readers = readers.Where(r => r.LastRegistrationDate == lastRegDate);
             if (!string.IsNullOrWhiteSpace(firstRegDate))

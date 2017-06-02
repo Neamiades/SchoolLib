@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +41,7 @@ namespace SchoolLib.Controllers
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (provenance == null)
             {
-                return RedirectToAction("Create", new { id = id });
+                return RedirectToAction("Create", new { bookId = id });
             }
 
             return View(provenance);
@@ -49,9 +49,9 @@ namespace SchoolLib.Controllers
 
         // GET: Inventories/Create
         [HttpGet]
-        public IActionResult Create(int? id)
+        public IActionResult Create(int? bookId)
         {
-            ViewData["BookId"] = id;
+            ViewData["BookId"] = bookId;
             return View();
         }
 
@@ -60,17 +60,21 @@ namespace SchoolLib.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Place,WayBill,ReceiptDate,Note,BookId")] Provenance provenance)
         {
-            //if (_context.Provenances.Any
-            //        (p => p.WayBill == provenance.WayBill || p.Id == provenance.Id))
-            //{
-            //    ModelState.AddModelError("WayBill", "����� ��� ���������� � ����� ������� �������� ��� ����");
-            //}
+            if (_context.Provenances.Any(i => i.BookId == provenance.BookId))
+            {
+                ModelState.AddModelError("BookId", "Книга з даним інвентарним номером вже має запис про походження");
+            }
+            if (_context.Provenances.Any(i => i.WayBill == provenance.WayBill))
+            {
+                ModelState.AddModelError("WayBill", "Запис про походження з даним номером накладної вже існує");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(provenance);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            ViewData["BookId"] = provenance.BookId;
             return View(provenance);
         }
 
@@ -93,17 +97,24 @@ namespace SchoolLib.Controllers
         // POST: Provenances/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Place,WayBill,ReceiptDate,Note,BookId")] Provenance provenance)
+        public async Task<IActionResult> Edit
+            (
+            int id,
+            int curBookId,
+            int curWayBill,
+            [Bind("Id,Place,WayBill,ReceiptDate,Note,BookId")]
+            Provenance provenance
+            )
         {
             if (id != provenance.Id)
             {
                 return NotFound();
             }
-            //if (_context.Provenances.Any
-            //        (p => p.WayBill == provenance.WayBill && p.Id != provenance.Id))
-            //{
-            //    ModelState.AddModelError("WayBill", "����� ��� ���������� � ����� ������� �������� ��� ����");
-            //}
+            if (_context.Provenances.Any(i => i.BookId == provenance.BookId && i.BookId != curBookId))
+                ModelState.AddModelError("BookId", "Книга з даним інвентарним номером вже має запис про походження");
+            if (_context.Provenances.Any(i => i.WayBill == provenance.WayBill && i.BookId != curWayBill))
+                ModelState.AddModelError("WayBill", "Запис про походження з даним номером накладної вже існує");
+            
             if (ModelState.IsValid)
             {
                 try

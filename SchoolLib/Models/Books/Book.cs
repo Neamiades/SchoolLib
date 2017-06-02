@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolLib.Data.Validators;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -40,10 +41,10 @@ namespace SchoolLib.Models.Books
         [Display(Name = "Авторський шифр")]
         [StringLength(15, MinimumLength = 3, ErrorMessage = "Авторський шифр може мати від 3 до 15 символів")]
         public string AuthorCipher { get; set; }
-
-        /* !todo: Исправить верхнюю грань диапазона на текущий год */
+        
+        [Required]
         [Display(Name = "Рік публікації")]
-        [Range(1564, 2017, ErrorMessage = "Значення року видання має бути між {1} та {2}")]
+        [YearRangeValidator(1564)]
         public short Published { get; set; }
 
         [Display(Name = "Ціна")]

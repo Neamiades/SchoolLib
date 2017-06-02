@@ -1,39 +1,38 @@
-@using SchoolLib.Models.People
+п»ї@using SchoolLib.Models.People
 @model IEnumerable<Reader>
 
 @{
-    ViewData["Title"] = "Читачі";
-    var isStudent = (string)ViewData["type"] == "Student";
-    //string ListPage = $"_{ViewData["type"] as string}s";
+    ViewData["Title"] = "Р§РёС‚Р°С‡С–";
+    string ListPage = $"_{ViewData["type"] as string}s";
 }
 
 <h2>@ViewData["Title"]</h2>
 
 <p>
-    <a asp-controller="Students" asp-action="Create" class="btn btn-default">Додати учня</a>
-    <a asp-controller="Workers" asp-action="Create" class="btn btn-default">Додати співробітника</a>
-    <a asp-controller="Drops" asp-action="Index" class="btn btn-default">Вибуття</a>
+    <a asp-controller="Students" asp-action="Create" class="btn btn-default">РќРѕРІРёР№ СѓС‡РµРЅСЊ</a>
+    <a asp-controller="Workers" asp-action="Create" class="btn btn-default">РќРѕРІРёР№ СЃРїС–РІСЂРѕР±С–С‚РЅРёРє</a>
+    <a asp-controller="Drops" asp-action="Index" class="btn btn-default">Р’РёР±СѓС‚С‚СЏ</a>
 </p>
 <hr />
 <form asp-controller="Readers" asp-action="Index" method="post">
     <div>
         @Html.DropDownList("type", ViewData["readerTypeList"] as List<SelectListItem>)
-        <input type="number" name="id" placeholder="Ідентифікаційний номер..." value="@ViewData["id"]" />
-        <input type="text" name="firstName" placeholder="Ім'я..." value="@ViewData["firstName"]" />
-        <input type="text" name="surName" placeholder="Призвіще..." value="@ViewData["surName"]" />
-        <input type="text" name="patronimic" placeholder="По-батькові..." value="@ViewData["patronimic"]" />
-        <input type="text" name="street" placeholder="Вулиця..." value="@ViewData["street"]" />
-        <input type="text" name="house" placeholder="Дім..." value="@ViewData["house"]" />
-        <input type="number" name="apartment" placeholder="Квартира..." value="@ViewData["apartment"]" />
-        <input type="text" name="firstRegDate" placeholder="Дата першої реєстрації..." value="@ViewData["firstRegDate"]" />
-        <input type="text" name="lastRegDate" placeholder="Дата останньої реєстрації..." value="@ViewData["lastRegDate"]" />
-        <input type="text" name="note" placeholder="Примітка..." value="@ViewData["note"]" />
+        <input type="number" name="id" placeholder="Р†РґРµРЅС‚РёС„С–РєР°С†С–Р№РЅРёР№ РЅРѕРјРµСЂ С‡РёС‚Р°С‡Р°..." value="@ViewData["id"]" />
+        <input type="text" name="firstName" placeholder="Р†Рј'СЏ..." value="@ViewData["firstName"]" />
+        <input type="text" name="surName" placeholder="РџСЂРёР·РІС–С‰Рµ..." value="@ViewData["surName"]" />
+        <input type="text" name="patronimic" placeholder="РџРѕ-Р±Р°С‚СЊРєРѕРІС–..." value="@ViewData["patronimic"]" />
+        <input type="text" name="street" placeholder="Р’СѓР»РёС†СЏ..." value="@ViewData["street"]" />
+        <input type="text" name="house" placeholder="Р‘СѓРґРёРЅРѕРє..." value="@ViewData["house"]" />
+        <input type="number" name="apartment" placeholder="РљРІР°СЂС‚РёСЂР°..." value="@ViewData["apartment"]" />
+        <input type="text" name="firstRegDate" placeholder="Р”Р°С‚Р° СЂРµС”СЃС‚СЂР°С†С–С—..." value="@ViewData["firstRegDate"]" />
+        <input type="text" name="lastRegDate" placeholder="Р”Р°С‚Р° РїРµСЂРµС”СЃС‚СЂР°С†С–С—..." value="@ViewData["lastRegDate"]" />
+        <input type="text" name="note" placeholder="РџСЂРёРјС–С‚РєР°..." value="@ViewData["note"]" />
         @Html.DropDownList("status", ViewData["readerStatusList"] as List<SelectListItem>)
         <br /><br />
-        <input type="submit" value="Пошук" />
+        <input type="submit" value="РџРѕС€СѓРє" />
     </div>
 </form>
-@*<div>
+<div>
     @{
         if (ListPage == "_Readers")
         {
@@ -48,87 +47,4 @@
             await Html.RenderPartialAsync(ListPage, Model.Cast<Worker>());
         }
     }
-</div>*@
-<div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Id)</th>
-                <th>@Html.DisplayNameFor(model => model.FirstName)</th>
-                <th>@Html.DisplayNameFor(model => model.SurName)</th>
-                <th>@Html.DisplayNameFor(model => model.Patronimic)</th>
-                <th>@Html.DisplayNameFor(model => model.Street)</th>
-                <th>@Html.DisplayNameFor(model => model.House)</th>
-                <th>@Html.DisplayNameFor(model => model.Apartment)</th>
-                <th>@Html.DisplayNameFor(model => model.LastRegistrationDate)</th>
-                <th>@Html.DisplayNameFor(model => model.FirstRegistrationDate)</th>
-                @if (isStudent)
-                {
-                    <th>@Html.DisplayNameFor(model => ((Student)model).Grade)</th>
-                }
-                else
-                {
-                    <th>@Html.DisplayNameFor(model => ((Worker)model).Position)</th>
-                }
-                <th>@Html.DisplayNameFor(model => model.Discriminator)</th>
-                <th>@Html.DisplayNameFor(model => model.Note)</th>
-                <th>@Html.DisplayNameFor(model => model.Status)</th>
-                <th />
-            </tr>
-        </thead>
-        <tbody>
-            @if (isStudent)
-            {
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                        <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.SurName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Patronimic)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Street)</td>
-                        <td>@Html.DisplayFor(modelItem => item.House)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Apartment)</td>
-                        <td>@Html.DisplayFor(modelItem => item.LastRegistrationDate)</td>
-                        <td>@Html.DisplayFor(modelItem => item.FirstRegistrationDate)</td>
-                        <td>@Html.DisplayFor(modelItem => ((Student)item).Grade)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Discriminator)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Note)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
-                        </td>
-                    </tr>
-                }
-            }
-            else
-            {
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                        <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.SurName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Patronimic)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Street)</td>
-                        <td>@Html.DisplayFor(modelItem => item.House)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Apartment)</td>
-                        <td>@Html.DisplayFor(modelItem => item.LastRegistrationDate)</td>
-                        <td>@Html.DisplayFor(modelItem => item.FirstRegistrationDate)</td>
-                        <td>@Html.DisplayFor(modelItem => ((Worker)item).Position)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Discriminator)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Note)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
 </div>

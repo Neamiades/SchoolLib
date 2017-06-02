@@ -1,4 +1,4 @@
-using System.Linq;
+п»їusing System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +56,7 @@ namespace SchoolLib.Controllers
         {
             if (_context.Books.Any(b => b.Id == studyBook.Id))
             {
-                ModelState.AddModelError("Id", "Підручник с даним інвентарним номером вже існує");
+                ModelState.AddModelError("Id", "РџС–РґСЂСѓС‡РЅРёРє Р· РґР°РЅРёРј С–РЅРІРµРЅС‚Р°СЂРЅРёРј РЅРѕРјРµСЂРѕРј РІСЃРµ С–СЃРЅСѓС”");
             }
             if (ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace SchoolLib.Controllers
             }
             if (_context.Books.Any(b => b.Id == studyBook.Id && b.Id != id))
             {
-                ModelState.AddModelError("Id", "Книга с даним інвентарним номером вже існує");
+                ModelState.AddModelError("Id", "РџС–РґСЂСѓС‡РЅРёРє Р· РґР°РЅРёРј С–РЅРІРµРЅС‚Р°СЂРЅРёРј РЅРѕРјРµСЂРѕРј РІСЃРµ С–СЃРЅСѓС”");
             }
             if (ModelState.IsValid)
             {
