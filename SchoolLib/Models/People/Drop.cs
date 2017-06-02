@@ -25,7 +25,7 @@ namespace SchoolLib.Models.People
         [StringLength(250, ErrorMessage = "Опис не може містити більше 250 символів")]
         public string Note { get; set; }
 
-        [Display(Name = "Ідентифікаційний номер")]
+        [Display(Name = "Ідентифікаційний номер читача")]
         public int ReaderId { get; set; }
         public Reader Reader { get; set; }
     }

@@ -1,4 +1,4 @@
-using System.Linq;
+п»їusing System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -45,9 +45,9 @@ namespace SchoolLib.Controllers
 
         // GET: Drops/Create
         [HttpGet]
-        public IActionResult Create(int? id)
+        public IActionResult Create(int? readerId)
         {
-            ViewData["ReaderId"] = id;
+            ViewData["ReaderId"] = readerId;
             
             return View();
         }
@@ -59,7 +59,7 @@ namespace SchoolLib.Controllers
         {
             if (_context.Drops.Any(d => d.ReaderId == drop.ReaderId))
             {
-                ModelState.AddModelError("ReaderId", "Запис про вибуття з даним ідентифікаційним номером вже існує");
+                ModelState.AddModelError("ReaderId", "Р§РёС‚Р°С‡ Р· РґР°РЅРёРј С–РґРµРЅС‚РёС„С–РєР°С†С–Р№РЅРёРј РЅРѕРјРµСЂРѕРј РІР¶Рµ РјР°С” Р·Р°РїРёСЃ РїСЂРѕ РІРёР±СѓС‚С‚СЏ");
             }
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace SchoolLib.Controllers
                 return NotFound();
 
             if (_context.Drops.Any(d => d.ReaderId == drop.ReaderId && d.ReaderId != curReaderId))
-                ModelState.AddModelError("ReaderId", "Запис про вибуття з даним ідентифікаційним номером вже існує");
+                ModelState.AddModelError("ReaderId", "Р§РёС‚Р°С‡ Р· РґР°РЅРёРј С–РґРµРЅС‚РёС„С–РєР°С†С–Р№РЅРёРј РЅРѕРјРµСЂРѕРј РІР¶Рµ РјР°С” Р·Р°РїРёСЃ РїСЂРѕ РІРёР±СѓС‚С‚СЏ");
 
             if (ModelState.IsValid)
             {

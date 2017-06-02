@@ -15,7 +15,7 @@ namespace SchoolLib.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.1")
+                .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -178,7 +178,7 @@ namespace SchoolLib.Migrations
             modelBuilder.Entity("SchoolLib.Models.Books.Book", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .HasColumnName("BookId");
 
                     b.Property<string>("Author")
                         .IsRequired()
@@ -192,19 +192,16 @@ namespace SchoolLib.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<string>("InventoryNum")
-                        .IsRequired()
-                        .HasMaxLength(6);
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(60);
 
                     b.Property<string>("Note")
-                        .IsRequired()
                         .HasMaxLength(250);
 
-                    b.Property<decimal>("Price");
+                    b.Property<string>("Price")
+                        .IsRequired()
+                        .HasMaxLength(6);
 
                     b.Property<short>("Published");
 
@@ -232,8 +229,8 @@ namespace SchoolLib.Migrations
                     b.Property<string>("Note")
                         .HasMaxLength(250);
 
-                    b.Property<DateTime>("Year")
-                        .HasColumnType("date");
+                    b.Property<string>("Year")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -248,7 +245,7 @@ namespace SchoolLib.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("AcceptanceDate");
+                    b.Property<string>("AcceptanceDate");
 
                     b.Property<int>("BookId");
 
@@ -256,7 +253,8 @@ namespace SchoolLib.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<DateTime>("IssueDate");
+                    b.Property<string>("IssueDate")
+                        .IsRequired();
 
                     b.Property<string>("Note")
                         .HasMaxLength(250);
@@ -286,14 +284,17 @@ namespace SchoolLib.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<DateTime>("ReceiptDate")
-                        .HasColumnType("date");
+                    b.Property<string>("ReceiptDate")
+                        .IsRequired();
 
                     b.Property<int>("WayBill");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BookId")
+                        .IsUnique();
+
+                    b.HasIndex("WayBill")
                         .IsUnique();
 
                     b.ToTable("Provenances");
@@ -308,7 +309,7 @@ namespace SchoolLib.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<DateTime>("Date")
+                    b.Property<string>("Date")
                         .HasColumnType("date");
 
                     b.Property<string>("Note")
@@ -318,7 +319,8 @@ namespace SchoolLib.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReaderId");
+                    b.HasIndex("ReaderId")
+                        .IsUnique();
 
                     b.ToTable("Drops");
                 });
@@ -326,48 +328,36 @@ namespace SchoolLib.Migrations
             modelBuilder.Entity("SchoolLib.Models.People.Reader", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnName("ReaderId");
+
+                    b.Property<short>("Apartment");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<DateTime>("FirstRegistrationDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime>("LastRegistrationDate")
-                        .HasColumnType("date");
-
-                    b.Property<int>("Status");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Readers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Reader");
-                });
-
-            modelBuilder.Entity("SchoolLib.Models.People.ReaderProfile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<short>("Apartment");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(15);
 
+                    b.Property<string>("FirstRegistrationDate")
+                        .HasColumnType("date");
+
                     b.Property<string>("House")
                         .IsRequired()
-                        .HasMaxLength(5);
+                        .HasMaxLength(8);
+
+                    b.Property<string>("LastRegistrationDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(250);
 
                     b.Property<string>("Patronimic")
                         .IsRequired()
                         .HasMaxLength(25);
 
-                    b.Property<int>("ReaderId");
+                    b.Property<int>("Status");
 
                     b.Property<string>("Street")
                         .IsRequired()
@@ -379,10 +369,9 @@ namespace SchoolLib.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReaderId")
-                        .IsUnique();
+                    b.ToTable("Readers");
 
-                    b.ToTable("ReaderProfiles");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Reader");
                 });
 
             modelBuilder.Entity("SchoolLib.Models.Books.AdditionalBook", b =>
@@ -525,16 +514,8 @@ namespace SchoolLib.Migrations
             modelBuilder.Entity("SchoolLib.Models.People.Drop", b =>
                 {
                     b.HasOne("SchoolLib.Models.People.Reader", "Reader")
-                        .WithMany()
-                        .HasForeignKey("ReaderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("SchoolLib.Models.People.ReaderProfile", b =>
-                {
-                    b.HasOne("SchoolLib.Models.People.Reader", "Reader")
-                        .WithOne("ReaderProfile")
-                        .HasForeignKey("SchoolLib.Models.People.ReaderProfile", "ReaderId")
+                        .WithOne("Drop")
+                        .HasForeignKey("SchoolLib.Models.People.Drop", "ReaderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

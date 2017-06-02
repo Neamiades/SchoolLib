@@ -12,11 +12,11 @@
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="BookId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
+                <label asp-for="BookId" class="col-md-2 control-label"></label>
                 @if (ViewBag.BookId != null)
                 {
-                    <label asp-for="BookId" class="form-control">@ViewBag.BookId</label>
+                    <label asp-for="BookId">@ViewBag.BookId</label>
                     <input type="hidden" asp-for="BookId" class="form-control" value="@ViewBag.BookId" />
                 }
                 else

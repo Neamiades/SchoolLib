@@ -60,15 +60,15 @@ namespace SchoolLib.Models.People
         [Required, Range(1, 1000, ErrorMessage = "Номер квартири має діапазон значеннь від {1} до {2}")]
         public short Apartment { get; set; }
 
-        [Display(Name = "Дата перереєстрації")]
-        [Column(TypeName = "date")]
-        [DateRange("-12")]
-        public string LastRegistrationDate { get; set; }
-
         [Display(Name = "Дата реєстрації")]
         [Column(TypeName = "date")]
         [DateRange("-12")]
         public string FirstRegistrationDate { get; set; }
+
+        [Display(Name = "Дата перереєстрації")]
+        [Column(TypeName = "date")]
+        [DateRange("-12")]
+        public string LastRegistrationDate { get; set; }
 
         [Display(Name = "Тип")]
         [StringLength(30)]

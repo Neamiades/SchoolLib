@@ -11,16 +11,15 @@ namespace SchoolLib.Models.Books
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Display(Name = "Номер акту")]
-        [Required, Range(1, 100000, ErrorMessage = "Номер акту має діапазон від {1} до {2}")]
-        public int ActNumber { get; set; }
-        
-        //!todo:сделать собственный атрибут
-        [Display(Name = "Рік")]
         [Required]
-        [DateRange("01.01.2004",
-            ErrorMessage = "Значення має бути між 2004 роком та нинішнім роком у форматі РРРР")]
-        public string Year { get; set; }
+        [Display(Name = "Номер акту")]
+        [Range(1, 100000, ErrorMessage = "Номер акту має діапазон від {1} до {2}")]
+        public int ActNumber { get; set; }
+
+        [Required]
+        [Display(Name = "Рік")]
+        [YearRangeValidator(2012)]
+        public short Year { get; set; }
 
         [Display(Name = "Причина")]
         [StringLength(50, MinimumLength = 4)]
@@ -30,7 +29,7 @@ namespace SchoolLib.Models.Books
         [MaxLength(250, ErrorMessage = "Максимальна довжина примітки складає 250 символів")]
         public string Note { get; set; }
 
-        [Display(Name = "Інвентарний номер")]
+        [Display(Name = "Інвентарний номер книги")]
         public int BookId { get; set; }
         public Book Book { get; set; }
     }

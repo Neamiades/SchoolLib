@@ -1,4 +1,4 @@
-using System.Linq;
+п»їusing System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -37,7 +37,7 @@ namespace SchoolLib.Controllers
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (inventory == null)
             {
-                return RedirectToAction("Create", new { id = id } );
+                return RedirectToAction("Create", new { bookId = id } );
             }
 
             return View(inventory);
@@ -45,9 +45,9 @@ namespace SchoolLib.Controllers
 
         // GET: Inventories/Create
         [HttpGet]
-        public IActionResult Create(int? id)
+        public IActionResult Create(int? bookId)
         {
-            ViewData["BookId"] = id;
+            ViewData["BookId"] = bookId;
             return View();
         }
 
@@ -58,7 +58,7 @@ namespace SchoolLib.Controllers
         {
             if (_context.Inventories.Any(i => i.BookId == inventory.BookId))
             {
-                ModelState.AddModelError("BookId", "Інвентаризаційний запис с даним номером вже існує");
+                ModelState.AddModelError("BookId", "РљРЅРёРіР° Р· РґР°РЅРёРј С–РЅРІРµРЅС‚Р°СЂРЅРёРј РЅРѕРјРµСЂРѕРј РІР¶Рµ РјР°С” С–РЅРІРµРЅС‚Р°СЂРЅРёР№ Р·Р°РїРёСЃ");
             }
             if (ModelState.IsValid)
             {
@@ -66,6 +66,7 @@ namespace SchoolLib.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            ViewData["BookId"] = inventory.BookId;
             return View(inventory);
         }
 
@@ -94,7 +95,7 @@ namespace SchoolLib.Controllers
                 return NotFound();
             
             if (_context.Inventories.Any(i => i.BookId == inventory.BookId && i.BookId != curBookId))
-                ModelState.AddModelError("BookId", "Інвентаризаційний запис с даним номером вже існує");
+                ModelState.AddModelError("BookId", "РљРЅРёРіР° Р· РґР°РЅРёРј С–РЅРІРµРЅС‚Р°СЂРЅРёРј РЅРѕРјРµСЂРѕРј РІР¶Рµ РјР°С” С–РЅРІРµРЅС‚Р°СЂРЅРёР№ Р·Р°РїРёСЃ");
 
             if (ModelState.IsValid)
             {
