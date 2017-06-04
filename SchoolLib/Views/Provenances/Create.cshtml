@@ -12,11 +12,11 @@
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
+            <label asp-for="BookId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <label asp-for="BookId" class="col-md-2 control-label"></label>
-                @if (ViewBag.BookId != null)
+                @if (ViewBag.BookId != null && ViewBag.Fail == null)
                 {
-                    <label asp-for="BookId">@ViewBag.BookId</label>
+                    <label asp-for="BookId" class="сontrol-label">@ViewBag.BookId</label>
                     <input type="hidden" asp-for="BookId" class="form-control" value="@ViewBag.BookId" />
                 }
                 else
@@ -56,14 +56,14 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Додати" class="btn btn-default" />
             </div>
         </div>
     </div>
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад до списку</a>
 </div>
 
 @section Scripts {

@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.People;
+using System.Globalization;
 
 namespace SchoolLib.Controllers
 {
     public class WorkersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        IFormatProvider culture = new CultureInfo("uk-UA");
 
         public WorkersController(ApplicationDbContext context)
         {
@@ -22,7 +24,8 @@ namespace SchoolLib.Controllers
         // GET: Workers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Workers.ToListAsync());
+            return RedirectToAction("Index", "Readers");
+            //return View(await _context.Workers.ToListAsync());
         }
 
         // GET: Workers/Details/5
@@ -33,7 +36,7 @@ namespace SchoolLib.Controllers
                 return NotFound();
             }
 
-            var worker = await _context.Workers
+            var worker = await _context.Workers.Include(w => w.Drop)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (worker == null)
             {
@@ -54,17 +57,22 @@ namespace SchoolLib.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create
             (
-            [Bind("Id,FirstName,SurName,Patronimic,Street,House,Apartment,Postition,LastRegistrationDate,FirstRegistrationDate,Status,Note")]
+            [Bind("Id,FirstName,SurName,Patronimic,Street,House,Apartment,Position,FirstRegistrationDate,LastRegistrationDate,Note")]
             Worker worker
             )
         {
-            if (_context.Workers.Any(w => w.Id == worker.Id))
-            {
+            if (_context.Readers.Any(w => w.Id == worker.Id))
                 ModelState.AddModelError("Id", "Співробітник з даним ідентифікаційним номером все існує");
+            
+            if (ModelState.IsValid && DateTime.ParseExact(worker.FirstRegistrationDate, "dd.MM.yyyy", culture) >
+                DateTime.ParseExact(worker.LastRegistrationDate, "dd.MM.yyyy", culture))
+            {
+                ModelState.AddModelError("LastRegistrationDate", "Дата перереєстрації не може бути раніше ніж дата реєстрації");
             }
             if (ModelState.IsValid)
             {
-                worker.Status = ReaderStatus.Disabled;
+                //worker.LastRegistrationDate = worker.FirstRegistrationDate;
+                worker.Status = ReaderStatus.Enabled;
                 _context.Add(worker);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Readers");
@@ -93,18 +101,20 @@ namespace SchoolLib.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit
             (
-            int id,
-            [Bind("Id,FirstName,SurName,Patronimic,Street,House,Apartment,Position,LastRegistrationDate,FirstRegistrationDate,Status,Note")]
+            int curId,
+            [Bind("Id,FirstName,SurName,Patronimic,Street,House,Apartment,Position,FirstRegistrationDate,LastRegistrationDate,Status,Note")]
             Worker worker
             )
         {
-            if (id != worker.Id)
-            {
+            if (curId != worker.Id)
                 return NotFound();
-            }
-            if (_context.Workers.Any(w => w.Id == worker.Id && w.Id != id))
-            {
+            
+            if (_context.Readers.Any(w => w.Id == worker.Id && w.Id != curId))
                 ModelState.AddModelError("Id", "Співробітник з даним ідентифікаційним номером все існує");
+            if (ModelState.IsValid && DateTime.ParseExact(worker.FirstRegistrationDate, "dd.MM.yyyy", culture) >
+                DateTime.ParseExact(worker.LastRegistrationDate, "dd.MM.yyyy", culture))
+            {
+                ModelState.AddModelError("LastRegistrationDate", "Дата перереєстрації не може бути раніше ніж дата реєстрації");
             }
             if (ModelState.IsValid)
             {
@@ -126,6 +136,7 @@ namespace SchoolLib.Controllers
                 }
                 return RedirectToAction("Index", "Readers");
             }
+            worker.Id = curId;
             return View(worker);
         }
 

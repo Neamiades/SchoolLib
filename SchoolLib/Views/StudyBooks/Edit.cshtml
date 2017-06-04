@@ -11,7 +11,7 @@
         <h4>@Html.DisplayNameFor(m => m)</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" name="curId" value="@Model.Id" />
         <div class="form-group">
             <label asp-for="Id" class="col-md-2 control-label"></label>
             <div class="col-md-10">

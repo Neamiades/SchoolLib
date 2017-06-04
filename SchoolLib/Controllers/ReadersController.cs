@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.People;
+using System;
 
 namespace SchoolLib.Controllers
 {
@@ -72,10 +73,12 @@ namespace SchoolLib.Controllers
             ViewData["apartment"] = apartment;
             ViewData["lastRegDate"] = lastRegDate;
             ViewData["firstRegDate"] = firstRegDate;
+            ViewData["note"] = note;
             ViewData["readerTypeList"] = readerTypeDropdownList;
             ViewData["readerStatusList"] = readerStatusDropdownList;
 
             var readers = _context.Readers.Where(r => status.HasFlag(r.Status));
+            //if (Request.Form["search"].SingleOrDefault() != null)
             if (type != "Reader")
                 readers = readers.Where(r => r.Discriminator == type);
             if (id.HasValue)
@@ -92,7 +95,7 @@ namespace SchoolLib.Controllers
                 readers = readers.Where(r => r.House == house);
             if (apartment.HasValue)
                 readers = readers.Where(r => r.Apartment == apartment);
-            /* !todo:Èñïðàâèòü ñðàâíåíèå äàò */
+            /* !todo:Исправить сравнение срок на сравнение дат */
             if (!string.IsNullOrWhiteSpace(lastRegDate))
                 readers = readers.Where(r => r.LastRegistrationDate == lastRegDate);
             if (!string.IsNullOrWhiteSpace(firstRegDate))
@@ -100,10 +103,22 @@ namespace SchoolLib.Controllers
             /* !todo */
             if (!string.IsNullOrWhiteSpace(note))
                 readers = readers.Where(r => r.Note == note);
+            
+            if (Request.Form["activate"].SingleOrDefault() != null)
+            {
+                var readersList = await readers.Where(r => r.Status == ReaderStatus.Disabled).ToListAsync();
+                foreach (var r in readersList)
+                {
+                    r.Status = ReaderStatus.Enabled;
+                    r.LastRegistrationDate = DateTime.Today.ToString("dd.MM.yyyy");
+                }
+                _context.UpdateRange(readersList);
+                await _context.SaveChangesAsync();
+                return View(readersList);
+            }
 
             return View(await readers.ToListAsync());
         }
-
         // GET: Readers/Details/5
         public async Task<IActionResult> Details(int? id)
         {

@@ -1,0 +1,57 @@
+﻿@model Issuance
+@using SchoolLib.Models.Books
+
+@{
+    ViewData["Title"] = "Видалення";
+}
+
+<h2>Delete</h2>
+
+<h3>Ви впевнені, що хочете видалити?</h3>
+<div>
+    <h4>@Html.DisplayNameFor(m => m)</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Reader)</dt>
+        <dd>@Html.DisplayFor(model => model.Reader.Id)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Book)</dt>
+        <dd>@Html.DisplayFor(model => model.Book.Id)</dd>
+
+        @if (Model.Book.Discriminator == "StudyBook")
+        {
+            <dt>@Html.DisplayNameFor(model => (model.Book as StudyBook).Subject)</dt>
+            <dd>@Html.DisplayFor(model => (model.Book as StudyBook).Subject))</dd>
+        }
+        else
+        {
+            <dt>@Html.DisplayNameFor(model => (model.Book as AdditionalBook).Cipher))</dt>
+            <dd>@Html.DisplayFor(model => (model.Book as AdditionalBook).Cipher))</dd>
+        }
+
+        <dt>@Html.DisplayNameFor(model => model.Book.Author)</dt>
+        <dd>@Html.DisplayFor(model => model.Book.Author)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Book.Name)</dt>
+        <dd>@Html.DisplayFor(model => model.Book.Name)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.IssueDate)</dt>
+        <dd>@Html.DisplayFor(model => model.IssueDate)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Couse)</dt>
+        <dd>@Html.DisplayFor(model => model.Couse)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.AcceptanceDate)</dt>
+        <dd>@Html.DisplayFor(model => model.AcceptanceDate)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Note)</dt>
+        <dd>@Html.DisplayFor(model => model.Note)</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Видалити" class="btn btn-default" /> |
+            <a asp-action="Index">Назад до списку</a>
+        </div>
+    </form>
+</div>

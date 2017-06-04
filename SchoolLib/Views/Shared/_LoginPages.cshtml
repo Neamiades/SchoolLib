@@ -9,7 +9,12 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li><a asp-area="" asp-controller="Books" asp-action="Index">Книжки</a></li>
+        <li><a asp-area="" asp-controller="Issuances" asp-action="Index">Видача</a></li>
         <li><a asp-area="" asp-controller="Readers" asp-action="Index">Читачі</a></li>
+
+        @*<li><a asp-area="" asp-controller="Inventories" asp-action="Index">Інвентаризація</a></li>
+        <li><a asp-area="" asp-controller="Provenances" asp-action="Index">Походження</a></li>
+        <li><a asp-area="" asp-controller="Drops" asp-action="Index">Вибуття</a></li>*@
     }
     <li><a asp-area="" asp-controller="Statistic" asp-action="Index">Статистика</a></li>
     

@@ -29,10 +29,12 @@ namespace SchoolLib.Controllers
 
         // GET: Provenances/Details/5
         [HttpGet]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int? bookId)
         {
             if (id == null)
             {
+                if (bookId != null)
+                    return RedirectToAction("Create", new { bookId = bookId });
                 return NotFound();
             }
 
@@ -40,10 +42,8 @@ namespace SchoolLib.Controllers
                 .Include(p => p.Book)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (provenance == null)
-            {
-                return RedirectToAction("Create", new { bookId = id });
-            }
-
+                return NotFound();
+ 
             return View(provenance);
         }
 
@@ -60,14 +60,14 @@ namespace SchoolLib.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Place,WayBill,ReceiptDate,Note,BookId")] Provenance provenance)
         {
-            if (_context.Provenances.Any(i => i.BookId == provenance.BookId))
-            {
+            if (!_context.Books.Any(b => b.Id == provenance.BookId))
+                ModelState.AddModelError("BookId", "Книги з даним інвентарним номером не існує");
+            else if (_context.Provenances.Any(i => i.BookId == provenance.BookId))
                 ModelState.AddModelError("BookId", "Книга з даним інвентарним номером вже має запис про походження");
-            }
+            
             if (_context.Provenances.Any(i => i.WayBill == provenance.WayBill))
-            {
                 ModelState.AddModelError("WayBill", "Запис про походження з даним номером накладної вже існує");
-            }
+            
             if (ModelState.IsValid)
             {
                 _context.Add(provenance);
@@ -75,6 +75,7 @@ namespace SchoolLib.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["BookId"] = provenance.BookId;
+            ViewData["Fail"] = true;
             return View(provenance);
         }
 
@@ -110,9 +111,11 @@ namespace SchoolLib.Controllers
             {
                 return NotFound();
             }
-            if (_context.Provenances.Any(i => i.BookId == provenance.BookId && i.BookId != curBookId))
+            if (!_context.Books.Any(b => b.Id == provenance.BookId))
+                ModelState.AddModelError("BookId", "Книги з даним інвентарним номером не існує");
+            else if (_context.Provenances.Any(p => p.BookId == provenance.BookId && p.BookId != curBookId))
                 ModelState.AddModelError("BookId", "Книга з даним інвентарним номером вже має запис про походження");
-            if (_context.Provenances.Any(i => i.WayBill == provenance.WayBill && i.BookId != curWayBill))
+            if (_context.Provenances.Any(p => p.WayBill == provenance.WayBill && p.WayBill != curWayBill))
                 ModelState.AddModelError("WayBill", "Запис про походження з даним номером накладної вже існує");
             
             if (ModelState.IsValid)
@@ -135,6 +138,8 @@ namespace SchoolLib.Controllers
                 }
                 return RedirectToAction("Index");
             }
+            provenance.WayBill = curWayBill;
+            provenance.BookId = curBookId;
             return View(provenance);
         }
 

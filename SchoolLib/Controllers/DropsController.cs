@@ -25,10 +25,12 @@ namespace SchoolLib.Controllers
         }
 
         // GET: Drops/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int? readerId)
         {
             if (id == null)
             {
+                if (readerId != null)
+                    return RedirectToAction("Create", new { readerId = readerId });
                 return NotFound();
             }
 
@@ -36,9 +38,7 @@ namespace SchoolLib.Controllers
                 .Include(d => d.Reader)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (drop == null)
-            {
                 return NotFound();
-            }
 
             return View(drop);
         }
@@ -57,16 +57,20 @@ namespace SchoolLib.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Date,Couse,Note,ReaderId")] Drop drop)
         {
-            if (_context.Drops.Any(d => d.ReaderId == drop.ReaderId))
-            {
+            if (!_context.Readers.Any(b => b.Id == drop.ReaderId))
+                ModelState.AddModelError("ReaderId", "Читача з даним ідентифікаційним номером не існує");
+            else if (_context.Drops.Any(d => d.ReaderId == drop.ReaderId))
                 ModelState.AddModelError("ReaderId", "Читач з даним ідентифікаційним номером вже має запис про вибуття");
-            }
+            
             if (ModelState.IsValid)
             {
                 _context.Add(drop);
                 await _context.SaveChangesAsync();
+                await DropReader(drop.ReaderId);
                 return RedirectToAction("Index");
             }
+            ViewData["ReaderId"] = drop.ReaderId;
+            ViewData["Fail"] = true;
             return View(drop);
         }
 
@@ -90,12 +94,19 @@ namespace SchoolLib.Controllers
         // POST: Drops/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int curReaderId, [Bind("Id,Date,Couse,Note,ReaderId")] Drop drop)
+        public async Task<IActionResult> Edit
+            (
+            int id,
+            int curReaderId,
+            [Bind("Id,Date,Couse,Note,ReaderId")]
+            Drop drop
+            )
         {
             if (id != drop.Id)
                 return NotFound();
-
-            if (_context.Drops.Any(d => d.ReaderId == drop.ReaderId && d.ReaderId != curReaderId))
+            if (!_context.Readers.Any(b => b.Id == drop.ReaderId))
+                ModelState.AddModelError("ReaderId", "Читача з даним ідентифікаційним номером не існує");
+            else if (_context.Drops.Any(d => d.ReaderId == drop.ReaderId && d.ReaderId != curReaderId))
                 ModelState.AddModelError("ReaderId", "Читач з даним ідентифікаційним номером вже має запис про вибуття");
 
             if (ModelState.IsValid)
@@ -114,6 +125,7 @@ namespace SchoolLib.Controllers
                 }
                 return RedirectToAction("Index");
             }
+            drop.ReaderId = curReaderId;
             return View(drop);
         }
 
@@ -150,6 +162,15 @@ namespace SchoolLib.Controllers
         private bool DropExists(int id)
         {
             return _context.Drops.Any(e => e.Id == id);
+        }
+        private async Task<int> DropReader(int id)
+        {
+
+            var reader = await _context.Readers.Include(d => d.Drop)
+                .SingleOrDefaultAsync(m => m.Id == id);
+            reader.Status = ReaderStatus.Removed;
+            _context.Update(reader);
+            return await _context.SaveChangesAsync();
         }
     }
 }

@@ -12,18 +12,14 @@ namespace SchoolLib.Models.Books
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        /*!todo: Исправить диапазон даты*/
+        
         [Required]
         [Display(Name = "Дата видачі")]
-        [DateRange("-5",
-            ErrorMessage = "Значення для дати видачі має бути між 01.01.1990 та сьогоднішнім числом у форматі дд.мм.рррр")]
+        [DateRange("-5")]
         public string IssueDate { get; set; }
-
-        /*!todo: Исправить диапазон даты*/
+        
         [Display(Name = "Дата прийняття")]
-        [DateRange("-5",
-            ErrorMessage = "Значення для дати видачі має бути між 01.01.1990 та сьогоднішнім числом у форматі дд.мм.рррр")]
+        [DateRange("-5")]
         public string AcceptanceDate { get; set; }
 
         [Display(Name = "Причина")]

@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.People;
+using System;
+using System.Globalization;
 
 namespace SchoolLib.Controllers
 {
     public class StudentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        IFormatProvider culture = new CultureInfo("uk-UA");
 
         public StudentsController(ApplicationDbContext context)
         {
@@ -22,7 +22,8 @@ namespace SchoolLib.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Students.ToListAsync());
+            return RedirectToAction("Index", "Readers");
+            //return View(await _context.Students.ToListAsync());
         }
 
         // GET: Students/Details/5
@@ -33,7 +34,7 @@ namespace SchoolLib.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var student = await _context.Students.Include(s => s.Drop)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
@@ -54,17 +55,21 @@ namespace SchoolLib.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create
             (
-            [Bind("Id,FirstName,SurName,Patronimic,Street,House,Apartment,Grade,LastRegistrationDate,FirstRegistrationDate,Status,Note")]
+            [Bind("Id,FirstName,SurName,Patronimic,Street,House,Apartment,Grade,FirstRegistrationDate,LastRegistrationDate,Note")]
             Student student
             )
         {
-            if (_context.Students.Any(s => s.Id == student.Id))
-            {
+            if (_context.Readers.Any(s => s.Id == student.Id))
                 ModelState.AddModelError("Id", "Учень з даним ідентифікаційним номером все існує");
+            if (ModelState.IsValid && DateTime.ParseExact(student.FirstRegistrationDate, "dd.MM.yyyy", culture) >
+                DateTime.ParseExact(student.LastRegistrationDate, "dd.MM.yyyy", culture))
+            {
+                ModelState.AddModelError("LastRegistrationDate", "Дата перереєстрації не може бути раніше ніж дата реєстрації");
             }
             if (ModelState.IsValid)
             {
-                student.Status = ReaderStatus.Disabled;
+                //student.LastRegistrationDate = student.FirstRegistrationDate;
+                student.Status = ReaderStatus.Enabled;
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Readers");
@@ -93,19 +98,20 @@ namespace SchoolLib.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit
             (
-            int id,
-            [Bind("Id,FirstName,SurName,Patronimic,Street,House,Apartment,Grade,LastRegistrationDate,FirstRegistrationDate,Status,Note")]
+            int curId,
+            [Bind("Id,FirstName,SurName,Patronimic,Street,House,Apartment,Grade,FirstRegistrationDate,LastRegistrationDate,Status,Note")]
             Student student
             )
         {
-            if (id != student.Id)
-            {
+            if (curId != student.Id)
                 return NotFound();
-            }
-            if (_context.Workers.Any
-                    (s => s.Id == student.Id && s.Id != id))
-            {
+            
+            if (_context.Readers.Any(s => s.Id == student.Id && s.Id != curId))
                 ModelState.AddModelError("Id", "Учень з даним ідентифікаційним номером все існує");
+            if (ModelState.IsValid && DateTime.ParseExact(student.FirstRegistrationDate, "dd.MM.yyyy", culture) >
+                DateTime.ParseExact(student.LastRegistrationDate, "dd.MM.yyyy", culture))
+            {
+                ModelState.AddModelError("LastRegistrationDate", "Дата перереєстрації не може бути раніше ніж дата реєстрації");
             }
             if (ModelState.IsValid)
             {
@@ -127,6 +133,7 @@ namespace SchoolLib.Controllers
                 }
                 return RedirectToAction("Index", "Readers");
             }
+            student.Id = curId;
             return View(student);
         }
 

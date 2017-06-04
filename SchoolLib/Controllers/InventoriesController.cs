@@ -25,10 +25,12 @@ namespace SchoolLib.Controllers
         }
 
         // GET: Inventories/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int? bookId)
         {
             if (id == null)
             {
+                if (bookId != null)
+                    return RedirectToAction("Create", new { bookId = bookId });
                 return NotFound();
             }
 
@@ -36,9 +38,7 @@ namespace SchoolLib.Controllers
                 .Include(i => i.Book)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (inventory == null)
-            {
-                return RedirectToAction("Create", new { bookId = id } );
-            }
+                return NotFound();
 
             return View(inventory);
         }
@@ -56,10 +56,11 @@ namespace SchoolLib.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ActNumber,Year,Couse,Note,BookId")] Inventory inventory)
         {
-            if (_context.Inventories.Any(i => i.BookId == inventory.BookId))
-            {
+            if (!_context.Books.Any(b => b.Id == inventory.BookId))
+                ModelState.AddModelError("BookId", "Книги з даним інвентарним номером не існує");
+            else if (_context.Inventories.Any(i => i.BookId == inventory.BookId))
                 ModelState.AddModelError("BookId", "Книга з даним інвентарним номером вже має інвентарний запис");
-            }
+            
             if (ModelState.IsValid)
             {
                 _context.Add(inventory);
@@ -67,6 +68,7 @@ namespace SchoolLib.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["BookId"] = inventory.BookId;
+            ViewData["Fail"] = true;
             return View(inventory);
         }
 
@@ -93,7 +95,9 @@ namespace SchoolLib.Controllers
         {
             if (id != inventory.Id)
                 return NotFound();
-            
+
+            if (!_context.Books.Any(b => b.Id == inventory.BookId))
+                ModelState.AddModelError("BookId", "Книги з даним інвентарним номером не існує");
             if (_context.Inventories.Any(i => i.BookId == inventory.BookId && i.BookId != curBookId))
                 ModelState.AddModelError("BookId", "Книга з даним інвентарним номером вже має інвентарний запис");
 
@@ -117,6 +121,7 @@ namespace SchoolLib.Controllers
                 }
                 return RedirectToAction("Index");
             }
+            inventory.BookId = curBookId;
             return View(inventory);
         }
 

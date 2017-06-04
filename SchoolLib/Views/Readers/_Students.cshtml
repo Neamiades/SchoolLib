@@ -1,4 +1,4 @@
-@model IEnumerable<SchoolLib.Models.People.Student>
+﻿@model IEnumerable<SchoolLib.Models.People.Student>
 
 <table class="table">
     <thead>
@@ -12,7 +12,6 @@
             <th>@Html.DisplayNameFor(model => model.Apartment)</th>
             <th>@Html.DisplayNameFor(model => model.FirstRegistrationDate)</th>
             <th>@Html.DisplayNameFor(model => model.LastRegistrationDate)</th>
-            <th>@Html.DisplayNameFor(model => model.Discriminator)</th>
             <th>@Html.DisplayNameFor(model => model.Note)</th>
             <th>@Html.DisplayNameFor(model => model.Grade)</th>
             <th>@Html.DisplayNameFor(model => model.Status)</th>
@@ -31,14 +30,13 @@
             <td>@Html.DisplayFor(modelItem => item.Apartment)</td>
             <td>@Html.DisplayFor(modelItem => item.FirstRegistrationDate)</td>
             <td>@Html.DisplayFor(modelItem => item.LastRegistrationDate)</td>
-            <td>@Html.DisplayFor(modelItem => item.Discriminator)</td>
             <td>@Html.DisplayFor(modelItem => item.Note)</td>
             <td>@Html.DisplayFor(modelItem => item.Grade)</td>
             <td>@Html.DisplayFor(modelItem => item.Status)</td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
             </td>
         </tr>
 }

@@ -29,7 +29,8 @@
         <input type="text" name="note" placeholder="Примітка..." value="@ViewData["note"]" />
         @Html.DropDownList("status", ViewData["readerStatusList"] as List<SelectListItem>)
         <br /><br />
-        <input type="submit" value="Пошук" />
+        <input type="submit" name="search" value="Пошук" />
+        <input type="submit" name="activate" value="Активувати читачів" />
     </div>
 </form>
 <div>

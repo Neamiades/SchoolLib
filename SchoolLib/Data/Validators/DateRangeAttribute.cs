@@ -21,17 +21,20 @@ namespace SchoolLib.Data.Validators
             else if (Int32.TryParse(lowDate, out years))
                 _lowDate = DateTime.Today.AddYears(years);
             else
-                _lowDate = DateTime.ParseExact(lowDate, "dd.mm.yyyy", culture);
+                _lowDate = DateTime.ParseExact(lowDate, "dd.MM.yyyy", culture);
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            DateTime date;
-            var errMsg = $"Значення має бути між {_lowDate.Date.ToString("dd.mm.yyyy")}" +
-                $" та {DateTime.Now.ToString("dd.mm.yyyy")} у форматі дд.мм.рррр";
-            if (!DateTime.TryParse(value.ToString(), culture, DateTimeStyles.AssumeLocal, out date) ||
-                date > DateTime.Now || date < _lowDate) 
-                return new ValidationResult(errMsg);
+            if (value != null && value as string != "system-auto")
+            {
+                DateTime date;
+                var errMsg = $"Значення має бути між {_lowDate.Date.ToString("dd.MM.yyyy")}" +
+                    $" та {DateTime.Now.ToString("dd.MM.yyyy")} у форматі дд.мм.рррр";
+                if (!DateTime.TryParse(value?.ToString(), culture, DateTimeStyles.AssumeLocal, out date) ||
+                    date > DateTime.Now || date < _lowDate)
+                    return new ValidationResult(errMsg);
+            }
             
             return ValidationResult.Success;
         }

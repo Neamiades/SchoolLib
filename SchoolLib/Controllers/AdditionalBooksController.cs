@@ -31,7 +31,9 @@ namespace SchoolLib.Controllers
             }
 
             var additionalBook = await _context.AdditionalBooks
-                .SingleOrDefaultAsync(m => m.Id == id);
+                .Include(ab => ab.Inventory)
+                .Include(ab => ab.Provenance)
+                .SingleOrDefaultAsync(ab => ab.Id == id);
             if (additionalBook == null)
             {
                 return NotFound();
@@ -88,16 +90,12 @@ namespace SchoolLib.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
-            int id,
+            int curId,
             [Bind("Id,Name,Author,AuthorCipher,Language,Cipher,Published,Price,Note,Status")]
             AdditionalBook additionalBook
             )
         {
-            if (id != additionalBook.Id)
-            {
-                return NotFound();
-            }
-            if (_context.Books.Any(b => b.Id == additionalBook.Id && b.Id != id))
+            if (_context.Books.Any(b => b.Id == additionalBook.Id && b.Id != curId))
             {
                 ModelState.AddModelError("Id", "Книжка з даним інвентарним номером все існує");
             }
@@ -121,6 +119,7 @@ namespace SchoolLib.Controllers
                 }
                 return RedirectToAction("Index", "Books");
             }
+            additionalBook.Id = curId;
             return View(additionalBook);
         }
 

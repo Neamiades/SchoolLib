@@ -10,8 +10,8 @@
 <div>
     <h4>@Html.DisplayNameFor(model => model)</h4>
     <p>
-        <a asp-controller="Inventories" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-default">Інвентаризація</a>
-        <a asp-controller="Provenances" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-default">Походження</a>
+        <a asp-controller="Inventories" asp-action="Details" asp-route-id="@Model.Inventory?.Id" asp-route-bookId="@Model.Id" class="btn btn-default">Інвентаризація</a>
+        <a asp-controller="Provenances" asp-action="Details" asp-route-id="@Model.Provenance?.Id" asp-route-bookId="@Model.Id" class="btn btn-default">Походження</a>
     </p>
     <hr />
     <dl class="dl-horizontal">

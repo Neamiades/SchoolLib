@@ -55,21 +55,21 @@ namespace SchoolLib.Models.People
         [Display(Name = "Дім")]
         [StringLength(8, MinimumLength = 1, ErrorMessage = "Номер дому повинен містити від 1 до 8 символів")]
         public string House { get; set; }
-
+        
         [Display(Name = "Квартира")]
-        [Required, Range(1, 1000, ErrorMessage = "Номер квартири має діапазон значеннь від {1} до {2}")]
+        [Range(1, 1000, ErrorMessage = "Номер квартири має діапазон значеннь від {1} до {2}")]
         public short Apartment { get; set; }
 
+        [Required]
         [Display(Name = "Дата реєстрації")]
-        [Column(TypeName = "date")]
         [DateRange("-12")]
         public string FirstRegistrationDate { get; set; }
 
+        [Required]
         [Display(Name = "Дата перереєстрації")]
-        [Column(TypeName = "date")]
         [DateRange("-12")]
         public string LastRegistrationDate { get; set; }
-
+        
         [Display(Name = "Тип")]
         [StringLength(30)]
         public string Discriminator { get; set; }
