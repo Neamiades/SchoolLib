@@ -14,11 +14,11 @@ namespace SchoolLib.Models.Books
 
         [Required(ErrorMessage = "Необхідно заповнити дату видачі")]
         [Display(Name = "Дата видачі")]
-        [DateRange("-5")]
+        [DateRange("-6")]
         public string IssueDate { get; set; }
         
         [Display(Name = "Дата прийняття")]
-        [DateRange("-5")]
+        [DateRange("-6")]
         public string AcceptanceDate { get; set; }
         
         [Display(Name = "Причина")]

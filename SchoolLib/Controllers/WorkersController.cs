@@ -49,6 +49,7 @@ namespace SchoolLib.Controllers
         // GET: Workers/Create
         public IActionResult Create()
         {
+            ViewData["FirstRegistrationDate"] = ViewData["LastRegistrationDate"] = DateTime.Today.ToString("dd.MM.yyyy");
             return View();
         }
 
