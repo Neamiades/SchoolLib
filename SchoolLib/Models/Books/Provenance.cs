@@ -11,17 +11,17 @@ namespace SchoolLib.Models.Books
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id  { get; set; }
 
+        [Required(ErrorMessage = "Необхідно надати номер накладної")]
         [Display(Name = "Номер накладної")]
-        [Required, Range(1, 100000, ErrorMessage = "Номер накладної має діапазон від {1} до {2}")]
+        [Range(1, 100000, ErrorMessage = "Номер накладної має діапазон від {1} до {2}")]
         public int WayBill { get; set; }
 
-        [Required(ErrorMessage = "Необхідно встановити дату")]
+        [Required(ErrorMessage = "Необхідно встановити дату прийняти")]
         [Display(Name = "Дата прийняття")]
-        [DateRange("01.01.1990",
-            ErrorMessage = "Значення має бути між 01.01.1990 та сьогоднішнім числом у форматі дд.мм.рррр")]
+        [DateRange("-5")]
         public string ReceiptDate { get; set; }
 
-        [Required, MinLength(4)]
+        [Required(ErrorMessage = "Необхідно надати назву місця походження")]
         [Display(Name = "Місце походження")]
         [StringLength(30, MinimumLength = 6, ErrorMessage = "Місце походження повинно мати від 4 до 30 символів")]
         public string Place { get; set; }

@@ -107,7 +107,7 @@ namespace SchoolLib.Controllers
             )
         {
             if (curId != worker.Id)
-                return NotFound();
+                return BadRequest();
             
             if (_context.Readers.Any(w => w.Id == worker.Id && w.Id != curId))
                 ModelState.AddModelError("Id", "Співробітник з даним ідентифікаційним номером все існує");
@@ -126,13 +126,10 @@ namespace SchoolLib.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!WorkerExists(worker.Id))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
+                    
                 }
                 return RedirectToAction("Index", "Readers");
             }

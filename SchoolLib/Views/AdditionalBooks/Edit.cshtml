@@ -15,8 +15,8 @@
         <div class="form-group">
             <label asp-for="Id" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+                <label asp-for="Id" class="control-label">@Model.Id</label>
+                <input type="hidden" asp-for="Id" class="form-control" value="@Model.Id" />
             </div>
         </div>
         <div class="form-group">
@@ -75,7 +75,13 @@
                 <span asp-validation-for="Note" class="text-danger"></span>
             </div>
         </div>
-        <input type="hidden" asp-for="Status" />
+        <div class="form-group">
+            <label asp-for="Status" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <label asp-for="Status" class="control-label">@Html.DisplayFor(model => model.Status)</label>
+                <input asp-for="Status" class="form-control hidden" value="@Model.Status" />
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Зберегти" class="btn btn-default" />

@@ -21,12 +21,12 @@
         @if (Model.Book.Discriminator == "StudyBook")
         {
             <dt>@Html.DisplayNameFor(model => (model.Book as StudyBook).Subject)</dt>
-            <dd>@Html.DisplayFor(model => (model.Book as StudyBook).Subject))</dd>
+            <dd>@Html.DisplayFor(model => (model.Book as StudyBook).Subject)</dd>
         }
         else
         {
-            <dt>@Html.DisplayNameFor(model => (model.Book as AdditionalBook).Cipher))</dt>
-            <dd>@Html.DisplayFor(model => (model.Book as AdditionalBook).Cipher))</dd>
+            <dt>@Html.DisplayNameFor(model => (model.Book as AdditionalBook).Cipher)</dt>
+            <dd>@Html.DisplayFor(model => (model.Book as AdditionalBook).Cipher)</dd>
         }
 
         <dt>@Html.DisplayNameFor(model => model.Book.Author)</dt>

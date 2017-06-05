@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
@@ -75,7 +73,7 @@ namespace SchoolLib.Controllers
             {
                 _context.Add(issuance);
                 await _context.SaveChangesAsync();
-                await GiveBook(issuance.BookId);
+                await SetBook(issuance.BookId, BookStatus.OnHands);
                 return RedirectToAction("Index");
             }
             ViewData["ReaderId"] = issuance.ReaderId;
@@ -93,11 +91,6 @@ namespace SchoolLib.Controllers
             var issuance = await _context.Issuances.SingleOrDefaultAsync(m => m.Id == id);
             if (issuance == null)
                 return NotFound();
-            
-            ViewData["BookId"] = issuance.BookId;
-            ViewData["ReaderId"] = issuance.ReaderId;
-            ViewData["IssueDate"] = issuance.IssueDate;
-            ViewData["AcceptanceDate"] = issuance.AcceptanceDate;
             return View(issuance);
         }
 
@@ -132,8 +125,58 @@ namespace SchoolLib.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "Author", issuance.BookId);
-            ViewData["ReaderId"] = new SelectList(_context.Readers, "Id", "Discriminator", issuance.ReaderId);
+            ViewData["BookId"] = issuance.BookId;
+            ViewData["ReaderId"] = issuance.ReaderId;
+            return View(issuance);
+        }
+
+        [HttpGet]
+        // GET: Issuances/Return/5
+        public async Task<IActionResult> Return(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var issuance = await _context.Issuances.SingleOrDefaultAsync(m => m.Id == id);
+            if (issuance == null)
+                return NotFound();
+            ViewData["AcceptanceDate"] = DateTime.Today.ToString("dd.MM.yyyy");
+            return View(issuance);
+        }
+
+        // POST: Issuances/Return/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Return
+            (
+            int id,
+            [Bind("Id,IssueDate,AcceptanceDate,Couse,Note,ReaderId,BookId")]
+            Issuance issuance
+            )
+        {
+            if (id != issuance.Id)
+                return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(issuance);
+                    await _context.SaveChangesAsync();
+                    await SetBook(issuance.BookId, BookStatus.InStock);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!IssuanceExists(issuance.Id))
+                        return NotFound();
+                    else
+                        throw;
+                }
+                return RedirectToAction("Index");
+            }
+            ViewData["AcceptanceDate"] = DateTime.Today.ToString("dd.MM.yyyy");
+            ViewData["BookId"] = issuance.BookId;
+            ViewData["ReaderId"] = issuance.ReaderId;
             return View(issuance);
         }
 
@@ -169,10 +212,10 @@ namespace SchoolLib.Controllers
             return _context.Issuances.Any(e => e.Id == id);
         }
 
-        private async Task<int> GiveBook(int id)
+        private async Task<int> SetBook(int id, BookStatus status)
         {
             var book = await _context.Books.SingleOrDefaultAsync(b => b.Id == id);
-            book.Status = BookStatus.OnHands;
+            book.Status = status;
             _context.Update(book);
             return await _context.SaveChangesAsync();
         }

@@ -20,29 +20,29 @@ namespace SchoolLib.Models.Books
     [DisplayName("Книжка")]
     public abstract class Book
     {
-        [Required]
+        [Required(ErrorMessage = "Необхідно надати інвентарний номер книги")]
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None), Column("BookId")]
         [Display(Name = "Інвентарний номер")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:D6}")]
         [Range(1, 100000, ErrorMessage = "Інвентарний номер має можливий діапазон від {1} до {2}")]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Необхідно надати назву книги")]
         [Display(Name = "Назва")]
         [StringLength(60, MinimumLength = 2, ErrorMessage = "Назва може мати від 2 до 60 символів")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Необхідно надати ім'я автора")]
         [Display(Name = "Автор")]
         [StringLength(30, MinimumLength = 4, ErrorMessage = "Ім'я автора може мати від 4 до 30 символів")]
         public string Author { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Необхідно надати авторський шифр")]
         [Display(Name = "Авторський шифр")]
         [StringLength(15, MinimumLength = 3, ErrorMessage = "Авторський шифр може мати від 3 до 15 символів")]
         public string AuthorCipher { get; set; }
-        
-        [Required]
+
+        [Required(ErrorMessage = "Необхідно надати рік публікації книги")]
         [Display(Name = "Рік публікації")]
         [YearRangeValidator(1564)]
         public short Published { get; set; }

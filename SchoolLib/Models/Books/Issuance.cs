@@ -1,6 +1,5 @@
 ﻿using SchoolLib.Data.Validators;
 using SchoolLib.Models.People;
-using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,8 +11,8 @@ namespace SchoolLib.Models.Books
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
-        [Required]
+
+        [Required(ErrorMessage = "Необхідно заповнити дату видачі")]
         [Display(Name = "Дата видачі")]
         [DateRange("-5")]
         public string IssueDate { get; set; }
@@ -21,9 +20,9 @@ namespace SchoolLib.Models.Books
         [Display(Name = "Дата прийняття")]
         [DateRange("-5")]
         public string AcceptanceDate { get; set; }
-
+        
         [Display(Name = "Причина")]
-        [Required, StringLength(50, MinimumLength = 5, ErrorMessage = "Довжина причини має від 4 до 50 символів")]
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "Довжина причини має від 4 до 50 символів")]
         public string Couse { get; set; }
 
         [Display(Name = "Примітка")]

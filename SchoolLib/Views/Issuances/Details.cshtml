@@ -12,10 +12,18 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>@Html.DisplayNameFor(model => model.Reader)</dt>
-        <dd>@Html.DisplayFor(model => model.Reader.Id)</dd>
+        <dd>
+            <a asp-controller="Readers" asp-action="Details" asp-route-id="@Model.Reader.Id">
+                @Html.DisplayFor(model => model.Reader.Id)
+            </a>
+        </dd>
 
         <dt>@Html.DisplayNameFor(model => model.Book)</dt>
-        <dd>@Html.DisplayFor(model => model.Book.Id)</dd>
+        <dd>
+            <a asp-controller="Books" asp-action="Details" asp-route-id="@Model.Book.Id">
+                @Html.DisplayFor(model => model.Book.Id)
+            </a>
+        </dd>
 
         @if (Model.Book.Discriminator == "StudyBook")
         {

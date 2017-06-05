@@ -11,7 +11,8 @@ namespace SchoolLib.Models.People
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
+
+        [Required(ErrorMessage = "Необхідно надати дату вибуття")]
         [Display(Name = "Дата")]
         [DateRange("now")]
         public string Date { get; set; }

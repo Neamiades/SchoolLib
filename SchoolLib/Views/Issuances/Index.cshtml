@@ -28,8 +28,16 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>@Html.DisplayFor(modelItem => item.Reader.Id)</td>
-            <td>@Html.DisplayFor(modelItem => item.Book.Id)</td>
+            <td>
+                <a asp-controller="Readers" asp-action="Details" asp-route-id="@item.Reader.Id">
+                    @Html.DisplayFor(modelItem => item.Reader.Id)
+                </a>
+            </td>
+            <td>
+                <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Book.Id">
+                    @Html.DisplayFor(modelItem => item.Book.Id)
+                </a>
+            </td>
             @if (item.Book.Discriminator == "StudyBook")
             {
                 <td>@Html.DisplayFor(modelItem => (item.Book as StudyBook).Subject)</td>
@@ -39,7 +47,7 @@
                 <td>@Html.DisplayFor(modelItem => (item.Book as AdditionalBook).Cipher)</td>
             }
             <td>@Html.DisplayFor(modelItem => item.Book.Author)</td>
-            <td>@Html.DisplayFor(modelItem => item.Book.Name )</td>
+            <td>@Html.DisplayFor(modelItem => item.Book.Name)</td>
             <td>@Html.DisplayFor(modelItem => item.IssueDate)</td>
             <td>@Html.DisplayFor(modelItem => item.Couse)</td>
             <td>@Html.DisplayFor(modelItem => item.AcceptanceDate)</td>
@@ -48,6 +56,11 @@
                 <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                @if (item.Book.Status == BookStatus.OnHands)
+                {
+                    @:| 
+                    <a asp-action="Return" asp-route-id="@item.Id">Повернути книгу</a>
+                }
             </td>
         </tr>
 }

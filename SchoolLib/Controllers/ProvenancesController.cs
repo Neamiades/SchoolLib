@@ -128,13 +128,9 @@ namespace SchoolLib.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ProvenanceExists(provenance.Id))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction("Index");
             }

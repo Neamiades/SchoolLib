@@ -1,12 +1,14 @@
-﻿@model SchoolLib.Models.Books.Issuance
+﻿@model Issuance
+@using SchoolLib.Models.Books
 
 @{
-    ViewData["Title"] = "Редагування формуляру";
+    ViewData["Title"] = "Повернення книги";
 }
 
 <h2>@ViewData["Title"]</h2>
 
-<form asp-action="Edit">
+<h3>Ви впевнені, що бажаєте засвідчити повернення книги?</h3>
+<form asp-action="Return">
     <div class="form-horizontal">
         <h4>@Html.DisplayNameFor(m => m)</h4>
         <hr />
@@ -31,41 +33,37 @@
             <div class="col-md-10">
                 <label asp-for="IssueDate" class="control-label">@Model.IssueDate</label>
                 <input type="hidden" asp-for="IssueDate" class="form-control" value="@Model.IssueDate" />
+                <span asp-validation-for="IssueDate" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="Couse" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Couse" class="form-control" />
-                <span asp-validation-for="Couse" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="AcceptanceDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <label asp-for="AcceptanceDate" class="control-label">@Model.AcceptanceDate</label>
-                <input type="hidden" asp-for="AcceptanceDate" class="form-control" value="@Model.AcceptanceDate" />
+                <label asp-for="Couse" class="control-label">@Model.Couse</label>
+                <input type="hidden" asp-for="Couse" class="form-control" value="@Model.Couse" />
             </div>
         </div>
         <div class="form-group">
             <label asp-for="Note" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Note" class="form-control" />
-                <span asp-validation-for="Note" class="text-danger"></span>
+                <label asp-for="Note" class="control-label">@Model.Note</label>
+                <input type="hidden" asp-for="Note" class="form-control" value="@Model.Note" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AcceptanceDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="AcceptanceDate" class="form-control" value="@ViewBag.AcceptanceDate"/>
+                <span asp-validation-for="AcceptanceDate" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Зберегти" class="btn btn-default" />
+                <input type="submit" value="Повернути книгу" class="btn btn-default" />
             </div>
         </div>
     </div>
 </form>
-
 <div>
     <a asp-action="Index">Назад до списку</a>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

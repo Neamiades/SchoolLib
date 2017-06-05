@@ -11,12 +11,12 @@ namespace SchoolLib.Models.Books
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Необхідно надати номер акту")]
         [Display(Name = "Номер акту")]
         [Range(1, 100000, ErrorMessage = "Номер акту має діапазон від {1} до {2}")]
         public int ActNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Необхідно надати рік інвентаризації")]
         [Display(Name = "Рік")]
         [YearRangeValidator(2012)]
         public short Year { get; set; }
