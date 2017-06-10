@@ -229,8 +229,7 @@ namespace SchoolLib.Migrations
                     b.Property<string>("Note")
                         .HasMaxLength(250);
 
-                    b.Property<string>("Year")
-                        .IsRequired();
+                    b.Property<short>("Year");
 
                     b.HasKey("Id");
 
@@ -309,8 +308,7 @@ namespace SchoolLib.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<string>("Date")
-                        .HasColumnType("date");
+                    b.Property<string>("Date");
 
                     b.Property<string>("Note")
                         .HasMaxLength(250);
@@ -341,14 +339,14 @@ namespace SchoolLib.Migrations
                         .HasMaxLength(15);
 
                     b.Property<string>("FirstRegistrationDate")
-                        .HasColumnType("date");
+                        .IsRequired();
 
                     b.Property<string>("House")
                         .IsRequired()
                         .HasMaxLength(8);
 
                     b.Property<string>("LastRegistrationDate")
-                        .HasColumnType("date");
+                        .IsRequired();
 
                     b.Property<string>("Note")
                         .HasMaxLength(250);
