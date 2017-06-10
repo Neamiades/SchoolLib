@@ -22,7 +22,7 @@
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -31,7 +31,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">SchoolLib</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><strong>SchoolLib</strong></a>
             </div>
             <div class="navbar-collapse collapse">
                 @await Html.PartialAsync("_LoginPages")
@@ -43,7 +43,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <ul >
+            <ul class="breadcrumb">
                 <li style="display: inline; margin:0 20px 20px 0;">&copy; 2017 - SchoolLib</li>
                 <li style="display: inline; margin:0 20px 20px 0;" ><a asp-area="" asp-controller="Home" asp-action="About">Довідка</a></li>
                 <li style="display: inline; margin:0 20px 20px 0;"><a asp-area="" asp-controller="Home" asp-action="Contact">Контакти</a></li>

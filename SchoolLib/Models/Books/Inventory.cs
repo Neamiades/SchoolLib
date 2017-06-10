@@ -26,7 +26,7 @@ namespace SchoolLib.Models.Books
         public string Couse { get; set; }
 
         [Display(Name = "Примітка")]
-        [MaxLength(250, ErrorMessage = "Максимальна довжина примітки складає 250 символів")]
+        [StringLength(250, ErrorMessage = "Максимальна довжина примітки складає 250 символів")]
         public string Note { get; set; }
 
         [Display(Name = "Інвентарний номер книги")]

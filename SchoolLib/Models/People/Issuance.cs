@@ -1,10 +1,10 @@
 ﻿using SchoolLib.Data.Validators;
-using SchoolLib.Models.People;
+using SchoolLib.Models.Books;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SchoolLib.Models.Books
+namespace SchoolLib.Models.People
 {
     [DisplayName("Видача")]
     public class Issuance
@@ -14,10 +14,12 @@ namespace SchoolLib.Models.Books
 
         [Required(ErrorMessage = "Необхідно заповнити дату видачі")]
         [Display(Name = "Дата видачі")]
+        [StringLength(10, ErrorMessage = "Некоректний формат дати")]
         [DateRange("-6")]
         public string IssueDate { get; set; }
         
         [Display(Name = "Дата прийняття")]
+        [StringLength(10, ErrorMessage = "Некоректний формат дати")]
         [DateRange("-6")]
         public string AcceptanceDate { get; set; }
         

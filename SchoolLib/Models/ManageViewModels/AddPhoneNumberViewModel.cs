@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SchoolLib.Models.ManageViewModels
 {
@@ -10,6 +6,7 @@ namespace SchoolLib.Models.ManageViewModels
     {
         [Required]
         [Phone]
+        [StringLength(13, ErrorMessage = "Некоректний формат номеру")]
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
     }

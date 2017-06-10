@@ -5,17 +5,33 @@
 @inject UserManager<ApplicationUser> UserManager
 
 
-<ul class="nav navbar-nav">
+<ul class="nav navbar-nav nav-tabs">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li><a asp-area="" asp-controller="Books" asp-action="Index">Книжки</a></li>
-        <li><a asp-area="" asp-controller="Issuances" asp-action="Index">Видача</a></li>
-        <li><a asp-area="" asp-controller="Readers" asp-action="Index">Читачі</a></li>
+        <li>
+            <a asp-area="" asp-controller="Books" asp-action="Index">
+                <img src="~/images/book-solid.png" class="img-rounded" style="height: 30px; width: 30px !important">
+                @*<span class="glyphicon glyphicon-book"></span>*@
+                <strong>Книжки</strong>
+            </a>
+        </li>
+        @*<li><a asp-area="" asp-controller="Issuances" asp-action="Index">Видача</a></li>*@
+        <li>
+            <a asp-area="" asp-controller="Readers" asp-action="Index">
+                <img src="~/images/many-people-solid.png" class="img-rounded" style="height: 30px; width: 30px !important">
+                <strong>Читачі</strong> 
+            </a>
+        </li>
 
         @*<li><a asp-area="" asp-controller="Inventories" asp-action="Index">Інвентаризація</a></li>
         <li><a asp-area="" asp-controller="Provenances" asp-action="Index">Походження</a></li>
         <li><a asp-area="" asp-controller="Drops" asp-action="Index">Вибуття</a></li>*@
     }
-    <li><a asp-area="" asp-controller="Statistic" asp-action="Index">Статистика</a></li>
+    <li>
+        <a asp-area="" asp-controller="Statistic" asp-action="Index">
+            <img src="~/images/statistic.png" class="img-rounded" style="height: 30px; width: 30px !important">
+            <strong>Статистика</strong> 
+        </a>
+    </li>
     
 </ul>

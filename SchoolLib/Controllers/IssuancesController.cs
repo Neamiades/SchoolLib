@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
+using SchoolLib.Models.People;
 
 namespace SchoolLib.Controllers
 {
@@ -12,13 +13,15 @@ namespace SchoolLib.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public IssuancesController(ApplicationDbContext context) => _context = context;    
+        public IssuancesController(ApplicationDbContext context) => _context = context;
 
         // GET: Issuances
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? readerId)
         {
-            var applicationDbContext = _context.Issuances.Include(i => i.Book).Include(i => i.Reader);
-            return View(await applicationDbContext.ToListAsync());
+            var issuances = readerId.HasValue ? _context.Issuances.Where(i => i.ReaderId == readerId).Include(i => i.Book).Include(i => i.Reader)
+                                              : _context.Issuances.Include(i => i.Book).Include(i => i.Reader);
+            
+            return View(await issuances.ToListAsync());
         }
 
         // GET: Issuances/Details/5
@@ -36,9 +39,7 @@ namespace SchoolLib.Controllers
                 .Include(i => i.Reader)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (issuance == null)
-            {
                 return NotFound();
-            }
 
             return View(issuance);
         }
@@ -68,6 +69,8 @@ namespace SchoolLib.Controllers
                 ModelState.AddModelError("BookId", "Книга з даним інвентарним номером вже видана");
             if (!_context.Readers.Any(r => r.Id == issuance.ReaderId))
                 ModelState.AddModelError("ReaderId", "Читача з даним ідентифікаційним номером не існує");
+            else if (_context.Readers.SingleOrDefault(r => r.Id == issuance.ReaderId).Status == Models.People.ReaderStatus.Removed)
+                ModelState.AddModelError("ReaderId", "Книга не може бути видана читачу, що вибув");
 
             if (ModelState.IsValid)
             {
