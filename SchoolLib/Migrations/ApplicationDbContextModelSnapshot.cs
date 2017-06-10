@@ -244,16 +244,17 @@ namespace SchoolLib.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AcceptanceDate");
+                    b.Property<string>("AcceptanceDate")
+                        .HasMaxLength(10);
 
                     b.Property<int>("BookId");
 
                     b.Property<string>("Couse")
-                        .IsRequired()
                         .HasMaxLength(50);
 
                     b.Property<string>("IssueDate")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(10);
 
                     b.Property<string>("Note")
                         .HasMaxLength(250);
@@ -284,7 +285,8 @@ namespace SchoolLib.Migrations
                         .HasMaxLength(30);
 
                     b.Property<string>("ReceiptDate")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(10);
 
                     b.Property<int>("WayBill");
 
@@ -305,10 +307,11 @@ namespace SchoolLib.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Couse")
-                        .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<string>("Date");
+                    b.Property<string>("Date")
+                        .IsRequired()
+                        .HasMaxLength(10);
 
                     b.Property<string>("Note")
                         .HasMaxLength(250);
@@ -328,7 +331,7 @@ namespace SchoolLib.Migrations
                     b.Property<int>("Id")
                         .HasColumnName("ReaderId");
 
-                    b.Property<short>("Apartment");
+                    b.Property<short?>("Apartment");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -339,14 +342,16 @@ namespace SchoolLib.Migrations
                         .HasMaxLength(15);
 
                     b.Property<string>("FirstRegistrationDate")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(10);
 
                     b.Property<string>("House")
                         .IsRequired()
                         .HasMaxLength(8);
 
                     b.Property<string>("LastRegistrationDate")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(10);
 
                     b.Property<string>("Note")
                         .HasMaxLength(250);

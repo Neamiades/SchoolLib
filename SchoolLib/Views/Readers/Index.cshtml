@@ -21,12 +21,12 @@
         <input type="text" name="firstName" placeholder="Ім'я..." value="@ViewData["firstName"]" />
         <input type="text" name="surName" placeholder="Призвіще..." value="@ViewData["surName"]" />
         <input type="text" name="patronimic" placeholder="По-батькові..." value="@ViewData["patronimic"]" />
-        <input type="text" name="street" placeholder="Вулиця..." value="@ViewData["street"]" />
+        @*<input type="text" name="street" placeholder="Вулиця..." value="@ViewData["street"]" />
         <input type="text" name="house" placeholder="Будинок..." value="@ViewData["house"]" />
         <input type="number" name="apartment" placeholder="Квартира..." value="@ViewData["apartment"]" />
-        <input type="text" name="firstRegDate" placeholder="Дата реєстрації..." value="@ViewData["firstRegDate"]" />
+        <input type="text" name="firstRegDate" placeholder="Дата реєстрації..." value="@ViewData["firstRegDate"]" />*@
         <input type="text" name="lastRegDate" placeholder="Дата переєстрації..." value="@ViewData["lastRegDate"]" />
-        <input type="text" name="note" placeholder="Примітка..." value="@ViewData["note"]" />
+        @*<input type="text" name="note" placeholder="Примітка..." value="@ViewData["note"]" />*@
         @Html.DropDownList("status", ViewData["readerStatusList"] as List<SelectListItem>)
         <br /><br />
         <input type="submit" name="search" value="Пошук" />

@@ -25,7 +25,7 @@
         <input type="text" name="authorCipher" placeholder="Авторський шифр..." value="@ViewData["authorCipher"]" />
         <input type="number" name="published" placeholder="Рік публікації..." value="@ViewData["published"]" />
         <input type="text" name="price" placeholder="Ціна..." value="@ViewData["price"]" />
-        <input type="text" name="note" placeholder="Примітка..." value="@ViewData["note"]" />
+        @*<input type="text" name="note" placeholder="Примітка..." value="@ViewData["note"]" />*@
         @Html.DropDownList("status", ViewData["bookStatusList"] as List<SelectListItem>)
         <br /><br />
         <input type="submit" value="Пошук" />

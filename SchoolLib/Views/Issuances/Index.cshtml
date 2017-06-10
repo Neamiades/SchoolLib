@@ -1,19 +1,25 @@
 ﻿@model IEnumerable<Issuance>
+@using SchoolLib.Models.People
 @using SchoolLib.Models.Books
 
 @{
-    ViewData["Title"] = "Формуляр";
+    Reader reader = ViewBag.Reader;
+    ViewData["Title"] = reader != null ? $"Формуляр читача з іменем {reader.FirstName} {reader.SurName}"
+                                       : "Список видач книжок";
 }
 
 <h2>@ViewData["Title"]</h2>
 
 <p>
-    <a asp-action="Create">Видати книгу</a>
+    <a asp-action="Create" asp-route-readerId="@reader?.Id">Видати книгу</a>
 </p>
-<table class="table">
+<table class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.Reader)</th>
+            @if (reader != null)
+            {
+                <th>@Html.DisplayNameFor(model => model.Reader)</th>
+            }
             <th>@Html.DisplayNameFor(model => model.Book)</th>
             <th>Шифр або предмет</th>
             <th>@Html.DisplayNameFor(model => model.Book.Author)</th>
@@ -28,11 +34,14 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                <a asp-controller="Readers" asp-action="Details" asp-route-id="@item.Reader.Id">
-                    @Html.DisplayFor(modelItem => item.Reader.Id)
-                </a>
-            </td>
+            @if (reader != null)
+            {
+                <td>
+                    <a asp-controller="Readers" asp-action="Details" asp-route-id="@item.Reader.Id">
+                        @Html.DisplayFor(modelItem => item.Reader.Id)
+                    </a>
+                </td>
+            }
             <td>
                 <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Book.Id">
                     @Html.DisplayFor(modelItem => item.Book.Id)

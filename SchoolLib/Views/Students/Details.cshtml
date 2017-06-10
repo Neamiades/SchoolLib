@@ -12,6 +12,12 @@
         <a asp-controller="Drops" asp-action="Details" asp-route-id="@Model.Drop?.Id" asp-route-readerId="@Model.Id" class="btn btn-default">
             Вибуття
         </a>
+        <a asp-controller="Issuances" asp-action="Index" asp-route-readerId="@Model.Id" class="btn btn-default">
+            Формуляр читача
+        </a>
+        <a asp-controller="Issuances" asp-action="Create" asp-route-readerId="@Model.Id" class="btn btn-default">
+            Видати книгу
+        </a>
     </p>
     <hr />
     <dl class="dl-horizontal">

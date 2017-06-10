@@ -12,7 +12,6 @@ namespace SchoolLib.Data
         public DbSet<Reader>         Readers         { get; set; }
         public DbSet<Student>        Students        { get; set; }
         public DbSet<Worker>         Workers         { get; set; }
-        //public DbSet<ReaderProfile>  ReaderProfiles  { get; set; }
         public DbSet<Drop>           Drops           { get; set; }
 
         public DbSet<Book>           Books           { get; set; }
@@ -32,20 +31,21 @@ namespace SchoolLib.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<Provenance>().HasIndex(p => p.WayBill).IsUnique();
-            //builder.Entity<Reader>()
-            //       .HasOne(p => p.ReaderProfile)
-            //       .WithOne(t => t.Reader)
-            //       .OnDelete(DeleteBehavior.Restrict);
-            //builder.Entity<User>().Property(u => u.Age).HasDefaultValue(18);
-            //builder.Entity<AdditionalBook>().Property(b => b.Cipher).IsRequired();
-            //builder.Entity<AdditionalBook>().Property(b => b.Language).IsRequired();
-
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
         }
     }
 }
+
+//builder.Entity<Reader>()
+//       .HasOne(p => p.ReaderProfile)
+//       .WithOne(t => t.Reader)
+//       .OnDelete(DeleteBehavior.Restrict);
+//builder.Entity<User>().Property(u => u.Age).HasDefaultValue(18);
+//builder.Entity<AdditionalBook>().Property(b => b.Cipher).IsRequired();
+//builder.Entity<AdditionalBook>().Property(b => b.Language).IsRequired();
+
+// Customize the ASP.NET Identity model and override the defaults if needed.
+// For example, you can rename the ASP.NET Identity table names and more.
+// Add your customizations after calling base.OnModelCreating(builder);
 //Index(IsUnique= true)
 //Team team = db.Teams
 //    .Include(t => t.Players)

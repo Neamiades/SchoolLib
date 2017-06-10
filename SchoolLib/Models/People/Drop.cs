@@ -14,11 +14,12 @@ namespace SchoolLib.Models.People
 
         [Required(ErrorMessage = "Необхідно надати дату вибуття")]
         [Display(Name = "Дата")]
+        [StringLength(10, ErrorMessage = "Некоректний формат дати")]
         [DateRange("now")]
         public string Date { get; set; }
 
         [Display(Name = "Причина")]
-        [Required, StringLength(30, MinimumLength = 5, ErrorMessage = "Опис причини може містити від 5 до 30 символів")]
+        [StringLength(30, MinimumLength = 5, ErrorMessage = "Опис причини може містити від 5 до 30 символів")]
         public string Couse { get; set; }
 
         [Display(Name = "Примітка")]

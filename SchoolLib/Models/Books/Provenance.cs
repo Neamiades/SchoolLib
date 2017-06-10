@@ -18,6 +18,7 @@ namespace SchoolLib.Models.Books
 
         [Required(ErrorMessage = "Необхідно встановити дату прийняти")]
         [Display(Name = "Дата прийняття")]
+        [StringLength(10, ErrorMessage = "Некоректний формат дати")]
         [DateRange("-5")]
         public string ReceiptDate { get; set; }
 
