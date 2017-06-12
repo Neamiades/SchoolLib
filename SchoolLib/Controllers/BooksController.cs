@@ -31,43 +31,23 @@ namespace SchoolLib.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            ViewData["type"] = "Book";
-            ViewData["id"] = null;
-            ViewData["name"] = null;
-            ViewData["author"] = null;
-            ViewData["authorCipher"] = null;
-            ViewData["published"] = null;
-            ViewData["note"] = null;
-            ViewData["price"] = null;
             ViewData["bookTypesList"] = bookTypeDropdownList;
             ViewData["bookStatusList"] = bookStatusDropdownList;
 
             return View(await _context.Books.ToListAsync());
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Index(
+        public async Task<IActionResult> Search(
             string type,
             int? id,
             string name,
-            string author, 
+            string author,
             string authorCipher,
             short? published,
             string note,
             string price,
             BookStatus status)
         {
-            ViewData["type"] = type;
-            ViewData["id"] = id;
-            ViewData["name"] = name;
-            ViewData["author"] = author;
-            ViewData["authorCipher"] = authorCipher;
-            ViewData["published"] = published;
-            ViewData["price"] = price;
-            ViewData["note"] = note;
-            ViewData["bookTypesList"] = bookTypeDropdownList;
-            ViewData["bookStatusList"] = bookStatusDropdownList;
-
             var books = _context.Books.Where(b => status.HasFlag(b.Status));
             if (type != "Book")
                 books = books.Where(b => b.Discriminator == type);
@@ -84,10 +64,13 @@ namespace SchoolLib.Controllers
             if (published.HasValue)
                 books = books.Where(b => b.Published == published);
             if (!string.IsNullOrWhiteSpace(price))
-                books = books.Where(b => Convert.ToDouble(b.Price.Replace('.',',')) == Convert.ToDouble(price.Replace('.', ',')));
-            return View(await books.ToListAsync());
-        }
+                books = books.Where(b => Convert.ToDouble(b.Price.Replace('.', ',')) == Convert.ToDouble(price.Replace('.', ',')));
 
+            ViewData["type"] = type == "Book"      ? typeof(Book)      : 
+                               type == "StudyBook" ? typeof(StudyBook) : 
+                                                     typeof(AdditionalBook);
+            return PartialView("_Books", await books.ToListAsync());
+        }
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
         {

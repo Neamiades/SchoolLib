@@ -47,9 +47,8 @@ namespace SchoolLib.Controllers
 
             return View(await _context.Readers.ToListAsync());
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Index(
+        
+        public async Task<IActionResult> SearchActions(
             string type,
             int? id,
             string firstName,
@@ -61,24 +60,10 @@ namespace SchoolLib.Controllers
             string lastRegDate,
             string firstRegDate,
             string note,
-            ReaderStatus status)
+            ReaderStatus status,
+            string actn)
         {
-            ViewData["type"] = type;
-            ViewData["id"] = id;
-            ViewData["firstName"] = firstName;
-            ViewData["surName"] = surName;
-            ViewData["patronimic"] = patronimic;
-            ViewData["street"] = street;
-            ViewData["house"] = house;
-            ViewData["apartment"] = apartment;
-            ViewData["lastRegDate"] = lastRegDate;
-            ViewData["firstRegDate"] = firstRegDate;
-            ViewData["note"] = note;
-            ViewData["readerTypeList"] = readerTypeDropdownList;
-            ViewData["readerStatusList"] = readerStatusDropdownList;
-
             var readers = _context.Readers.Where(r => status.HasFlag(r.Status));
-            //if (Request.Form["search"].SingleOrDefault() != null)
             if (type != "Reader")
                 readers = readers.Where(r => r.Discriminator == type);
             if (id.HasValue)
@@ -103,8 +88,11 @@ namespace SchoolLib.Controllers
             /* !todo */
             if (!string.IsNullOrWhiteSpace(note))
                 readers = readers.Where(r => r.Note == note);
-            
-            if (Request.Form["activate"].SingleOrDefault() != null)
+
+            ViewData["type"] = type == "Reader"  ? typeof(Reader)  :
+                               type == "Student" ? typeof(Student) :
+                                                   typeof(Worker);
+            if (actn == "activate")
             {
                 var readersList = await readers.Where(r => r.Status == ReaderStatus.Disabled).ToListAsync();
                 foreach (var r in readersList)
@@ -114,11 +102,68 @@ namespace SchoolLib.Controllers
                 }
                 _context.UpdateRange(readersList);
                 await _context.SaveChangesAsync();
-                return View(readersList);
+                return PartialView("_Readers", readersList);
+            }
+            else if (actn == "restore")
+            {
+                var readersList = await readers.Where(r => r.Status == ReaderStatus.Removed).ToListAsync();
+                foreach (var r in readersList)
+                {
+                    r.Drop.Note = $"Відновлений {DateTime.Today.ToString("dd.MM.yyyy")}";
+                    r.Status = ReaderStatus.Disabled;
+                    r.LastRegistrationDate = DateTime.Today.ToString("dd.MM.yyyy");
+                }
+                _context.UpdateRange(readersList);
+                await _context.SaveChangesAsync();
+                return PartialView("_Readers", readersList);
             }
 
-            return View(await readers.ToListAsync());
+            return PartialView("_Readers", await readers.ToListAsync());
         }
+
+        public async Task<IActionResult> Activate(
+            string type,
+            int? id,
+            string firstName,
+            string surName,
+            string patronimic,
+            string street,
+            string house,
+            short? apartment,
+            string lastRegDate,
+            string firstRegDate,
+            string note,
+            ReaderStatus status)
+        {
+            var readers = _context.Readers.Where(r => status.HasFlag(r.Status));
+            if (type != "Reader")
+                readers = readers.Where(r => r.Discriminator == type);
+            if (id.HasValue)
+                readers = readers.Where(r => r.Id == id);
+            if (!string.IsNullOrWhiteSpace(firstName))
+                readers = readers.Where(r => r.FirstName == firstName);
+            if (!string.IsNullOrWhiteSpace(surName))
+                readers = readers.Where(r => r.SurName == surName);
+            if (!string.IsNullOrWhiteSpace(patronimic))
+                readers = readers.Where(r => r.Patronimic == patronimic);
+            if (!string.IsNullOrWhiteSpace(street))
+                readers = readers.Where(r => r.Street == street);
+            if (!string.IsNullOrWhiteSpace(house))
+                readers = readers.Where(r => r.House == house);
+            if (apartment.HasValue)
+                readers = readers.Where(r => r.Apartment == apartment);
+            /* !todo:Исправить сравнение строк на сравнение дат */
+            if (!string.IsNullOrWhiteSpace(lastRegDate))
+                readers = readers.Where(r => r.LastRegistrationDate == lastRegDate);
+            if (!string.IsNullOrWhiteSpace(firstRegDate))
+                readers = readers.Where(r => r.FirstRegistrationDate == firstRegDate);
+            /* !todo */
+            if (!string.IsNullOrWhiteSpace(note))
+                readers = readers.Where(r => r.Note == note);
+
+            return PartialView(await readers.ToListAsync());
+        }
+
         // GET: Readers/Details/5
         public async Task<IActionResult> Details(int? id)
         {

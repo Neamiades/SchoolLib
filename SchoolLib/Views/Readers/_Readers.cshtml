@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SchoolLib.Models.People.Reader>
+﻿@model IEnumerable<Reader>
+@using SchoolLib.Models.People
 
 <table class="table  table-bordered table-hover">
     <thead>
@@ -7,12 +8,23 @@
             <th>@Html.DisplayNameFor(model => model.FirstName)</th>
             <th>@Html.DisplayNameFor(model => model.SurName)</th>
             <th>@Html.DisplayNameFor(model => model.Patronimic)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstRegistrationDate)</th>
+            <th>@Html.DisplayNameFor(model => model.LastRegistrationDate)</th>
+            @if (ViewBag.type == typeof(Student))
+            {
+                <th>@Html.DisplayNameFor(model => ((Student)model).Grade)</th>
+            }
+            else if (ViewBag.type == typeof(Worker))
+            {
+                <th>@Html.DisplayNameFor(model => ((Worker)model).Position)</th>
+            }
+            else
+            {
+                <th>@Html.DisplayNameFor(model => model.Discriminator)</th>
+            }
             @*<th>@Html.DisplayNameFor(model => model.Street)</th>
             <th>@Html.DisplayNameFor(model => model.House)</th>
             <th>@Html.DisplayNameFor(model => model.Apartment)</th>*@
-            @*<th>@Html.DisplayNameFor(model => model.FirstRegistrationDate)</th>*@
-            <th>@Html.DisplayNameFor(model => model.LastRegistrationDate)</th>
-            <th>@Html.DisplayNameFor(model => model.Discriminator)</th>
             @*<th>@Html.DisplayNameFor(model => model.Note)</th>*@
             <th>@Html.DisplayNameFor(model => model.Status)</th>
             <th></th>
@@ -28,9 +40,20 @@
             @*<td>@Html.DisplayFor(modelItem => item.Street)</td>
             <td>@Html.DisplayFor(modelItem => item.House)</td>
             <td>@Html.DisplayFor(modelItem => item.Apartment)</td>*@
-            @*<td>@Html.DisplayFor(modelItem => item.FirstRegistrationDate)</td>*@
+            <td>@Html.DisplayFor(modelItem => item.FirstRegistrationDate)</td>
             <td>@Html.DisplayFor(modelItem => item.LastRegistrationDate)</td>
-            <td>@(item.Discriminator == "Student" ? "Учень" : "Співробітник")</td>
+            @if (ViewBag.type == typeof(Student))
+            {
+                <td>@Html.DisplayFor(modelItem => ((Student)item).Grade)</td>
+            }
+            else if (ViewBag.type == typeof(Worker))
+            {
+                <td>@Html.DisplayFor(modelItem => ((Worker)item).Position)</td>
+            }
+            else
+            {
+                <td>@(item.Discriminator == "Student" ? "Учень" : "Співробітник")</td>
+            }
             @*<td>@Html.DisplayFor(modelItem => item.Note)</td>*@
             <td>@Html.DisplayFor(modelItem => item.Status)</td>
             <td>

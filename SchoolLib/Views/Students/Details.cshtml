@@ -15,9 +15,12 @@
         <a asp-controller="Issuances" asp-action="Index" asp-route-readerId="@Model.Id" class="btn btn-default">
             Формуляр читача
         </a>
-        <a asp-controller="Issuances" asp-action="Create" asp-route-readerId="@Model.Id" class="btn btn-default">
-            Видати книгу
-        </a>
+        @if (Model.Status == SchoolLib.Models.People.ReaderStatus.Enabled)
+        {
+            <a asp-controller="Issuances" asp-action="Create" asp-route-readerId="@Model.Id" class="btn btn-default">
+                Видати книгу
+            </a>
+        }
     </p>
     <hr />
     <dl class="dl-horizontal">

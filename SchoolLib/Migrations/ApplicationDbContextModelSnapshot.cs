@@ -342,16 +342,14 @@ namespace SchoolLib.Migrations
                         .HasMaxLength(15);
 
                     b.Property<string>("FirstRegistrationDate")
-                        .IsRequired()
-                        .HasMaxLength(10);
+                        .HasColumnType("date");
 
                     b.Property<string>("House")
                         .IsRequired()
                         .HasMaxLength(8);
 
                     b.Property<string>("LastRegistrationDate")
-                        .IsRequired()
-                        .HasMaxLength(10);
+                        .HasColumnType("date");
 
                     b.Property<string>("Note")
                         .HasMaxLength(250);

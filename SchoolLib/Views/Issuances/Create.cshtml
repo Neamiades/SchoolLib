@@ -14,7 +14,7 @@
         <div class="form-group">
             <label asp-for="ReaderId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                @if (ViewBag.ReaderId != null && ViewBag.Fail == null)
+                @if (ViewBag.ReaderId != null && ViewBag.ReaderError == null)
                 {
                     <label asp-for="ReaderId" class="control-label">@ViewBag.ReaderId</label>
                     <input type="hidden" asp-for="ReaderId" class="form-control" value="@ViewBag.ReaderId"/>
@@ -29,7 +29,7 @@
         <div class="form-group">
             <label asp-for="BookId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                @if (ViewBag.BookId != null && ViewBag.Fail == null)
+                @if (ViewBag.BookId != null && ViewBag.BookError == null)
                 {
                     <label asp-for="BookId" class="control-label">@ViewBag.BookId</label>
                     <input type="hidden" asp-for="BookId" class="form-control" value="@ViewBag.BookId" />
@@ -78,7 +78,7 @@
 </form>
 
 <div>
-    <a asp-action="Index">Назад до списку</a>
+    <a asp-action="Index" asp-route-readerId="@ViewBag.ReaderId">Назад до списку</a>
 </div>
 
 @section Scripts {

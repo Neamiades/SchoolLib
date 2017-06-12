@@ -41,10 +41,14 @@ namespace SchoolLib.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Date,Couse,Note,ReaderId")] Drop drop)
         {
-            if (!_context.Readers.Any(b => b.Id == drop.ReaderId))
+            if (!_context.Readers.Any(b => b.Id == drop.ReaderId)) {
                 ModelState.AddModelError("ReaderId", "Читача з даним ідентифікаційним номером не існує");
-            else if (_context.Drops.Any(d => d.ReaderId == drop.ReaderId))
+                ViewData["Fail"] = true;
+            }
+            else if (_context.Drops.Any(d => d.ReaderId == drop.ReaderId)) {
                 ModelState.AddModelError("ReaderId", "Читач з даним ідентифікаційним номером вже має запис про вибуття");
+                ViewData["Fail"] = true;
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(drop);
@@ -53,7 +57,6 @@ namespace SchoolLib.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["ReaderId"] = drop.ReaderId;
-            ViewData["Fail"] = true;
             return View(drop);
         }
         public async Task<IActionResult> Edit(int? id)

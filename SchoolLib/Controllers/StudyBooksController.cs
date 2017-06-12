@@ -35,10 +35,16 @@ namespace SchoolLib.Controllers
                 .Include(sb => sb.Provenance)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (studyBook == null)
-            {
                 return NotFound();
+            
+            if (studyBook.Status == BookStatus.OnHands)
+            {
+                ViewData["readerId"] =
+                    _context.
+                    Issuances.
+                    Where(i => i.BookId == studyBook.Id && i.AcceptanceDate == null).
+                    SingleOrDefaultAsync()?.Result.ReaderId;
             }
-
             return View(studyBook);
         }
 

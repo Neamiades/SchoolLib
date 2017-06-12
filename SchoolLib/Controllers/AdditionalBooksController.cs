@@ -15,40 +15,39 @@ namespace SchoolLib.Controllers
         {
             _context = context;    
         }
-
-        // GET: AdditionalBooks
+        
         public async Task<IActionResult> Index()
         {
             return View(await _context.AdditionalBooks.ToListAsync());
         }
-
-        // GET: AdditionalBooks/Details/5
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var additionalBook = await _context.AdditionalBooks
                 .Include(ab => ab.Inventory)
                 .Include(ab => ab.Provenance)
                 .SingleOrDefaultAsync(ab => ab.Id == id);
             if (additionalBook == null)
-            {
                 return NotFound();
+            if (additionalBook.Status == BookStatus.OnHands)
+            {
+                ViewData["readerId"] =
+                    _context.
+                    Issuances.
+                    Where(i => i.BookId == additionalBook.Id && i.AcceptanceDate == null).
+                    SingleOrDefaultAsync()?.Result.ReaderId;
             }
-
             return View(additionalBook);
         }
-
-        // GET: AdditionalBooks/Create
+        
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: AdditionalBooks/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
@@ -69,8 +68,7 @@ namespace SchoolLib.Controllers
             }
             return View(additionalBook);
         }
-
-        // GET: AdditionalBooks/Edit/5
+        
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,8 +83,7 @@ namespace SchoolLib.Controllers
             }
             return View(additionalBook);
         }
-
-        // POST: AdditionalBooks/Edit/5
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
@@ -122,8 +119,7 @@ namespace SchoolLib.Controllers
             additionalBook.Id = curId;
             return View(additionalBook);
         }
-
-        // GET: AdditionalBooks/Delete/5
+        
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,8 +136,7 @@ namespace SchoolLib.Controllers
 
             return View(additionalBook);
         }
-
-        // POST: AdditionalBooks/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

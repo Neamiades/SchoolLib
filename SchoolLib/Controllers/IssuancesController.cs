@@ -6,20 +6,34 @@ using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
 using SchoolLib.Models.People;
+using System.Globalization;
+using System.Collections.Generic;
 
 namespace SchoolLib.Controllers
 {
     public class IssuancesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        IFormatProvider culture = new CultureInfo("uk-UA");
 
         public IssuancesController(ApplicationDbContext context) => _context = context;
 
         // GET: Issuances
         public async Task<IActionResult> Index(int? readerId)
         {
-            var issuances = readerId.HasValue ? _context.Issuances.Where(i => i.ReaderId == readerId).Include(i => i.Book).Include(i => i.Reader)
-                                              : _context.Issuances.Include(i => i.Book).Include(i => i.Reader);
+            var issuances = readerId.HasValue ? _context.Issuances
+                .Include(i => i.Book)
+                .Include(i => i.Reader)
+                .Where(i => i.ReaderId == readerId)
+                                              : _context.Issuances
+                                              .Include(i => i.Book)
+                                              .Include(i => i.Reader);
+            issuances = issuances
+                .OrderBy(i => DateTime.ParseExact(i.IssueDate, "dd.MM.yyyy", culture));
+
+            if (readerId.HasValue)
+                ViewData["Reader"] = await _context.Readers
+                    .SingleOrDefaultAsync(r => r.Id == readerId);
             
             return View(await issuances.ToListAsync());
         }
@@ -30,7 +44,15 @@ namespace SchoolLib.Controllers
             if (id == null)
             {
                 if (bookId != null)
-                    return RedirectToAction("Create", new { bookId = bookId });
+                {
+                    var bookIssuance = await _context.Issuances
+                        .Include(i => i.Book)
+                        .Include(i => i.Reader)
+                        .SingleOrDefaultAsync(i => i.BookId == bookId && i.AcceptanceDate == null);
+                    if (bookIssuance == null)
+                        return RedirectToAction("Create", new { bookId = bookId });
+                    return View(bookIssuance);
+                }
                 return NotFound();
             }
 
@@ -63,25 +85,36 @@ namespace SchoolLib.Controllers
             )
         {
             if (!_context.Books.Any(b => b.Id == issuance.BookId))
+            {
                 ModelState.AddModelError("BookId", "Книги з даним інвентарним номером не існує");
+                ViewData["BookError"] = true;
+            }
             else if (_context.Issuances.Any(i => i.BookId == issuance.BookId && 
                     i.Book.Status.HasFlag(BookStatus.OnHands)))
+            {
                 ModelState.AddModelError("BookId", "Книга з даним інвентарним номером вже видана");
+                ViewData["BookError"] = true;
+            }
             if (!_context.Readers.Any(r => r.Id == issuance.ReaderId))
+            {
                 ModelState.AddModelError("ReaderId", "Читача з даним ідентифікаційним номером не існує");
-            else if (_context.Readers.SingleOrDefault(r => r.Id == issuance.ReaderId).Status == Models.People.ReaderStatus.Removed)
+                ViewData["ReaderError"] = true;
+            }
+            else if (_context.Readers.SingleOrDefault(r => r.Id == issuance.ReaderId).Status == ReaderStatus.Removed)
+            {
                 ModelState.AddModelError("ReaderId", "Книга не може бути видана читачу, що вибув");
+                ViewData["ReaderError"] = true;
+            }
 
             if (ModelState.IsValid)
             {
                 _context.Add(issuance);
                 await _context.SaveChangesAsync();
                 await SetBook(issuance.BookId, BookStatus.OnHands);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { readerId = issuance.ReaderId});
             }
             ViewData["ReaderId"] = issuance.ReaderId;
             ViewData["BookId"] = issuance.BookId;
-            ViewData["Fail"] = true;
             return View(issuance);
         }
 
@@ -126,7 +159,7 @@ namespace SchoolLib.Controllers
                     else
                         throw;
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { readerId = issuance.ReaderId });
             }
             ViewData["BookId"] = issuance.BookId;
             ViewData["ReaderId"] = issuance.ReaderId;
@@ -175,7 +208,7 @@ namespace SchoolLib.Controllers
                     else
                         throw;
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { readerId = issuance.ReaderId});
             }
             ViewData["AcceptanceDate"] = DateTime.Today.ToString("dd.MM.yyyy");
             ViewData["BookId"] = issuance.BookId;
@@ -207,7 +240,7 @@ namespace SchoolLib.Controllers
             var issuance = await _context.Issuances.SingleOrDefaultAsync(m => m.Id == id);
             _context.Issuances.Remove(issuance);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { readerId = issuance.ReaderId});
         }
 
         private bool IssuanceExists(int id)

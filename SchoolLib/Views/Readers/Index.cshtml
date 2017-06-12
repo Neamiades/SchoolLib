@@ -3,7 +3,6 @@
 
 @{
     ViewData["Title"] = "Читачі";
-    string ListPage = $"_{ViewData["type"] as string}s";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -14,38 +13,48 @@
     <a asp-controller="Drops" asp-action="Index" class="btn btn-default">Вибуття</a>
 </p>
 <hr />
-<form asp-controller="Readers" asp-action="Index" method="post">
-    <div>
-        @Html.DropDownList("type", ViewData["readerTypeList"] as List<SelectListItem>)
-        <input type="number" name="id" placeholder="Ідентифікаційний номер читача..." value="@ViewData["id"]" />
-        <input type="text" name="firstName" placeholder="Ім'я..." value="@ViewData["firstName"]" />
-        <input type="text" name="surName" placeholder="Призвіще..." value="@ViewData["surName"]" />
-        <input type="text" name="patronimic" placeholder="По-батькові..." value="@ViewData["patronimic"]" />
-        @*<input type="text" name="street" placeholder="Вулиця..." value="@ViewData["street"]" />
-        <input type="text" name="house" placeholder="Будинок..." value="@ViewData["house"]" />
-        <input type="number" name="apartment" placeholder="Квартира..." value="@ViewData["apartment"]" />
-        <input type="text" name="firstRegDate" placeholder="Дата реєстрації..." value="@ViewData["firstRegDate"]" />*@
-        <input type="text" name="lastRegDate" placeholder="Дата переєстрації..." value="@ViewData["lastRegDate"]" />
-        @*<input type="text" name="note" placeholder="Примітка..." value="@ViewData["note"]" />*@
-        @Html.DropDownList("status", ViewData["readerStatusList"] as List<SelectListItem>)
-        <br /><br />
-        <input type="submit" name="search" value="Пошук" />
-        <input type="submit" name="activate" value="Активувати читачів" />
-    </div>
-</form>
 <div>
-    @{
-        if (ListPage == "_Readers")
-        {
-            await Html.RenderPartialAsync(ListPage, Model);
-        }
-        else if (ListPage == "_Students")
-        {
-            await Html.RenderPartialAsync(ListPage, Model.Cast<Student>());
-        }
-        else
-        {
-            await Html.RenderPartialAsync(ListPage, Model.Cast<Worker>());
-        }
-    }
+    @Html.DropDownList("type", ViewData["readerTypeList"] as List<SelectListItem>)
+    <input type="number" name="id" id="id" placeholder="Ідентифікаційний номер читача..."/>
+    <input type="text" name="firstName" id="firstName" placeholder="Ім'я..."/>
+    <input type="text" name="surName" id="surName" placeholder="Призвіще..."/>
+    <input type="text" name="patronimic" id="patronimic" placeholder="По-батькові..."/>
+    @*<input type="text" name="street" id="street" placeholder="Вулиця..."/>
+    <input type="text" name="house" id="house" placeholder="Будинок..."/>
+    <input type="number" name="apartment" id="apartment" placeholder="Квартира..."/>*@
+    <input type="text" name="firstRegDate" id="firstRegDate" placeholder="Дата реєстрації..."/>
+    <input type="text" name="lastRegDate" id="lastRegDate" placeholder="Дата переєстрації..."/>
+    @*<input type="text" name="note" placeholder="Примітка..." value="@ViewData["note"]" />*@
+    @Html.DropDownList("status", ViewData["readerStatusList"] as List<SelectListItem>)
+    <br /><br />
+    <input type="submit" id="submit" name="search" value="Пошук" />
+    <input type="submit" id="submit" name="activate" value="Активувати читачів" />
+    @*<input type="submit" id="submit" name="restore" value="Відновити читачів" />*@
 </div>
+<div id="results"></div>
+
+@section Scripts {
+    <script type="text/javascript">
+            $(document).ready(function () {
+        $('#submit').click(function (e) {
+            e.preventDefault();
+            var id = encodeURIComponent($('#id').val());
+            var firstName = encodeURIComponent($('#firstName').val());
+            var surName = encodeURIComponent($('#surName').val());
+            var patronimic = encodeURIComponent($('#patronimic').val());
+            var lastRegDate = encodeURIComponent($('#lastRegDate').val());
+            //var street = encodeURIComponent($('#street').val());
+            //var house = encodeURIComponent($('#house').val());
+            //var apartment = encodeURIComponent($('#apartment').val());
+            var firstRegDate = encodeURIComponent($('#firstRegDate').val());
+            var type = encodeURIComponent($('#type').val());
+            var status = encodeURIComponent($('#status').val());
+            var actn = $(this).attr('name');
+
+            $('#results').load('@Url.Action("SearchActions")?type=' + type + '&id=' + id +
+                '&firstName=' + firstName + '&surName=' + surName + '&patronimic=' + patronimic +
+                '&firstRegDate=' + firstRegDate + '&lastRegDate=' + lastRegDate + '&status=' + status + '&actn=' + actn);
+});
+    });
+    </script>
+}
