@@ -32,20 +32,10 @@ namespace SchoolLib.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            ViewData["type"] = readerTypeDropdownList[0].Value;
-            ViewData["id"] = null;
-            ViewData["firstName"] = null;
-            ViewData["surName"] = null;
-            ViewData["patronimic"] = null;
-            ViewData["street"] = null;
-            ViewData["house"] = null;
-            ViewData["apartment"] = null;
-            ViewData["lastRegDate"] = null;
-            ViewData["firstRegDate"] = null;
             ViewData["readerTypeList"] = readerTypeDropdownList;
             ViewData["readerStatusList"] = readerStatusDropdownList;
 
-            return View(await _context.Readers.ToListAsync());
+            return View();
         }
         
         public async Task<IActionResult> SearchActions(

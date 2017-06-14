@@ -34,7 +34,7 @@ namespace SchoolLib.Controllers
             ViewData["bookTypesList"] = bookTypeDropdownList;
             ViewData["bookStatusList"] = bookStatusDropdownList;
 
-            return View(await _context.Books.ToListAsync());
+            return View();
         }
 
         public async Task<IActionResult> Search(
