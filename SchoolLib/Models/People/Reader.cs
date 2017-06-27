@@ -16,8 +16,8 @@ namespace SchoolLib.Models.People
         Disabled = 2,
         [Display(Name = "Вибув")]
         Removed = 4,
-        [Display(Name = "Всі")]
-        All = Enabled | Disabled | Removed
+        [Display(Name = "Будь-який")]
+        Any = Enabled | Disabled | Removed
     }
 
     [Table("Readers")]
@@ -26,7 +26,7 @@ namespace SchoolLib.Models.People
     {
         [Required(ErrorMessage = "Необхідно надати ідентифікаційний номер")]
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None), Column("ReaderId")]
-        [Display(Name = "Ідентифікаційний номер")]
+        [Display(Name = "Ідентифікаційний №")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:D6}")]
         [Range(1, 100000, ErrorMessage = "Ідентифікаційний номер має можливий діапазон від {1} до {2}")]
         public int Id { get; set; }
@@ -37,7 +37,7 @@ namespace SchoolLib.Models.People
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Необхідно надати призвіще")]
-        [Display(Name = "Призвіще")]
+        [Display(Name = "Прізвище")]
         [StringLength(20, MinimumLength = 2, ErrorMessage = "Призвіще повинно містити від 2 до 20 символів")]
         public string SurName { get; set; }
 

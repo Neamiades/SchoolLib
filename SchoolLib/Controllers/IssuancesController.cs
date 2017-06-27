@@ -29,7 +29,10 @@ namespace SchoolLib.Controllers
                                               .Include(i => i.Book)
                                               .Include(i => i.Reader);
             issuances = issuances
-                .OrderBy(i => DateTime.ParseExact(i.IssueDate, "dd.MM.yyyy", culture));
+                .OrderByDescending(i => DateTime.ParseExact(i.IssueDate, "dd.MM.yyyy", culture))
+                .ThenByDescending(i => i.AcceptanceDate == null ? 
+                                                 DateTime.Today :
+                                                 DateTime.ParseExact(i.AcceptanceDate, "dd.MM.yyyy", culture));
 
             if (readerId.HasValue)
                 ViewData["Reader"] = await _context.Readers
@@ -72,6 +75,7 @@ namespace SchoolLib.Controllers
         {
             ViewData["BookId"] = bookId;
             ViewData["ReaderId"] = readerId;
+            ViewData["IssueDate"] = DateTime.Today.ToString("dd.MM.yyyy");
             return View();
         }
 
@@ -80,7 +84,7 @@ namespace SchoolLib.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create
             (
-            [Bind("Id,IssueDate,AcceptanceDate,Couse,Note,ReaderId,BookId")]
+            [Bind("Id,IssueDate,AcceptanceDate,Couse,Note,ReaderSign,UserSign,ReaderId,BookId")]
             Issuance issuance
             )
         {
@@ -136,7 +140,7 @@ namespace SchoolLib.Controllers
         public async Task<IActionResult> Edit
             (
             int id,
-            [Bind("Id,IssueDate,AcceptanceDate,Couse,Note,ReaderId,BookId")]
+            [Bind("Id,IssueDate,AcceptanceDate,Couse,Note,ReaderSign,UserSign,ReaderId,BookId")]
             Issuance issuance
             )
         {
@@ -177,6 +181,8 @@ namespace SchoolLib.Controllers
             if (issuance == null)
                 return NotFound();
             ViewData["AcceptanceDate"] = DateTime.Today.ToString("dd.MM.yyyy");
+            ViewData["BookId"] = issuance.BookId;
+            ViewData["ReaderId"] = issuance.ReaderId;
             return View(issuance);
         }
 
@@ -186,7 +192,7 @@ namespace SchoolLib.Controllers
         public async Task<IActionResult> Return
             (
             int id,
-            [Bind("Id,IssueDate,AcceptanceDate,Couse,Note,ReaderId,BookId")]
+            [Bind("Id,IssueDate,AcceptanceDate,Couse,Note,ReaderSign,UserSign,ReaderId,BookId")]
             Issuance issuance
             )
         {

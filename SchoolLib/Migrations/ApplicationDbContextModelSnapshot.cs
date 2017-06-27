@@ -239,37 +239,6 @@ namespace SchoolLib.Migrations
                     b.ToTable("Inventories");
                 });
 
-            modelBuilder.Entity("SchoolLib.Models.Books.Issuance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AcceptanceDate")
-                        .HasMaxLength(10);
-
-                    b.Property<int>("BookId");
-
-                    b.Property<string>("Couse")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("IssueDate")
-                        .IsRequired()
-                        .HasMaxLength(10);
-
-                    b.Property<string>("Note")
-                        .HasMaxLength(250);
-
-                    b.Property<int>("ReaderId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("ReaderId");
-
-                    b.ToTable("Issuances");
-                });
-
             modelBuilder.Entity("SchoolLib.Models.Books.Provenance", b =>
                 {
                     b.Property<int>("Id")
@@ -326,6 +295,43 @@ namespace SchoolLib.Migrations
                     b.ToTable("Drops");
                 });
 
+            modelBuilder.Entity("SchoolLib.Models.People.Issuance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AcceptanceDate")
+                        .HasMaxLength(10);
+
+                    b.Property<int>("BookId");
+
+                    b.Property<string>("Couse")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("IssueDate")
+                        .IsRequired()
+                        .HasMaxLength(10);
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(250);
+
+                    b.Property<int>("ReaderId");
+
+                    b.Property<string>("ReaderSign")
+                        .HasMaxLength(10);
+
+                    b.Property<string>("UserSign")
+                        .HasMaxLength(10);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("ReaderId");
+
+                    b.ToTable("Issuances");
+                });
+
             modelBuilder.Entity("SchoolLib.Models.People.Reader", b =>
                 {
                     b.Property<int>("Id")
@@ -342,14 +348,16 @@ namespace SchoolLib.Migrations
                         .HasMaxLength(15);
 
                     b.Property<string>("FirstRegistrationDate")
-                        .HasColumnType("date");
+                        .IsRequired()
+                        .HasMaxLength(10);
 
                     b.Property<string>("House")
                         .IsRequired()
                         .HasMaxLength(8);
 
                     b.Property<string>("LastRegistrationDate")
-                        .HasColumnType("date");
+                        .IsRequired()
+                        .HasMaxLength(10);
 
                     b.Property<string>("Note")
                         .HasMaxLength(250);
@@ -491,19 +499,6 @@ namespace SchoolLib.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SchoolLib.Models.Books.Issuance", b =>
-                {
-                    b.HasOne("SchoolLib.Models.Books.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("SchoolLib.Models.People.Reader", "Reader")
-                        .WithMany()
-                        .HasForeignKey("ReaderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("SchoolLib.Models.Books.Provenance", b =>
                 {
                     b.HasOne("SchoolLib.Models.Books.Book", "Book")
@@ -517,6 +512,19 @@ namespace SchoolLib.Migrations
                     b.HasOne("SchoolLib.Models.People.Reader", "Reader")
                         .WithOne("Drop")
                         .HasForeignKey("SchoolLib.Models.People.Drop", "ReaderId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SchoolLib.Models.People.Issuance", b =>
+                {
+                    b.HasOne("SchoolLib.Models.Books.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SchoolLib.Models.People.Reader", "Reader")
+                        .WithMany()
+                        .HasForeignKey("ReaderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

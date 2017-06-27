@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolLib.Models.People
 {
-    [DisplayName("Видача")]
+    [DisplayName("Обіг книги")]
     public class Issuance
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -31,11 +31,20 @@ namespace SchoolLib.Models.People
         [StringLength(250, ErrorMessage = "Максимальна довжина примітки складає 250 символів")]
         public string Note { get; set; }
 
-        [Display(Name = "Ідентифікаційний номер")]
+        [Required(ErrorMessage = "Необхідно залишити підпис читача")]
+        [Display(Name = "Підпис читача")]
+        [StringLength(10, ErrorMessage = "Максимальна довжина примітки складає 10 символів")]
+        public string ReaderSign { get; set; }
+
+        [Display(Name = "Підпис бібліотекара")]
+        [StringLength(10, ErrorMessage = "Максимальна довжина примітки складає 10 символів")]
+        public string UserSign { get; set; }
+
+        [Display(Name = "Ідентифікаційний №")]
         public int ReaderId { get; set; }
         public Reader Reader { get; set; }
 
-        [Display(Name = "Інвентарний номер")]
+        [Display(Name = "Інвентарний №")]
         public int BookId { get; set; }
         public Book Book { get; set; }
     }

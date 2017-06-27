@@ -1,22 +1,22 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SchoolLib.Controllers
 {
-    public class BooksController : Controller
+    public class BooksStatisticController : Controller
     {
         private readonly ApplicationDbContext _context;
         List<SelectListItem> bookTypeDropdownList = new List<SelectListItem>();
         List<SelectListItem> bookStatusDropdownList = new List<SelectListItem>();
 
-        public BooksController(ApplicationDbContext context)
+        public BooksStatisticController(ApplicationDbContext context)
         {
             _context = context;
             bookTypeDropdownList.Add(new SelectListItem { Text = "Всі", Value = "Book", Selected = true });
@@ -54,8 +54,8 @@ namespace SchoolLib.Controllers
             if (!string.IsNullOrWhiteSpace(author))
                 books = books.Where(b => b.Author == author);
 
-            ViewData["type"] = type == "Book"      ? typeof(Book)      : 
-                               type == "StudyBook" ? typeof(StudyBook) : 
+            ViewData["type"] = type == "Book" ? typeof(Book) :
+                               type == "StudyBook" ? typeof(StudyBook) :
                                                      typeof(AdditionalBook);
             return PartialView("_Books", await books.ToListAsync());
         }

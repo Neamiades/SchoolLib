@@ -10,48 +10,73 @@
     <a asp-controller="Drops" asp-action="Index" class="btn btn-default">Вибуття</a>
 </p>
 <hr />
-<div>
-    @Html.DropDownList("type", ViewData["readerTypeList"] as List<SelectListItem>)
-    <input type="number" name="id" id="id" placeholder="Ідентифікаційний номер читача..."/>
-    <input type="text" name="firstName" id="firstName" placeholder="Ім'я..."/>
-    <input type="text" name="surName" id="surName" placeholder="Призвіще..."/>
-    <input type="text" name="patronimic" id="patronimic" placeholder="По-батькові..."/>
-    @*<input type="text" name="street" id="street" placeholder="Вулиця..."/>
-    <input type="text" name="house" id="house" placeholder="Будинок..."/>
-    <input type="number" name="apartment" id="apartment" placeholder="Квартира..."/>*@
-    <input type="text" name="firstRegDate" id="firstRegDate" placeholder="Дата реєстрації..."/>
-    <input type="text" name="lastRegDate" id="lastRegDate" placeholder="Дата переєстрації..."/>
-    @*<input type="text" name="note" placeholder="Примітка..." value="@ViewData["note"]" />*@
-    @Html.DropDownList("status", ViewData["readerStatusList"] as List<SelectListItem>)
-    <br /><br />
-    <input type="submit" id="submit" name="search" value="Пошук" />
-    <input type="submit" id="submit" name="activate" value="Активувати читачів" />
-    @*<input type="submit" id="submit" name="restore" value="Відновити читачів" />*@
+
+<div class="form-horizontal row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-md-4 control-label">Тип</label>
+            <div class="col-md-8">
+                <select asp-items="ViewBag.readerTypeList" class="form-control" id="type"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Статус</label>
+            <div class="col-md-8">
+                <select asp-items="ViewBag.readerStatusList" class="form-control" id="status"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <input type="number" name="id" id="id" placeholder="Ідентифікаційний №..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="surName" id="surName" placeholder="Призвіще..." class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="firstName" id="firstName" placeholder="Ім'я..." class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="patronimic" id="patronimic" placeholder="По-батькові..." class="form-control" />
+            </div>
+        </div>
+    </div>
 </div>
+<div class="form-group row">
+    <div class="col-md-offset-3 col-md-3">
+        <input type="submit" id="submit" name="search" value="Пошук" class="btn btn-default" />
+    </div>
+    <div class="col-md-6">
+        <input type="submit" id="submit" name="activate" value="Активувати читачів" class="btn btn-default" />
+    </div>
+</div>
+
 <div id="results"></div>
 
 @section Scripts {
     <script type="text/javascript">
-            $(document).ready(function () {
-        $('#submit').click(function (e) {
-            e.preventDefault();
-            var id = encodeURIComponent($('#id').val());
-            var firstName = encodeURIComponent($('#firstName').val());
-            var surName = encodeURIComponent($('#surName').val());
-            var patronimic = encodeURIComponent($('#patronimic').val());
-            var lastRegDate = encodeURIComponent($('#lastRegDate').val());
-            //var street = encodeURIComponent($('#street').val());
-            //var house = encodeURIComponent($('#house').val());
-            //var apartment = encodeURIComponent($('#apartment').val());
-            var firstRegDate = encodeURIComponent($('#firstRegDate').val());
-            var type = encodeURIComponent($('#type').val());
-            var status = encodeURIComponent($('#status').val());
-            var actn = $(this).attr('name');
+        $(document).ready(function () {
+            $('#submit').click(function (e) {
+                e.preventDefault();
+                var id = encodeURIComponent($('#id').val());
+                var firstName = encodeURIComponent($('#firstName').val());
+                var surName = encodeURIComponent($('#surName').val());
+                var patronimic = encodeURIComponent($('#patronimic').val());
+                var type = encodeURIComponent($('#type').val());
+                var status = encodeURIComponent($('#status').val());
+                var actn = $(this).attr('name');
 
-            $('#results').load('@Url.Action("SearchActions")?type=' + type + '&id=' + id +
-                '&firstName=' + firstName + '&surName=' + surName + '&patronimic=' + patronimic +
-                '&firstRegDate=' + firstRegDate + '&lastRegDate=' + lastRegDate + '&status=' + status + '&actn=' + actn);
-});
-    });
+                $('#results').load('@Url.Action("SearchActions")?type=' + type + '&id=' + id +
+                    '&firstName=' + firstName + '&surName=' + surName + '&patronimic=' + patronimic +
+                    '&status=' + status + '&actn=' + actn);
+            });
+        });
     </script>
 }

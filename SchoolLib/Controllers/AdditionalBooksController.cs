@@ -94,7 +94,7 @@ namespace SchoolLib.Controllers
         {
             if (_context.Books.Any(b => b.Id == additionalBook.Id && b.Id != curId))
             {
-                ModelState.AddModelError("Id", "Книжка з даним інвентарним номером все існує");
+                ModelState.AddModelError("Id", "Книга з даним інвентарним номером все існує");
             }
             if (ModelState.IsValid)
             {

@@ -26,13 +26,17 @@
             </a>
         </dd>
 
+        <dt>@Html.DisplayNameFor(model => model.Book.Discriminator)</dt>
+
         @if (Model.Book.Discriminator == "StudyBook")
         {
+            <dd>Підручник</dd>
             <dt>@Html.DisplayNameFor(model => (model.Book as StudyBook).Subject)</dt>
             <dd>@Html.DisplayFor(model => (model.Book as StudyBook).Subject)</dd>
         }
         else
         {
+            <dd>Книга</dd>
             <dt>@Html.DisplayNameFor(model => (model.Book as AdditionalBook).Cipher)</dt>
             <dd>@Html.DisplayFor(model => (model.Book as AdditionalBook).Cipher)</dd>
         }
@@ -54,6 +58,12 @@
 
         <dt>@Html.DisplayNameFor(model => model.Note)</dt>
         <dd>@Html.DisplayFor(model => model.Note)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.ReaderSign)</dt>
+        <dd>@Html.DisplayFor(model => model.ReaderSign)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.UserSign)</dt>
+        <dd>@Html.DisplayFor(model => model.UserSign)</dd>
     </dl>
 </div>
 <div>

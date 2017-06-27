@@ -1,7 +1,7 @@
 ﻿@model SchoolLib.Models.People.Student
 
 @{
-    ViewData["Title"] = "Створити новий запис учня";
+    ViewData["Title"] = "Додавання запису учня";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -19,17 +19,17 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="FirstName" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
             <label asp-for="SurName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="SurName" class="form-control" />
                 <span asp-validation-for="SurName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="FirstName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">

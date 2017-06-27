@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SchoolLib.Models.People
 {
-    [DisplayName("Робітник")]
+    [DisplayName("Співробітник")]
     public class Worker : Reader
     {
         [Required(ErrorMessage = "Необхідно надати іменування посади")]

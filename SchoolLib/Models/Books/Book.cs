@@ -14,17 +14,17 @@ namespace SchoolLib.Models.Books
         InStock = 1,
         [Display(Name = "У читача")]
         OnHands = 2,
-        [Display(Name = "Всі")]
-        All = InStock | OnHands
+        [Display(Name = "Будь-який")]
+        Any = InStock | OnHands
     }
-    [DisplayName("Книжка")]
+    [DisplayName("Книга")]
     public abstract class Book
     {
         [Required(ErrorMessage = "Необхідно надати інвентарний номер книги")]
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None), Column("BookId")]
-        [Display(Name = "Інвентарний номер")]
+        [Display(Name = "Інвентарний №")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:D6}")]
-        [Range(1, 100000, ErrorMessage = "Інвентарний номер має можливий діапазон від {1} до {2}")]
+        [Range(1, 100000, ErrorMessage = "Інвентарний № має можливий діапазон від {1} до {2}")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Необхідно надати назву книги")]
@@ -49,8 +49,6 @@ namespace SchoolLib.Models.Books
 
         [Display(Name = "Ціна")]
         [Required(ErrorMessage = "Необхідно встановити ціну")]
-        //[UIHint("Decimal")]
-        //[DataType(DataType.Currency)]
         [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Некоректна ціна")]
         [StringLength(6, ErrorMessage = "Ціна не може перевищувати 1000 грн")] // !todo: Изменить на свой валидатор
         public string Price { get; set; }

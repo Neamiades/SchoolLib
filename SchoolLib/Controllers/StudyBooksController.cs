@@ -19,7 +19,7 @@ namespace SchoolLib.Controllers
         // GET: StudyBooks
         public async Task<IActionResult> Index()
         {
-            return View(await _context.StudyBook.ToListAsync());
+            return View(await _context.StudyBooks.ToListAsync());
         }
 
         // GET: StudyBooks/Details/5
@@ -30,7 +30,7 @@ namespace SchoolLib.Controllers
                 return NotFound();
             }
 
-            var studyBook = await _context.StudyBook
+            var studyBook = await _context.StudyBooks
                 .Include(sb => sb.Inventory)
                 .Include(sb => sb.Provenance)
                 .SingleOrDefaultAsync(m => m.Id == id);
@@ -84,7 +84,7 @@ namespace SchoolLib.Controllers
                 return NotFound();
             }
 
-            var studyBook = await _context.StudyBook.SingleOrDefaultAsync(m => m.Id == id);
+            var studyBook = await _context.StudyBooks.SingleOrDefaultAsync(m => m.Id == id);
             if (studyBook == null)
             {
                 return NotFound();
@@ -140,7 +140,7 @@ namespace SchoolLib.Controllers
                 return NotFound();
             }
 
-            var studyBook = await _context.StudyBook
+            var studyBook = await _context.StudyBooks
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (studyBook == null)
             {
@@ -155,15 +155,15 @@ namespace SchoolLib.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var studyBook = await _context.StudyBook.SingleOrDefaultAsync(m => m.Id == id);
-            _context.StudyBook.Remove(studyBook);
+            var studyBook = await _context.StudyBooks.SingleOrDefaultAsync(m => m.Id == id);
+            _context.StudyBooks.Remove(studyBook);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Books");
         }
 
         private bool StudyBookExists(int id)
         {
-            return _context.StudyBook.Any(e => e.Id == id);
+            return _context.StudyBooks.Any(e => e.Id == id);
         }
     }
 }

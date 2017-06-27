@@ -1,11 +1,12 @@
 ﻿@model Issuance
 @using SchoolLib.Models.People
+@using SchoolLib.Models.Books
 
 @{
     ViewData["Title"] = "Видалення";
 }
 
-<h2>Delete</h2>
+<h2>@ViewData["Title"]</h2>
 
 <h3>Ви впевнені, що хочете видалити?</h3>
 <div>
@@ -13,18 +14,30 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>@Html.DisplayNameFor(model => model.Reader)</dt>
-        <dd>@Html.DisplayFor(model => model.Reader.Id)</dd>
+        <dd>
+            <a asp-controller="Readers" asp-action="Details" asp-route-id="@Model.Reader.Id">
+                @Html.DisplayFor(model => model.Reader.Id)
+            </a>
+        </dd>
 
         <dt>@Html.DisplayNameFor(model => model.Book)</dt>
-        <dd>@Html.DisplayFor(model => model.Book.Id)</dd>
+        <dd>
+            <a asp-controller="Books" asp-action="Details" asp-route-id="@Model.Book.Id">
+                @Html.DisplayFor(model => model.Book.Id)
+            </a>
+        </dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Book.Discriminator)</dt>
 
         @if (Model.Book.Discriminator == "StudyBook")
         {
+            <dd>Підручник</dd>
             <dt>@Html.DisplayNameFor(model => (model.Book as StudyBook).Subject)</dt>
             <dd>@Html.DisplayFor(model => (model.Book as StudyBook).Subject)</dd>
         }
         else
         {
+            <dd>Книга</dd>
             <dt>@Html.DisplayNameFor(model => (model.Book as AdditionalBook).Cipher)</dt>
             <dd>@Html.DisplayFor(model => (model.Book as AdditionalBook).Cipher)</dd>
         }
@@ -46,6 +59,12 @@
 
         <dt>@Html.DisplayNameFor(model => model.Note)</dt>
         <dd>@Html.DisplayFor(model => model.Note)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.ReaderSign)</dt>
+        <dd>@Html.DisplayFor(model => model.ReaderSign)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.UserSign)</dt>
+        <dd>@Html.DisplayFor(model => model.UserSign)</dd>
     </dl>
     
     <form asp-action="Delete">

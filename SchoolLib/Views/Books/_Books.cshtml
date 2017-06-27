@@ -6,25 +6,11 @@
         <tr>
             <th>@Html.DisplayNameFor(model => model.Id)</th>
             <th>@Html.DisplayNameFor(model => model.Author)</th>
-            <th>@Html.DisplayNameFor(model => model.AuthorCipher)</th>
             <th>@Html.DisplayNameFor(model => model.Name)</th>
-            <th>@Html.DisplayNameFor(model => model.Published)</th>
-            <th>@Html.DisplayNameFor(model => model.Price)</th>
-            @if (ViewBag.type == typeof(AdditionalBook))
-            {
-                <th>@Html.DisplayNameFor(model => ((AdditionalBook)model).Language)</th>
-                <th>@Html.DisplayNameFor(model => ((AdditionalBook)model).Cipher)</th>
-            }
-            else if(ViewBag.type == typeof(StudyBook))
-            {
-                <th>@Html.DisplayNameFor(model => ((StudyBook)model).Grade)</th>
-                <th>@Html.DisplayNameFor(model => ((StudyBook)model).Subject)</th>
-            }
-            else
+            @if (ViewBag.type == typeof(Book))
             {
                 <th>@Html.DisplayNameFor(model => model.Discriminator)</th>
             }
-            @*<th>@Html.DisplayNameFor(model => model.Note)</th>*@
             <th>@Html.DisplayNameFor(model => model.Status)</th>
             <th />
         </tr>
@@ -35,29 +21,15 @@
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Id)</td>
                 <td>@Html.DisplayFor(modelItem => item.Author)</td>
-                <td>@Html.DisplayFor(modelItem => item.AuthorCipher)</td>
                 <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.Published)</td>
-                <td>@Html.DisplayFor(modelItem => item.Price)</td>
-                @if (ViewBag.type == typeof(AdditionalBook))
-                {
-                    <td>@Html.DisplayFor(modelItem => ((AdditionalBook)item).Language)</td>
-                    <td>@Html.DisplayFor(modelItem => ((AdditionalBook)item).Cipher)</td>
-                }
-                else if (ViewBag.type == typeof(StudyBook))
-                {
-                    <td>@Html.DisplayFor(modelItem => ((StudyBook)item).Grade)</td>
-                    <td>@Html.DisplayFor(modelItem => ((StudyBook)item).Subject)</td>
-                }
-                else
+                @if (ViewBag.type == typeof(Book))
                 {
                     <td>@(item.Discriminator == "AdditionalBook" ? "Книга" : "Підручник")</td>
                 }
-                @*<td>@Html.DisplayFor(modelItem => item.Note)</td>*@
                 <td>@Html.DisplayFor(modelItem => item.Status)</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
                 </td>
             </tr>
