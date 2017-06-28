@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SchoolLib.Models.Books
 {
-    [DisplayName("Книжка")]
+    [DisplayName("Книга")]
     public class AdditionalBook : Book
     {
         [Required(ErrorMessage = "Необхідно надати мову книги")]

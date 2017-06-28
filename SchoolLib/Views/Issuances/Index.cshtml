@@ -11,8 +11,8 @@
     
     @if (reader != null)
     {
-        @:Формуляр читача з іменем
-        <a asp-controller="Readers" asp-action="Details" asp-route-id="@reader?.Id">@reader.FirstName @reader.SurName</a>
+        @:Формуляр читача
+        <a asp-controller="Readers" asp-action="Details" asp-route-id="@reader?.Id">№@reader.Id - @reader.SurName @reader.FirstName</a>
     }
     else
     {
@@ -43,6 +43,8 @@
                 <th>@Html.DisplayNameFor(model => model.Couse)</th>
                 <th>@Html.DisplayNameFor(model => model.AcceptanceDate)</th>
                 <th>@Html.DisplayNameFor(model => model.Note)</th>
+                <th>@Html.DisplayNameFor(model => model.ReaderSign)</th>
+                <th>@Html.DisplayNameFor(model => model.UserSign)</th>
                 <th></th>
             </tr>
         </thead>
@@ -77,9 +79,11 @@
                     <td>@Html.DisplayFor(modelItem => item.Couse)</td>
                     <td>@Html.DisplayFor(modelItem => item.AcceptanceDate)</td>
                     <td>@Html.DisplayFor(modelItem => item.Note)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ReaderSign)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UserSign)</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
                         <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
+                        <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
                         <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
                         @if (item.Book.Status == BookStatus.OnHands && item.AcceptanceDate == null)
                         {

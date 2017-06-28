@@ -37,6 +37,13 @@
             </div>
         </div>
         <div class="form-group">
+            <label asp-for="AcceptanceDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="AcceptanceDate" class="form-control" value="@ViewBag.AcceptanceDate" />
+                <span asp-validation-for="AcceptanceDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="Couse" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <label asp-for="Couse" class="control-label">@Model.Couse</label>
@@ -51,10 +58,17 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="AcceptanceDate" class="col-md-2 control-label"></label>
+            <label asp-for="ReaderSign" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="AcceptanceDate" class="form-control" value="@ViewBag.AcceptanceDate"/>
-                <span asp-validation-for="AcceptanceDate" class="text-danger"></span>
+                <label asp-for="ReaderSign" class="control-label">@Model.ReaderSign</label>
+                <input type="hidden" asp-for="ReaderSign" class="form-control" value="@Model.ReaderSign" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="UserSign" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="UserSign" class="form-control" />
+                <span asp-validation-for="UserSign" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
@@ -65,5 +79,5 @@
     </div>
 </form>
 <div>
-    <a asp-action="Index">Назад до списку</a>
+    <a asp-action="Index" asp-route-readerId="@ViewBag.ReaderId">Назад до списку</a>
 </div>

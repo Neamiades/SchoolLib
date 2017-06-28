@@ -16,8 +16,8 @@ namespace SchoolLib.Data
 
         public DbSet<Book>           Books           { get; set; }
         public DbSet<AdditionalBook> AdditionalBooks { get; set; }
-        public DbSet<StudyBook>      StudyBook       { get; set; }
-        public DbSet<ExternalBook>   ExternalBook    { get; set; }
+        public DbSet<StudyBook>      StudyBooks       { get; set; }
+        public DbSet<ExternalBook>   ExternalBooks   { get; set; }
         public DbSet<Inventory>      Inventories     { get; set; }
         public DbSet<Issuance>       Issuances       { get; set; }
         public DbSet<Provenance>     Provenances     { get; set; }

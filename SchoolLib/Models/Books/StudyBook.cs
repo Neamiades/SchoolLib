@@ -9,7 +9,7 @@ namespace SchoolLib.Models.Books
         [Required(ErrorMessage = "Необхідно надати номер класу")]
         [Display(Name = "Клас")]
         [Range(1, 12, ErrorMessage = "Клас має можливий діапазон від {1} до {2}")]
-        public int Grade { get; set; }
+        public byte Grade { get; set; }
 
         [Required(ErrorMessage = "Необхідно надати назву предмету")]
         [Display(Name = "Предмет")]

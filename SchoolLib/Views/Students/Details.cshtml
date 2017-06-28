@@ -12,26 +12,24 @@
         <a asp-controller="Drops" asp-action="Details" asp-route-id="@Model.Drop?.Id" asp-route-readerId="@Model.Id" class="btn btn-default">
             Вибуття
         </a>
-        <a asp-controller="Issuances" asp-action="Index" asp-route-readerId="@Model.Id" class="btn btn-default">
-            Формуляр читача
-        </a>
         @if (Model.Status == SchoolLib.Models.People.ReaderStatus.Enabled)
         {
             <a asp-controller="Issuances" asp-action="Create" asp-route-readerId="@Model.Id" class="btn btn-default">
                 Видати книгу
             </a>
         }
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-default">Видалити читача</a>
     </p>
     <hr />
     <dl class="dl-horizontal">
         <dt>@Html.DisplayNameFor(model => model.Id)</dt>
         <dd>@Html.DisplayFor(model => model.Id)</dd>
 
-        <dt>@Html.DisplayNameFor(model => model.FirstName)</dt>
-        <dd>@Html.DisplayFor(model => model.FirstName)</dd>
-
         <dt>@Html.DisplayNameFor(model => model.SurName)</dt>
         <dd>@Html.DisplayFor(model => model.SurName)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.FirstName)</dt>
+        <dd>@Html.DisplayFor(model => model.FirstName)</dd>
 
         <dt>@Html.DisplayNameFor(model => model.Patronimic)</dt>
         <dd>@Html.DisplayFor(model => model.Patronimic)</dd>

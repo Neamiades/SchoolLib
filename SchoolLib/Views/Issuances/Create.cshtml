@@ -44,11 +44,11 @@
         <div class="form-group">
             <label asp-for="IssueDate" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="IssueDate" class="form-control" />
+                <input asp-for="IssueDate" class="form-control" value="@ViewBag.IssueDate"/>
                 <span asp-validation-for="IssueDate" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group hidden">
             <label asp-for="AcceptanceDate" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="AcceptanceDate" class="form-control" />
@@ -67,6 +67,20 @@
             <div class="col-md-10">
                 <input asp-for="Note" class="form-control" />
                 <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ReaderSign" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ReaderSign" class="form-control" />
+                <span asp-validation-for="ReaderSign" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group hidden">
+            <label asp-for="UserSign" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="UserSign" class="form-control" />
+                <span asp-validation-for="UserSign" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">

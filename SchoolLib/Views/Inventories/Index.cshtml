@@ -7,14 +7,14 @@
 <h2>@ViewData["Title"]</h2>
 
 <p>
-    <a asp-action="Create">Додати до книжки</a>
+    <a asp-action="Create">Додати до книги</a>
 </p>
 <table class="table  table-bordered table-hover">
     <thead>
         <tr>
             <th>@Html.DisplayNameFor(model => model.Book)</th>
-            <th>@Html.DisplayNameFor(model => model.ActNumber)</th>
             <th>@Html.DisplayNameFor(model => model.Year)</th>
+            <th>@Html.DisplayNameFor(model => model.ActNumber)</th>
             <th>@Html.DisplayNameFor(model => model.Couse)</th>
             <th>@Html.DisplayNameFor(model => model.Note)</th>
             <th></th>
@@ -28,13 +28,13 @@
                     @Html.DisplayFor(modelItem => item.Book.Id)
                 </a>
             </td>
-            <td>@Html.DisplayFor(modelItem => item.ActNumber)</td>
             <td>@Html.DisplayFor(modelItem => item.Year)</td>
+            <td>@Html.DisplayFor(modelItem => item.ActNumber)</td>
             <td>@Html.DisplayFor(modelItem => item.Couse)</td>
             <td>@Html.DisplayFor(modelItem => item.Note)</td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
             </td>
         </tr>

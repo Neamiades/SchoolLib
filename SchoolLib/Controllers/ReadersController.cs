@@ -19,14 +19,14 @@ namespace SchoolLib.Controllers
         public ReadersController(ApplicationDbContext context)
         {
             _context = context;
-            readerTypeDropdownList.Add(new SelectListItem { Text = "Всі читачі", Value = "Reader", Selected = true });
-            readerTypeDropdownList.Add(new SelectListItem { Text = "Учні", Value = "Student", Selected = false });
-            readerTypeDropdownList.Add(new SelectListItem { Text = "Співробітники", Value = "Worker", Selected = false });
+            readerTypeDropdownList.Add(new SelectListItem { Text = "Неважливо", Value = "Reader", Selected = true });
+            readerTypeDropdownList.Add(new SelectListItem { Text = "Учень", Value = "Student", Selected = false });
+            readerTypeDropdownList.Add(new SelectListItem { Text = "Співробітник", Value = "Worker", Selected = false });
 
-            readerStatusDropdownList.Add(new SelectListItem { Text = "Всі", Value = "All", Selected = true });
-            readerStatusDropdownList.Add(new SelectListItem { Text = "Активні", Value = "Enabled", Selected = false });
-            readerStatusDropdownList.Add(new SelectListItem { Text = "Деактивовані", Value = "Disabled", Selected = false });
-            readerStatusDropdownList.Add(new SelectListItem { Text = "Вибули", Value = "Removed", Selected = false });
+            readerStatusDropdownList.Add(new SelectListItem { Text = "Неважливо", Value = "Any", Selected = true });
+            readerStatusDropdownList.Add(new SelectListItem { Text = "Активний", Value = "Enabled", Selected = false });
+            readerStatusDropdownList.Add(new SelectListItem { Text = "Деактивований", Value = "Disabled", Selected = false });
+            readerStatusDropdownList.Add(new SelectListItem { Text = "Вибув", Value = "Removed", Selected = false });
         }
 
         [HttpGet]
@@ -47,12 +47,11 @@ namespace SchoolLib.Controllers
             string street,
             string house,
             short? apartment,
-            string lastRegDate,
-            string firstRegDate,
             string note,
             ReaderStatus status,
             string actn)
         {
+            List<Reader> readersList;
             var readers = _context.Readers.Where(r => status.HasFlag(r.Status));
             if (type != "Reader")
                 readers = readers.Where(r => r.Discriminator == type);
@@ -70,12 +69,6 @@ namespace SchoolLib.Controllers
                 readers = readers.Where(r => r.House == house);
             if (apartment.HasValue)
                 readers = readers.Where(r => r.Apartment == apartment);
-            /* !todo:Исправить сравнение срок на сравнение дат */
-            if (!string.IsNullOrWhiteSpace(lastRegDate))
-                readers = readers.Where(r => r.LastRegistrationDate == lastRegDate);
-            if (!string.IsNullOrWhiteSpace(firstRegDate))
-                readers = readers.Where(r => r.FirstRegistrationDate == firstRegDate);
-            /* !todo */
             if (!string.IsNullOrWhiteSpace(note))
                 readers = readers.Where(r => r.Note == note);
 
@@ -84,7 +77,7 @@ namespace SchoolLib.Controllers
                                                    typeof(Worker);
             if (actn == "activate")
             {
-                var readersList = await readers.Where(r => r.Status == ReaderStatus.Disabled).ToListAsync();
+                readersList = await readers.Where(r => r.Status == ReaderStatus.Disabled).ToListAsync();
                 foreach (var r in readersList)
                 {
                     r.Status = ReaderStatus.Enabled;
@@ -92,11 +85,10 @@ namespace SchoolLib.Controllers
                 }
                 _context.UpdateRange(readersList);
                 await _context.SaveChangesAsync();
-                return PartialView("_Readers", readersList);
             }
             else if (actn == "restore")
             {
-                var readersList = await readers.Where(r => r.Status == ReaderStatus.Removed).ToListAsync();
+                readersList = await readers.Where(r => r.Status == ReaderStatus.Removed).ToListAsync();
                 foreach (var r in readersList)
                 {
                     r.Drop.Note = $"Відновлений {DateTime.Today.ToString("dd.MM.yyyy")}";
@@ -105,10 +97,9 @@ namespace SchoolLib.Controllers
                 }
                 _context.UpdateRange(readersList);
                 await _context.SaveChangesAsync();
-                return PartialView("_Readers", readersList);
             }
-
-            return PartialView("_Readers", await readers.ToListAsync());
+            readersList = await readers.ToListAsync();
+            return PartialView("_Readers", readersList);
         }
 
         public async Task<IActionResult> Activate(
@@ -151,7 +142,9 @@ namespace SchoolLib.Controllers
             if (!string.IsNullOrWhiteSpace(note))
                 readers = readers.Where(r => r.Note == note);
 
-            return PartialView(await readers.ToListAsync());
+            string view = "";
+
+            return PartialView(view, await readers.ToListAsync());
         }
 
         // GET: Readers/Details/5

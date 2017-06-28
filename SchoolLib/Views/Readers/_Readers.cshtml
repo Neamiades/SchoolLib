@@ -5,11 +5,9 @@
     <thead>
         <tr>
             <th>@Html.DisplayNameFor(model => model.Id)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
             <th>@Html.DisplayNameFor(model => model.SurName)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
             <th>@Html.DisplayNameFor(model => model.Patronimic)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstRegistrationDate)</th>
-            <th>@Html.DisplayNameFor(model => model.LastRegistrationDate)</th>
             @if (ViewBag.type == typeof(Student))
             {
                 <th>@Html.DisplayNameFor(model => ((Student)model).Grade)</th>
@@ -20,12 +18,9 @@
             }
             else
             {
+                <th>Посада/Клас</th>
                 <th>@Html.DisplayNameFor(model => model.Discriminator)</th>
             }
-            @*<th>@Html.DisplayNameFor(model => model.Street)</th>
-            <th>@Html.DisplayNameFor(model => model.House)</th>
-            <th>@Html.DisplayNameFor(model => model.Apartment)</th>*@
-            @*<th>@Html.DisplayNameFor(model => model.Note)</th>*@
             <th>@Html.DisplayNameFor(model => model.Status)</th>
             <th></th>
         </tr>
@@ -34,14 +29,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>@Html.DisplayFor(modelItem => item.Id)</td>
-            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
             <td>@Html.DisplayFor(modelItem => item.SurName)</td>
+            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
             <td>@Html.DisplayFor(modelItem => item.Patronimic)</td>
-            @*<td>@Html.DisplayFor(modelItem => item.Street)</td>
-            <td>@Html.DisplayFor(modelItem => item.House)</td>
-            <td>@Html.DisplayFor(modelItem => item.Apartment)</td>*@
-            <td>@Html.DisplayFor(modelItem => item.FirstRegistrationDate)</td>
-            <td>@Html.DisplayFor(modelItem => item.LastRegistrationDate)</td>
             @if (ViewBag.type == typeof(Student))
             {
                 <td>@Html.DisplayFor(modelItem => ((Student)item).Grade)</td>
@@ -50,16 +40,21 @@
             {
                 <td>@Html.DisplayFor(modelItem => ((Worker)item).Position)</td>
             }
+            else if (item.Discriminator == "Student")
+            {
+                <td>@Html.DisplayFor(modelItem => ((Student)item).Grade)</td>
+                <td>Учень</td>
+            }
             else
             {
-                <td>@(item.Discriminator == "Student" ? "Учень" : "Співробітник")</td>
+                <td>@Html.DisplayFor(modelItem => ((Worker)item).Position)</td>
+                <td>Співробітник</td>
             }
-            @*<td>@Html.DisplayFor(modelItem => item.Note)</td>*@
             <td>@Html.DisplayFor(modelItem => item.Status)</td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                <a asp-controller="Issuances" asp-action="Index" asp-route-readerId="@item.Id">Формуляр</a>
             </td>
         </tr>
 }
