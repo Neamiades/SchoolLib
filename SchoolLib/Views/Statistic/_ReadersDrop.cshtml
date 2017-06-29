@@ -1,0 +1,48 @@
+﻿@model SchoolLib.Models.StatisticViewModels.ReadersStatisticViewModel
+
+<div>
+    <h4>Кількість читачів, що вибули</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Всього:</dt>
+        <dd>@Model.Students.Count + @Model.Workers.Count</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Cipher)</dt>
+        <dd>@Html.DisplayFor(model => model.Cipher)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Author)</dt>
+        <dd>@Html.DisplayFor(model => model.Author)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.AuthorCipher)</dt>
+        <dd>@Html.DisplayFor(model => model.AuthorCipher)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Published)</dt>
+        <dd>@Html.DisplayFor(model => model.Published)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Price)</dt>
+        <dd>@Html.DisplayFor(model => model.Price)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Language)</dt>
+        <dd>@Html.DisplayFor(model => model.Language)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Note)</dt>
+        <dd>@Html.DisplayFor(model => model.Note)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Status)</dt>
+        <dd>
+            @if (ViewBag.readerId != null)
+            {
+                <a asp-controller="Readers" asp-action="Details" asp-route-id="@ViewBag.readerId">
+                    @Html.DisplayFor(model => model.Status)
+                </a>
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.Status)
+            }
+        </dd>
+    </dl>
+</div>

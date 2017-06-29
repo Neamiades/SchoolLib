@@ -43,9 +43,9 @@ namespace SchoolLib.Controllers
                 query = actn == "iss_books"
                     ? query.Where(i => pe(i.IssueDate) >= _start
                             && pe(i.IssueDate) <= _end)
-                    : query.Where(i => i.IssueDate != null
-                            && pe(i.IssueDate) >= _start
-                            && pe(i.IssueDate) <= _end)
+                    : query.Where(i => i.AcceptanceDate != null
+                            && pe(i.AcceptanceDate) >= _start
+                            && pe(i.AcceptanceDate) <= _end)
                     ;
             }
             priceCheck(startPrice, endPrice, ref query);
@@ -63,37 +63,63 @@ namespace SchoolLib.Controllers
             return PartialView("_Books", bookData);
         }
 
-        public async Task<IActionResult> ReaderSearch(
+        public async Task<IActionResult> ReaderAttemptance(
             string startDate,
-            string endDate,
-            byte? startGrade,
-            byte? endGrade,
-            string actn
+            string endDate
             )
         {
-            var bookData = new BooksStatisticViewModel();
-            IQueryable<Issuance> query = _context.Issuances.Include(i => i.Book);
+            var readerData = new ReadersStatisticViewModel();
+            IQueryable<Issuance> queryIss = _context.Issuances.Include(i => i.Reader);
             DateTime _start, _end;
             if (tpe(startDate, out _start) && tpe(endDate, out _end))
             {
-                query = actn == "iss_books"
-                    ? query.Where(i => pe(i.IssueDate) >= _start
+                queryIss = queryIss.Where(i => pe(i.IssueDate) >= _start
                             && pe(i.IssueDate) <= _end)
-                    : query.Where(i => i.IssueDate != null
-                            && pe(i.IssueDate) >= _start
-                            && pe(i.IssueDate) <= _end)
-                    ;
+                        .GroupBy(i => i.ReaderId)
+                        .Select(grp => grp.First())
+                        .Concat(_context
+                            .Issuances
+                            .Include(i => i.Reader)
+                            .Where(i => i.AcceptanceDate != null
+                                && pe(i.AcceptanceDate) >= _start
+                                && pe(i.AcceptanceDate) <= _end)
+                            .GroupBy(i => i.ReaderId)
+                            .Select(grp => grp.First()));
             }
-            bookData.AdBooks = new List<AdditionalBook>();
-            bookData.StBooks = new List<StudyBook>();
-            foreach (var iss in (await query.ToListAsync()))
+            readerData.Students = new List<Student>();
+            readerData.Workers = new List<Worker>();
+            foreach (var iss in (await queryIss.ToListAsync()))
             {
-                if (iss.Book.Discriminator == "AdditionalBook")
-                    bookData.AdBooks.Add((AdditionalBook)iss.Book);
-                else 
-                    bookData.StBooks.Add((StudyBook)iss.Book);
+                if (iss.Reader.Discriminator == "Student")
+                    readerData.Students.Add((Student)iss.Reader);
+                else
+                    readerData.Workers.Add((Worker)iss.Reader);
             }
-            return PartialView("_Books", bookData);
+            return PartialView("_ReadersAcceptance", readerData);
+        }
+        public async Task<IActionResult> ReaderDrops(
+            string startDate,
+            string endDate
+            )
+        {
+            var readerData = new ReadersStatisticViewModel();
+            IQueryable<Drop> queryDrop = _context.Drops.Include(i => i.Reader);
+            DateTime _start, _end;
+            if (tpe(startDate, out _start) && tpe(endDate, out _end))
+            {
+                queryDrop = queryDrop.Where(i => pe(i.Date) >= _start
+                            && pe(i.Date) <= _end);
+            }
+            readerData.Students = new List<Student>();
+            readerData.Workers = new List<Worker>();
+            foreach (var iss in (await queryDrop.ToListAsync()))
+            {
+                if (iss.Reader.Discriminator == "Student")
+                    readerData.Students.Add((Student)iss.Reader);
+                else
+                    readerData.Workers.Add((Worker)iss.Reader);
+            }
+            return PartialView("_ReadersDrop", readerData);
         }
         public static bool tpe(string str_date, out DateTime date)
         {

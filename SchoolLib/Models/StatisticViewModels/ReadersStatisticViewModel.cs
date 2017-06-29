@@ -1,4 +1,7 @@
 ﻿
+using SchoolLib.Models.People;
+using System.Collections.Generic;
+
 namespace SchoolLib.Models.StatisticViewModels
 {
     //public class ReadersStatisticViewModel
@@ -17,7 +20,7 @@ namespace SchoolLib.Models.StatisticViewModels
     //}
     public class ReadersStatisticViewModel
     {
-        public int Students { get; set; }
-        public int Workers { get; set; }
+        public List<Student> Students { get; set; }
+        public List<Worker> Workers { get; set; }
     }
 }
