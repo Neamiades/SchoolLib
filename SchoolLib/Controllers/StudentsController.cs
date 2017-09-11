@@ -69,7 +69,7 @@ namespace SchoolLib.Controllers
             }
             if (ModelState.IsValid)
             {
-                //student.LastRegistrationDate = student.FirstRegistrationDate;
+                student.LastRegistrationDate = student.FirstRegistrationDate;
                 student.Status = ReaderStatus.Enabled;
                 _context.Add(student);
                 await _context.SaveChangesAsync();

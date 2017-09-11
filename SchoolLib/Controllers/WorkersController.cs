@@ -64,15 +64,9 @@ namespace SchoolLib.Controllers
         {
             if (_context.Readers.Any(w => w.Id == worker.Id))
                 ModelState.AddModelError("Id", "Співробітник з даним ідентифікаційним номером все існує");
-            
-            if (ModelState.IsValid && DateTime.ParseExact(worker.FirstRegistrationDate, "dd.MM.yyyy", culture) >
-                DateTime.ParseExact(worker.LastRegistrationDate, "dd.MM.yyyy", culture))
-            {
-                ModelState.AddModelError("LastRegistrationDate", "Дата перереєстрації не може бути раніше ніж дата реєстрації");
-            }
             if (ModelState.IsValid)
             {
-                //worker.LastRegistrationDate = worker.FirstRegistrationDate;
+                worker.LastRegistrationDate = worker.FirstRegistrationDate;
                 worker.Status = ReaderStatus.Enabled;
                 _context.Add(worker);
                 await _context.SaveChangesAsync();

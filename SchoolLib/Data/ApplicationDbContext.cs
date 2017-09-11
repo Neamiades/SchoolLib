@@ -32,6 +32,10 @@ namespace SchoolLib.Data
             base.OnModelCreating(builder);
             builder.Entity<Provenance>().HasIndex(p => p.WayBill).IsUnique();
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SchoolLib;Trusted_Connection=True;MultipleActiveResultSets=true");
+        }
     }
 }
 

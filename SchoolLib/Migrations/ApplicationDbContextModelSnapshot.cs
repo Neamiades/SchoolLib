@@ -318,6 +318,7 @@ namespace SchoolLib.Migrations
                     b.Property<int>("ReaderId");
 
                     b.Property<string>("ReaderSign")
+                        .IsRequired()
                         .HasMaxLength(10);
 
                     b.Property<string>("UserSign")
@@ -417,7 +418,7 @@ namespace SchoolLib.Migrations
                 {
                     b.HasBaseType("SchoolLib.Models.Books.Book");
 
-                    b.Property<int>("Grade");
+                    b.Property<byte>("Grade");
 
                     b.Property<string>("Subject")
                         .IsRequired()
