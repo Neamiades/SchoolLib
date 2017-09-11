@@ -14,10 +14,7 @@ namespace SchoolLib.Controllers
         private readonly ApplicationDbContext _context;
         IFormatProvider culture = new CultureInfo("uk-UA");
 
-        public StudentsController(ApplicationDbContext context)
-        {
-            _context = context;    
-        }
+        public StudentsController(ApplicationDbContext context) => _context = context;
 
         // GET: Students
         public async Task<IActionResult> Index()
@@ -30,16 +27,12 @@ namespace SchoolLib.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var student = await _context.Students.Include(s => s.Drop)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (student == null)
-            {
                 return NotFound();
-            }
 
             return View(student);
         }

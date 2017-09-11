@@ -11,15 +11,9 @@ namespace SchoolLib.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public AdditionalBooksController(ApplicationDbContext context)
-        {
-            _context = context;    
-        }
+        public AdditionalBooksController(ApplicationDbContext context) => _context = context;
         
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.AdditionalBooks.ToListAsync());
-        }
+        public async Task<IActionResult> Index() => View(await _context.AdditionalBooks.ToListAsync());
         
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,10 +37,7 @@ namespace SchoolLib.Controllers
             return View(additionalBook);
         }
         
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
         
         [HttpPost]
         [ValidateAntiForgeryToken]
