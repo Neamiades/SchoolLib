@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.People;
@@ -14,7 +12,7 @@ namespace SchoolLib.Controllers
     public class WorkersController : Controller
     {
         private readonly ApplicationDbContext _context;
-        IFormatProvider culture = new CultureInfo("uk-UA");
+        readonly IFormatProvider _culture = new CultureInfo("uk-UA");
 
         public WorkersController(ApplicationDbContext context)
         {
@@ -22,7 +20,7 @@ namespace SchoolLib.Controllers
         }
 
         // GET: Workers
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return RedirectToAction("Index", "Readers");
             //return View(await _context.Workers.ToListAsync());
@@ -106,8 +104,8 @@ namespace SchoolLib.Controllers
             
             if (_context.Readers.Any(w => w.Id == worker.Id && w.Id != curId))
                 ModelState.AddModelError("Id", "Співробітник з даним ідентифікаційним номером все існує");
-            if (ModelState.IsValid && DateTime.ParseExact(worker.FirstRegistrationDate, "dd.MM.yyyy", culture) >
-                DateTime.ParseExact(worker.LastRegistrationDate, "dd.MM.yyyy", culture))
+            if (ModelState.IsValid && DateTime.ParseExact(worker.FirstRegistrationDate, "dd.MM.yyyy", _culture) >
+                DateTime.ParseExact(worker.LastRegistrationDate, "dd.MM.yyyy", _culture))
             {
                 ModelState.AddModelError("LastRegistrationDate", "Дата перереєстрації не може бути раніше ніж дата реєстрації");
             }
