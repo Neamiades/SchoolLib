@@ -6,33 +6,32 @@ using SchoolLib.Data;
 using SchoolLib.Models.Books;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
-using System;
 
 namespace SchoolLib.Controllers
 {
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
-        List<SelectListItem> bookTypeDropdownList = new List<SelectListItem>();
-        List<SelectListItem> bookStatusDropdownList = new List<SelectListItem>();
+        readonly List<SelectListItem> _bookTypeDropdownList = new List<SelectListItem>();
+        readonly List<SelectListItem> _bookStatusDropdownList = new List<SelectListItem>();
 
         public BooksController(ApplicationDbContext context)
         {
             _context = context;
-            bookTypeDropdownList.Add(new SelectListItem { Text = "Всі", Value = "Book", Selected = true });
-            bookTypeDropdownList.Add(new SelectListItem { Text = "Підручники", Value = "StudyBook", Selected = false });
-            bookTypeDropdownList.Add(new SelectListItem { Text = "Додаткова література", Value = "AdditionalBook", Selected = false });
+            _bookTypeDropdownList.Add(new SelectListItem { Text = "Всі", Value = "Book", Selected = true });
+            _bookTypeDropdownList.Add(new SelectListItem { Text = "Підручники", Value = "StudyBook", Selected = false });
+            _bookTypeDropdownList.Add(new SelectListItem { Text = "Додаткова література", Value = "AdditionalBook", Selected = false });
 
-            bookStatusDropdownList.Add(new SelectListItem { Text = "Неважливо", Value = "Any", Selected = true });
-            bookStatusDropdownList.Add(new SelectListItem { Text = "В бібліотеці", Value = "InStock", Selected = false });
-            bookStatusDropdownList.Add(new SelectListItem { Text = "У читача", Value = "OnHands", Selected = false });
+            _bookStatusDropdownList.Add(new SelectListItem { Text = "Неважливо", Value = "Any", Selected = true });
+            _bookStatusDropdownList.Add(new SelectListItem { Text = "В бібліотеці", Value = "InStock", Selected = false });
+            _bookStatusDropdownList.Add(new SelectListItem { Text = "У читача", Value = "OnHands", Selected = false });
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            ViewData["bookTypesList"] = bookTypeDropdownList;
-            ViewData["bookStatusList"] = bookStatusDropdownList;
+            ViewData["bookTypesList"] = _bookTypeDropdownList;
+            ViewData["bookStatusList"] = _bookStatusDropdownList;
 
             return View();
         }
@@ -75,10 +74,10 @@ namespace SchoolLib.Controllers
             }
             else if (book.Discriminator == "AdditionalBook")
             {
-                return RedirectToAction("Details", "AdditionalBooks", new { id = id });
+                return RedirectToAction("Details", "AdditionalBooks", new { id });
             }
 
-            return RedirectToAction("Details", "StudyBooks", new { id = id });
+            return RedirectToAction("Details", "StudyBooks", new { id });
         }
 
         // GET: Readers/Edit/5
@@ -96,10 +95,10 @@ namespace SchoolLib.Controllers
             }
             else if (book.Discriminator == "AdditionalBook")
             {
-                return RedirectToAction("Edit", "AdditionalBooks", new { id = id });
+                return RedirectToAction("Edit", "AdditionalBooks", new { id });
             }
 
-            return RedirectToAction("Edit", "StudyBooks", new { id = id });
+            return RedirectToAction("Edit", "StudyBooks", new { id });
         }
 
         // GET: Readers/Delete/5
@@ -118,15 +117,10 @@ namespace SchoolLib.Controllers
             }
             else if (book.Discriminator == "AdditionalBook")
             {
-                return RedirectToAction("Delete", "AdditionalBooks", new { id = id });
+                return RedirectToAction("Delete", "AdditionalBooks", new { id });
             }
 
-            return RedirectToAction("Delete", "StudyBooks", new { id = id });
-        }
-
-        private bool BookExists(int id)
-        {
-            return _context.Books.Any(e => e.Id == id);
+            return RedirectToAction("Delete", "StudyBooks", new { id });
         }
     }
 }
