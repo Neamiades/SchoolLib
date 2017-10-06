@@ -16,19 +16,11 @@ namespace SchoolLib.Controllers
             _context = context;    
         }
 
-        // GET: StudyBooks
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.StudyBooks.ToListAsync());
-        }
-
         // GET: StudyBooks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var studyBook = await _context.StudyBooks
                 .Include(sb => sb.Inventory)
@@ -121,10 +113,7 @@ namespace SchoolLib.Controllers
                         //return await Create(studyBook);
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction("Index", "Books");
             }
@@ -161,9 +150,6 @@ namespace SchoolLib.Controllers
             return RedirectToAction("Index", "Books");
         }
 
-        private bool StudyBookExists(int id)
-        {
-            return _context.StudyBooks.Any(e => e.Id == id);
-        }
+        private bool StudyBookExists(int id) => _context.StudyBooks.Any(e => e.Id == id);
     }
 }

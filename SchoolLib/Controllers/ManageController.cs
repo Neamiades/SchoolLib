@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -91,10 +89,7 @@ namespace SchoolLib.Controllers
 
         //
         // GET: /Manage/AddPhoneNumber
-        public IActionResult AddPhoneNumber()
-        {
-            return View();
-        }
+        public IActionResult AddPhoneNumber() => View();
 
         //
         // POST: /Manage/AddPhoneNumber
@@ -211,10 +206,7 @@ namespace SchoolLib.Controllers
         //
         // GET: /Manage/ChangePassword
         [HttpGet]
-        public IActionResult ChangePassword()
-        {
-            return View();
-        }
+        public IActionResult ChangePassword() => View();
 
         //
         // POST: /Manage/ChangePassword
@@ -245,10 +237,7 @@ namespace SchoolLib.Controllers
         //
         // GET: /Manage/SetPassword
         [HttpGet]
-        public IActionResult SetPassword()
-        {
-            return View();
-        }
+        public IActionResult SetPassword() => View();
 
         //
         // POST: /Manage/SetPassword
@@ -363,10 +352,7 @@ namespace SchoolLib.Controllers
             Error
         }
 
-        private Task<ApplicationUser> GetCurrentUserAsync()
-        {
-            return _userManager.GetUserAsync(HttpContext.User);
-        }
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         #endregion
     }

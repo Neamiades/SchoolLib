@@ -10,11 +10,43 @@ namespace SchoolLib.Controllers
     public class DropsController : Controller
     {
         private readonly ApplicationDbContext _context;
+
         public DropsController(ApplicationDbContext context) => _context = context;
+
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Drops.Include(d => d.Reader);
             return View(await applicationDbContext.ToListAsync());
+        }
+
+        //var readerId = encodeURIComponent($('#readerId').val());
+        //var date = encodeURIComponent($('#date').val());
+        //var couse = encodeURIComponent($('#couse').val());
+        //var note = encodeURIComponent(     $('#note').val());
+
+        public async Task<IActionResult> Search
+        (
+            int? readerId,
+            string date,
+            string couse,
+            string note
+        )
+        {
+            var drops = _context.Drops.Include(в => в.Reader).AsQueryable();
+
+            if (readerId.HasValue)
+                drops = drops.Where(p => p.ReaderId == readerId);
+
+            if (!string.IsNullOrWhiteSpace(date))
+                drops = drops.Where(p => p.Date == date);
+
+            if (!string.IsNullOrWhiteSpace(couse))
+                drops = drops.Where(p => p.Couse == couse);
+
+            if (!string.IsNullOrWhiteSpace(note))
+                drops = drops.Where(p => p.Note == note);
+
+            return PartialView("_Drops", await drops.ToListAsync());
         }
         public async Task<IActionResult> Details(int? id, int? readerId)
         {
@@ -31,12 +63,14 @@ namespace SchoolLib.Controllers
                 return NotFound();
             return View(drop);
         }
+
         [HttpGet]
         public IActionResult Create(int? readerId)
         {
             ViewData["ReaderId"] = readerId;   
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Date,Couse,Note,ReaderId")] Drop drop)
@@ -59,6 +93,7 @@ namespace SchoolLib.Controllers
             ViewData["ReaderId"] = drop.ReaderId;
             return View(drop);
         }
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -104,6 +139,7 @@ namespace SchoolLib.Controllers
             drop.ReaderId = curReaderId;
             return View(drop);
         }
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -115,6 +151,7 @@ namespace SchoolLib.Controllers
                 return NotFound();
             return View(drop);
         }
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -124,7 +161,9 @@ namespace SchoolLib.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
         private bool DropExists(int id) => _context.Drops.Any(e => e.Id == id);
+
         private async Task<int> DropReader(int id)
         {
             var reader = await _context.Readers.Include(d => d.Drop)

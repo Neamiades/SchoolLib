@@ -1,6 +1,4 @@
-﻿@model IEnumerable<SchoolLib.Models.Books.Provenance>
-
-@{
+﻿@{
     ViewData["Title"] = "Походження книги";
 }
 
@@ -9,35 +7,64 @@
 <p>
     <a asp-action="Create">Додати нове</a>
 </p>
-<table class="table  table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Book)</th>
-            <th>@Html.DisplayNameFor(model => model.Place)</th>
-            <th>@Html.DisplayNameFor(model => model.WayBill)</th>
-            <th>@Html.DisplayNameFor(model => model.ReceiptDate)</th>
-            <th>@Html.DisplayNameFor(model => model.Note)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Book.Id">
-                    @Html.DisplayFor(modelItem => item.Book.Id)
-                </a>
-            </td>
-            <td>@Html.DisplayFor(modelItem => item.Place)</td>
-            <td>@Html.DisplayFor(modelItem => item.WayBill)</td>
-            <td>@Html.DisplayFor(modelItem => item.ReceiptDate)</td>
-            <td>@Html.DisplayFor(modelItem => item.Note)</td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
-                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
-            </td>
-        </tr>
+<hr />
+<div class="form-horizontal row">
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="number" name="bookId" id="bookId" placeholder="Інвентарний №..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="number" name="wayBill" id="wayBill" placeholder="Номер накладної..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="receiptDate" id="receiptDate" placeholder="Дата прийняття..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="place" id="place" placeholder="Місце походження..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="note" id="note" placeholder="Примітка..." class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group col-md-offset-5 col-md-7">
+    <input type="submit" id="submit" name="search" value="Пошук" class="btn btn-default" />
+</div>
+
+<div id="results"></div>
+
+@section Scripts {
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $('#submit').click(function (e) {
+                    e.preventDefault();
+                    var bookId = encodeURIComponent(   $('#bookId').val());
+                    var wayBill = encodeURIComponent($('#wayBill').val());
+                    var receiptDate = encodeURIComponent($('#receiptDate').val());
+                    var place = encodeURIComponent($('#place').val());
+                    var note = encodeURIComponent(     $('#note').val());
+
+                    $('#results').load('@Url.Action("Search")?bookId=' + bookId + '&wayBill=' + wayBill +
+                        '&receiptDate=' + receiptDate + '&place=' + place + '&note=' + note);
+                });
+            });
+    </script>
 }
-    </tbody>
-</table>

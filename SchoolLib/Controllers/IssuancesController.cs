@@ -7,14 +7,13 @@ using SchoolLib.Data;
 using SchoolLib.Models.Books;
 using SchoolLib.Models.People;
 using System.Globalization;
-using System.Collections.Generic;
 
 namespace SchoolLib.Controllers
 {
     public class IssuancesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        IFormatProvider culture = new CultureInfo("uk-UA");
+        readonly IFormatProvider _culture = new CultureInfo("uk-UA");
 
         public IssuancesController(ApplicationDbContext context) => _context = context;
 
@@ -29,10 +28,10 @@ namespace SchoolLib.Controllers
                                               .Include(i => i.Book)
                                               .Include(i => i.Reader);
             issuances = issuances
-                .OrderByDescending(i => DateTime.ParseExact(i.IssueDate, "dd.MM.yyyy", culture))
+                .OrderByDescending(i => DateTime.ParseExact(i.IssueDate, "dd.MM.yyyy", _culture))
                 .ThenByDescending(i => i.AcceptanceDate == null ? 
                                                  DateTime.Today :
-                                                 DateTime.ParseExact(i.AcceptanceDate, "dd.MM.yyyy", culture));
+                                                 DateTime.ParseExact(i.AcceptanceDate, "dd.MM.yyyy", _culture));
 
             if (readerId.HasValue)
                 ViewData["Reader"] = await _context.Readers
@@ -53,7 +52,7 @@ namespace SchoolLib.Controllers
                         .Include(i => i.Reader)
                         .SingleOrDefaultAsync(i => i.BookId == bookId && i.AcceptanceDate == null);
                     if (bookIssuance == null)
-                        return RedirectToAction("Create", new { bookId = bookId });
+                        return RedirectToAction("Create", new { bookId });
                     return View(bookIssuance);
                 }
                 return NotFound();
@@ -160,8 +159,8 @@ namespace SchoolLib.Controllers
                     {
                         return NotFound();
                     }
-                    else
-                        throw;
+
+                    throw;
                 }
                 return RedirectToAction("Index", new { readerId = issuance.ReaderId });
             }
@@ -211,8 +210,8 @@ namespace SchoolLib.Controllers
                 {
                     if (!IssuanceExists(issuance.Id))
                         return NotFound();
-                    else
-                        throw;
+
+                    throw;
                 }
                 return RedirectToAction("Index", new { readerId = issuance.ReaderId});
             }
@@ -249,10 +248,7 @@ namespace SchoolLib.Controllers
             return RedirectToAction("Index", new { readerId = issuance.ReaderId});
         }
 
-        private bool IssuanceExists(int id)
-        {
-            return _context.Issuances.Any(e => e.Id == id);
-        }
+        private bool IssuanceExists(int id) => _context.Issuances.Any(e => e.Id == id);
 
         private async Task<int> SetBook(int id, BookStatus status)
         {

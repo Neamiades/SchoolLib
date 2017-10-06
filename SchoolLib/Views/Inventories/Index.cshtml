@@ -1,43 +1,68 @@
-﻿@model IEnumerable<SchoolLib.Models.Books.Inventory>
-
-@{
+﻿@{
     ViewData["Title"] = "Інвентаризація";
 }
-
 <h2>@ViewData["Title"]</h2>
-
 <p>
     <a asp-action="Create">Додати до книги</a>
 </p>
-<table class="table  table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Book)</th>
-            <th>@Html.DisplayNameFor(model => model.Year)</th>
-            <th>@Html.DisplayNameFor(model => model.ActNumber)</th>
-            <th>@Html.DisplayNameFor(model => model.Couse)</th>
-            <th>@Html.DisplayNameFor(model => model.Note)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Book.Id">
-                    @Html.DisplayFor(modelItem => item.Book.Id)
-                </a>
-            </td>
-            <td>@Html.DisplayFor(modelItem => item.Year)</td>
-            <td>@Html.DisplayFor(modelItem => item.ActNumber)</td>
-            <td>@Html.DisplayFor(modelItem => item.Couse)</td>
-            <td>@Html.DisplayFor(modelItem => item.Note)</td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
-                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
-            </td>
-        </tr>
+<hr/>
+<div class="form-horizontal row">
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="number" name="bookId" id="bookId" placeholder="Інвентарний №..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="number" name="year" id="year" placeholder="Рік..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="number" name="actNumber" id="actNumber" placeholder="Номер акту..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="couse" id="couse" placeholder="Причина..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="note" id="note" placeholder="Примітка..." class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group col-md-offset-5 col-md-7">
+    <input type="submit" id="submit" name="search" value="Пошук" class="btn btn-default" />
+</div>
+
+<div id="results"></div>
+
+@section Scripts {
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $('#submit').click(function (e) {
+                    e.preventDefault();
+                    var bookId = encodeURIComponent(   $('#bookId').val());
+                    var year = encodeURIComponent(     $('#year').val());
+                    var actNumber = encodeURIComponent($('#actNumber').val());
+                    var couse = encodeURIComponent(    $('#couse').val());
+                    var note = encodeURIComponent(     $('#note').val());
+
+                    $('#results').load('@Url.Action("Search")?bookId=' + bookId +
+                        '&year=' + year + '&actNumber=' + actNumber + '&couse=' + couse + '&note=' + note);
+                });
+            });
+    </script>
 }
-    </tbody>
-</table>

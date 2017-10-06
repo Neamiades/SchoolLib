@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
@@ -22,6 +21,35 @@ namespace SchoolLib.Controllers
         {
             var applicationDbContext = _context.Inventories.Include(i => i.Book);
             return View(await applicationDbContext.ToListAsync());
+        }
+
+        public async Task<IActionResult> Search
+            (
+            int?   bookId,
+            short? year,
+            int?   actNumber,
+            string couse,
+            string note
+            )
+        {
+            var inventories = _context.Inventories.Include(i => i.Book).AsQueryable();
+
+            if (bookId.HasValue)
+                inventories = inventories.Where(i => i.BookId == bookId);
+
+            if (year.HasValue)
+                inventories = inventories.Where(i => i.Year == year);
+
+            if (actNumber.HasValue)
+                inventories = inventories.Where(i => i.ActNumber == actNumber);
+
+            if (!string.IsNullOrWhiteSpace(couse))
+                inventories = inventories.Where(i => i.Couse == couse);
+
+            if (!string.IsNullOrWhiteSpace(note))
+                inventories = inventories.Where(i => i.Note == note);
+
+            return PartialView("_Inventories", await inventories.ToListAsync());
         }
 
         // GET: Inventories/Details/5
@@ -57,18 +85,25 @@ namespace SchoolLib.Controllers
         public async Task<IActionResult> Create([Bind("Id,ActNumber,Year,Couse,Note,BookId")] Inventory inventory)
         {
             if (!_context.Books.Any(b => b.Id == inventory.BookId))
+            {
                 ModelState.AddModelError("BookId", "Книги з даним інвентарним номером не існує");
+            }
             else if (_context.Inventories.Any(i => i.BookId == inventory.BookId))
+            {
                 ModelState.AddModelError("BookId", "Книга з даним інвентарним номером вже має інвентарний запис");
-            
+            }
+
             if (ModelState.IsValid)
             {
+                inventory.Book = _context.Books.SingleOrDefault(b => b.Id == inventory.BookId);
                 _context.Add(inventory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+
             ViewData["BookId"] = inventory.BookId;
             ViewData["Fail"] = true;
+
             return View(inventory);
         }
 
@@ -98,6 +133,7 @@ namespace SchoolLib.Controllers
 
             if (!_context.Books.Any(b => b.Id == inventory.BookId))
                 ModelState.AddModelError("BookId", "Книги з даним інвентарним номером не існує");
+
             if (_context.Inventories.Any(i => i.BookId == inventory.BookId && i.BookId != curBookId))
                 ModelState.AddModelError("BookId", "Книга з даним інвентарним номером вже має інвентарний запис");
 
@@ -111,17 +147,16 @@ namespace SchoolLib.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!InventoryExists(inventory.Id))
-                    {
                         return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+
+                    throw;
                 }
+
                 return RedirectToAction("Index");
             }
+
             inventory.BookId = curBookId;
+
             return View(inventory);
         }
 
@@ -129,17 +164,14 @@ namespace SchoolLib.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var inventory = await _context.Inventories
                 .Include(i => i.Book)
                 .SingleOrDefaultAsync(m => m.Id == id);
+
             if (inventory == null)
-            {
                 return NotFound();
-            }
 
             return View(inventory);
         }
@@ -155,9 +187,6 @@ namespace SchoolLib.Controllers
             return RedirectToAction("Index");
         }
 
-        private bool InventoryExists(int id)
-        {
-            return _context.Inventories.Any(e => e.Id == id);
-        }
+        private bool InventoryExists(int id) => _context.Inventories.Any(e => e.Id == id);
     }
 }

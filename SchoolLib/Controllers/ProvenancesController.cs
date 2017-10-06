@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
@@ -14,10 +13,7 @@ namespace SchoolLib.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public ProvenancesController(ApplicationDbContext context)
-        {
-            _context = context;    
-        }
+        public ProvenancesController(ApplicationDbContext context) => _context = context;
 
         // GET: Provenances
         [HttpGet]
@@ -27,6 +23,35 @@ namespace SchoolLib.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        public async Task<IActionResult> Search
+        (
+            int?   bookId,
+            int?   wayBill,
+            string receiptDate,
+            string place,
+            string note
+        )
+        {
+            var provenances = _context.Provenances.Include(p => p.Book).AsQueryable();
+
+            if (bookId.HasValue)
+                provenances = provenances.Where(p => p.BookId == bookId);
+
+            if (wayBill.HasValue)
+                provenances = provenances.Where(p => p.WayBill == wayBill);
+
+            if (!string.IsNullOrWhiteSpace(receiptDate))
+                provenances = provenances.Where(p => p.ReceiptDate == receiptDate);
+
+            if (!string.IsNullOrWhiteSpace(place))
+                provenances = provenances.Where(p => p.Place == place);
+
+            if (!string.IsNullOrWhiteSpace(note))
+                provenances = provenances.Where(p => p.Note == note);
+
+            return PartialView("_Provenances", await provenances.ToListAsync());
+        }
+
         // GET: Provenances/Details/5
         [HttpGet]
         public async Task<IActionResult> Details(int? id, int? bookId)
@@ -34,7 +59,7 @@ namespace SchoolLib.Controllers
             if (id == null)
             {
                 if (bookId != null)
-                    return RedirectToAction("Create", new { bookId = bookId });
+                    return RedirectToAction("Create", new { bookId });
                 return NotFound();
             }
 
@@ -83,15 +108,13 @@ namespace SchoolLib.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var provenance = await _context.Provenances.SingleOrDefaultAsync(m => m.Id == id);
+
             if (provenance == null)
-            {
                 return NotFound();
-            }
+
             return View(provenance);
         }
 
@@ -108,9 +131,8 @@ namespace SchoolLib.Controllers
             )
         {
             if (id != provenance.Id)
-            {
                 return NotFound();
-            }
+
             if (!_context.Books.Any(b => b.Id == provenance.BookId))
                 ModelState.AddModelError("BookId", "Книги з даним інвентарним номером не існує");
             else if (_context.Provenances.Any(p => p.BookId == provenance.BookId && p.BookId != curBookId))
@@ -129,8 +151,8 @@ namespace SchoolLib.Controllers
                 {
                     if (!ProvenanceExists(provenance.Id))
                         return NotFound();
-                    else
-                        throw;
+
+                    throw;
                 }
                 return RedirectToAction("Index");
             }
@@ -143,17 +165,14 @@ namespace SchoolLib.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var provenance = await _context.Provenances
                 .Include(p => p.Book)
                 .SingleOrDefaultAsync(m => m.Id == id);
+
             if (provenance == null)
-            {
                 return NotFound();
-            }
 
             return View(provenance);
         }
@@ -182,9 +201,6 @@ namespace SchoolLib.Controllers
             return Json(true);
         }
 
-        private bool ProvenanceExists(int id)
-        {
-            return _context.Provenances.Any(e => e.Id == id);
-        }
+        private bool ProvenanceExists(int id) => _context.Provenances.Any(e => e.Id == id);
     }
 }

@@ -13,8 +13,6 @@ namespace SchoolLib.Controllers
 
         public AdditionalBooksController(ApplicationDbContext context) => _context = context;
         
-        public async Task<IActionResult> Index() => View(await _context.AdditionalBooks.ToListAsync());
-        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

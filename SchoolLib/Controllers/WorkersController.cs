@@ -20,11 +20,7 @@ namespace SchoolLib.Controllers
         }
 
         // GET: Workers
-        public IActionResult Index()
-        {
-            return RedirectToAction("Index", "Readers");
-            //return View(await _context.Workers.ToListAsync());
-        }
+        public IActionResult Index() => RedirectToAction("Index", "Readers");
 
         // GET: Workers/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -104,7 +100,8 @@ namespace SchoolLib.Controllers
             
             if (_context.Readers.Any(w => w.Id == worker.Id && w.Id != curId))
                 ModelState.AddModelError("Id", "Співробітник з даним ідентифікаційним номером все існує");
-            if (ModelState.IsValid && DateTime.ParseExact(worker.FirstRegistrationDate, "dd.MM.yyyy", _culture) >
+            if (ModelState.IsValid &&
+                DateTime.ParseExact(worker.FirstRegistrationDate, "dd.MM.yyyy", _culture) >
                 DateTime.ParseExact(worker.LastRegistrationDate, "dd.MM.yyyy", _culture))
             {
                 ModelState.AddModelError("LastRegistrationDate", "Дата перереєстрації не може бути раніше ніж дата реєстрації");
@@ -120,9 +117,7 @@ namespace SchoolLib.Controllers
                 {
                     if (!WorkerExists(worker.Id))
                         return NotFound();
-                    else
-                        throw;
-                    
+                    throw;
                 }
                 return RedirectToAction("Index", "Readers");
             }
@@ -159,9 +154,6 @@ namespace SchoolLib.Controllers
             return RedirectToAction("Index");
         }
 
-        private bool WorkerExists(int id)
-        {
-            return _context.Workers.Any(e => e.Id == id);
-        }
+        private bool WorkerExists(int id) => _context.Workers.Any(e => e.Id == id);
     }
 }
