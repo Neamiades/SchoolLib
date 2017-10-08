@@ -1,8 +1,7 @@
-﻿using SchoolLib.Data.Validators;
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SchoolLib.Data.Validators;
 
 namespace SchoolLib.Models.People
 {
@@ -26,7 +25,7 @@ namespace SchoolLib.Models.People
         [StringLength(250, ErrorMessage = "Опис не може містити більше 250 символів")]
         public string Note { get; set; }
 
-        [Display(Name = "Ідентифікаційний номер читача")]
+        [Display(Name = "Ідентифікаційний № читача")]
         public int ReaderId { get; set; }
         public Reader Reader { get; set; }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -6,33 +7,56 @@ using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
 using System.Globalization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SchoolLib.Controllers
 {
     public class ProvenancesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly List<SelectListItem> _bookTypeDropdownList;
 
-        public ProvenancesController(ApplicationDbContext context) => _context = context;
+        public ProvenancesController(ApplicationDbContext context)
+        {
+            _context = context;
+
+            _bookTypeDropdownList = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Всі",                  Value = "Book",           Selected = true  },
+                new SelectListItem { Text = "Підручники",           Value = "StudyBook",      Selected = false },
+                new SelectListItem { Text = "Додаткова література", Value = "AdditionalBook", Selected = false }
+            };
+        }
 
         // GET: Provenances
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Provenances.Include(p => p.Book);
+
+            ViewData["bookTypesList"] = _bookTypeDropdownList;
+
+            ViewBag.ProvCount           = await _context.Provenances.CountAsync();
+            ViewBag.AddBooksProvCount   = await _context.Provenances.CountAsync(p => p.Book.Discriminator == "AdditionalBook");
+            ViewBag.StudyBooksProvCount = await _context.Provenances.CountAsync(p => p.Book.Discriminator == "StudyBook");
+
             return View(await applicationDbContext.ToListAsync());
         }
 
         public async Task<IActionResult> Search
-        (
-            int?   bookId,
-            int?   wayBill,
-            string receiptDate,
-            string place,
-            string note
-        )
+            (
+                string type,
+                int?   bookId,
+                int?   wayBill,
+                string receiptDate,
+                string place,
+                string note
+            )
         {
             var provenances = _context.Provenances.Include(p => p.Book).AsQueryable();
+
+            if (type != "Book")
+                provenances = provenances.Where(p => p.Book.Discriminator == type);
 
             if (bookId.HasValue)
                 provenances = provenances.Where(p => p.BookId == bookId);

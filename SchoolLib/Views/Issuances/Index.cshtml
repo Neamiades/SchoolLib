@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<Issuance>
 @using SchoolLib.Models.People
-@using SchoolLib.Models.Books
 
 @{
     Reader reader = ViewBag.Reader;
@@ -12,7 +11,7 @@
     @if (reader != null)
     {
         @:Формуляр читача
-        <a asp-controller="Readers" asp-action="Details" asp-route-id="@reader?.Id">№@reader.Id - @reader.SurName @reader.FirstName</a>
+        <a asp-controller="Readers" asp-action="Details" asp-route-id="@reader.Id">№@reader.Id - @reader.SurName @reader.FirstName</a>
     }
     else
     {
@@ -22,84 +21,112 @@
 
 @if (reader == null || reader.Status == ReaderStatus.Enabled)
 {
-    <p>
-        <a asp-action="Create" asp-route-readerId="@reader?.Id">Видати книгу</a>
-    </p>
+    <div class="form-horizontal row">
+        <a asp-action="Create" class="col-md-12 btn btn-default" asp-route-readerId="@reader?.Id">Видати книгу</a>
+    </div>
 }
-@if (Model != null && Model.Any())
-{
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                @if (reader == null)
-                {
-                    <th>@Html.DisplayNameFor(model => model.Reader)</th>
-                }
-                <th>@Html.DisplayNameFor(model => model.Book)</th>
-                <th>Шифр або предмет</th>
-                <th>@Html.DisplayNameFor(model => model.Book.Author)</th>
-                <th>@Html.DisplayNameFor(model => model.Book.Name)</th>
-                <th>@Html.DisplayNameFor(model => model.IssueDate)</th>
-                <th>@Html.DisplayNameFor(model => model.Couse)</th>
-                <th>@Html.DisplayNameFor(model => model.AcceptanceDate)</th>
-                <th>@Html.DisplayNameFor(model => model.Note)</th>
-                <th>@Html.DisplayNameFor(model => model.ReaderSign)</th>
-                <th>@Html.DisplayNameFor(model => model.UserSign)</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    @if (reader == null)
-                    {
-                        <td>
-                            <a asp-controller="Readers" asp-action="Details" asp-route-id="@item.Reader.Id">
-                                @Html.DisplayFor(modelItem => item.Reader.Id)
-                            </a>
-                        </td>
-                    }
-                    <td>
-                        <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Book.Id">
-                            @Html.DisplayFor(modelItem => item.Book.Id)
-                        </a>
-                    </td>
-                    @if (item.Book.Discriminator == "StudyBook")
-                    {
-                        <td>@Html.DisplayFor(modelItem => (item.Book as StudyBook).Subject)</td>
-                    }
-                    else
-                    {
-                        <td>@Html.DisplayFor(modelItem => (item.Book as AdditionalBook).Cipher)</td>
-                    }
-                    <td>@Html.DisplayFor(modelItem => item.Book.Author)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Book.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => item.IssueDate)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Couse)</td>
-                    <td>@Html.DisplayFor(modelItem => item.AcceptanceDate)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Note)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ReaderSign)</td>
-                    <td>@Html.DisplayFor(modelItem => item.UserSign)</td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
-                        <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
-                        @if (item.Book.Status == BookStatus.OnHands && item.AcceptanceDate == null)
-                        {
-                            @:|
-                            <a asp-action="Return" asp-route-id="@item.Id">Повернути книгу</a>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>
-        Читач не має записів про видачу чи прийняття книг
-    </p>
-}
+<hr />
 
+<div class="form-horizontal row">
+    <label class="col-md-12 col-md-pull-8 control-label">Кількість записів про видачу підручників: @ViewBag.StudyBooksIssCount</label>
+    <label class="col-md-12 col-md-pull-8 control-label">Кількість записів про видачу інших книг: @ViewBag.AddBooksIssCount</label>
+    <label class="col-md-12 col-md-pull-8 control-label">Кількість записів про видачу книг загалом: @ViewBag.IssCount</label>
+</div>
+<hr />
+
+<div class="form-horizontal row">
+    <div class="col-md-3 col-md-pull-1">
+        <div class="form-group">
+            <label class="col-md-4 control-label">Тип</label>
+            <div class="col-md-8">
+                <select asp-items="ViewBag.bookTypesList" class="form-control" id="type"></select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="number" name="bookId" id="bookId" placeholder="Інвентарний №..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="name" id="name" placeholder="Назва..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="author" id="author" placeholder="Автор..." class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-horizontal row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="issueDate" id="issueDate" placeholder="Дата видачі..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="acceptanceDate" id="acceptanceDate" placeholder="Дата прийняття..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="couse" id="couse" placeholder="Причина..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="note" id="note" placeholder="Примітка..." class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group col-md-offset-5 col-md-7">
+    <input type="submit" id="submit" name="search" value="Пошук" class="btn btn-default" />
+</div>
+
+<div id="results"></div>
+<br />
+<br />
+<br />
+<br />
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#submit').click(function (e) {
+                e.preventDefault();
+                var type           = encodeURIComponent($('#type'          ).val());
+                var readerId       = @reader?.Id;
+                var bookId         = encodeURIComponent($('#bookId'        ).val());
+                var name           = encodeURIComponent($('#name'          ).val());
+                var author         = encodeURIComponent($('#author'        ).val());
+                var issueDate      = encodeURIComponent($('#issueDate'     ).val());
+                var acceptanceDate = encodeURIComponent($('#acceptanceDate').val());
+                var couse          = encodeURIComponent($('#couse'         ).val());
+                var note           = encodeURIComponent($('#note'          ).val());
+
+                $('#results').load('@Url.Action("Search")?type=' + type + '&bookId=' + bookId +
+                    '&readerId=' + readerId + '&name=' + name + '&issueDate=' + issueDate +
+                    '&acceptanceDate=' + acceptanceDate + '&author=' + author +
+                    '&couse=' + couse + '&note=' + note);
+            });
+        });
+    </script>
+}

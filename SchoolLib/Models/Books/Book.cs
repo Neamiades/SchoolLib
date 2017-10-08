@@ -49,7 +49,7 @@ namespace SchoolLib.Models.Books
 
         [Display(Name = "Ціна")]
         [Required(ErrorMessage = "Необхідно встановити ціну")]
-        [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Некоректна ціна")]
+        [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Ціна повинна мати формат Ч[ЧЧ].Ч[Ч] (Ч - число, [] - необов'язковий параметр)")]
         [StringLength(6, ErrorMessage = "Ціна не може перевищувати 1000 грн")] // !todo: Изменить на свой валидатор
         public string Price { get; set; }
         

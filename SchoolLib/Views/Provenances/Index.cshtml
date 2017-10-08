@@ -4,40 +4,58 @@
 
 <h2>@ViewData["Title"]</h2>
 
-<p>
-    <a asp-action="Create">Додати нове</a>
-</p>
+<div class="form-horizontal row">
+    <a asp-action="Create" class="col-md-12 btn btn-default">Додати нове</a>
+</div>
 <hr />
 <div class="form-horizontal row">
-    <div class="col-md-2">
+    <label class="col-md-12 col-md-pull-6 control-label">Кількість записів про походження підручників у бібліотеці:  @ViewBag.StudyBooksProvCount</label>
+    <label class="col-md-12 col-md-pull-6 control-label">Кількість записів про походження інших книг у бібліотеці:   @ViewBag.AddBooksProvCount</label>
+    <label class="col-md-12 col-md-pull-6 control-label">Кількість записів про походження книг у бібліотеці загалом: @ViewBag.ProvCount</label>
+</div>
+<hr />
+
+<div class="form-horizontal row">
+    <div class="col-md-4 col-md-pull-1">
+        <div class="form-group">
+            <label class="col-md-4 control-label">Тип</label>
+            <div class="col-md-8">
+                <select asp-items="ViewBag.bookTypesList" class="form-control" id="type"></select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
         <div class="form-group">
             <div class="col-md-12">
                 <input type="number" name="bookId" id="bookId" placeholder="Інвентарний №..." class="form-control" />
             </div>
         </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-4">
         <div class="form-group">
             <div class="col-md-12">
                 <input type="number" name="wayBill" id="wayBill" placeholder="Номер накладної..." class="form-control" />
             </div>
         </div>
     </div>
-    <div class="col-md-2">
+</div>
+
+<div class="form-horizontal row">
+    <div class="col-md-4">
         <div class="form-group">
             <div class="col-md-12">
                 <input type="text" name="receiptDate" id="receiptDate" placeholder="Дата прийняття..." class="form-control" />
             </div>
         </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-4">
         <div class="form-group">
             <div class="col-md-12">
                 <input type="text" name="place" id="place" placeholder="Місце походження..." class="form-control" />
             </div>
         </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-4">
         <div class="form-group">
             <div class="col-md-12">
                 <input type="text" name="note" id="note" placeholder="Примітка..." class="form-control" />
@@ -45,24 +63,30 @@
         </div>
     </div>
 </div>
+
 <div class="form-group col-md-offset-5 col-md-7">
     <input type="submit" id="submit" name="search" value="Пошук" class="btn btn-default" />
 </div>
 
 <div id="results"></div>
+<br />
+<br />
+<br />
+<br />
 
 @section Scripts {
     <script type="text/javascript">
             $(document).ready(function () {
                 $('#submit').click(function (e) {
                     e.preventDefault();
+                    var type = encodeURIComponent($('#type').val());
                     var bookId = encodeURIComponent(   $('#bookId').val());
                     var wayBill = encodeURIComponent($('#wayBill').val());
                     var receiptDate = encodeURIComponent($('#receiptDate').val());
                     var place = encodeURIComponent($('#place').val());
                     var note = encodeURIComponent(     $('#note').val());
 
-                    $('#results').load('@Url.Action("Search")?bookId=' + bookId + '&wayBill=' + wayBill +
+                    $('#results').load('@Url.Action("Search")?type=' + type + '&bookId=' + bookId + '&wayBill=' + wayBill +
                         '&receiptDate=' + receiptDate + '&place=' + place + '&note=' + note);
                 });
             });

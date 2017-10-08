@@ -12,7 +12,7 @@
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="BookId" class="col-md-2 control-label"></label>
+            <label asp-for="BookId" class="col-md-2 control-label"></label>*
             <div class="col-md-10">
                 @if (ViewBag.BookId != null && ViewBag.Fail == null)
                 {
@@ -27,21 +27,21 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="WayBill" class="col-md-2 control-label"></label>
+            <label asp-for="WayBill" class="col-md-2 control-label"></label>*
             <div class="col-md-10">
                 <input asp-for="WayBill" class="form-control" />
                 <span asp-validation-for="WayBill" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="ReceiptDate" class="col-md-2 control-label"></label>
+            <label asp-for="ReceiptDate" class="col-md-2 control-label"></label>*
             <div class="col-md-10">
                 <input asp-for="ReceiptDate" class="form-control" />
                 <span asp-validation-for="ReceiptDate" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Place" class="col-md-2 control-label"></label>
+            <label asp-for="Place" class="col-md-2 control-label"></label>*
             <div class="col-md-10">
                 <input asp-for="Place" class="form-control" />
                 <span asp-validation-for="Place" class="text-danger"></span>

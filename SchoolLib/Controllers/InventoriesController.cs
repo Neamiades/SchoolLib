@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
@@ -10,21 +12,37 @@ namespace SchoolLib.Controllers
     public class InventoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly List<SelectListItem> _bookTypeDropdownList;
 
         public InventoriesController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
+
+            _bookTypeDropdownList = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Всі",                  Value = "Book",           Selected = true  },
+                new SelectListItem { Text = "Підручники",           Value = "StudyBook",      Selected = false },
+                new SelectListItem { Text = "Додаткова література", Value = "AdditionalBook", Selected = false }
+            };
         }
 
         // GET: Inventories
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Inventories.Include(i => i.Book);
+
+            ViewData["bookTypesList"] = _bookTypeDropdownList;
+
+            ViewBag.InvCount           = await _context.Inventories.CountAsync();
+            ViewBag.StudyBooksInvCount = await _context.Inventories.CountAsync(i => i.Book.Discriminator == "StudyBook");
+            ViewBag.AddBooksInvCount   = await _context.Inventories.CountAsync(i => i.Book.Discriminator == "AdditionalBook");
+
             return View(await applicationDbContext.ToListAsync());
         }
 
         public async Task<IActionResult> Search
             (
+            string type,
             int?   bookId,
             short? year,
             int?   actNumber,
@@ -33,6 +51,9 @@ namespace SchoolLib.Controllers
             )
         {
             var inventories = _context.Inventories.Include(i => i.Book).AsQueryable();
+
+            if (type != "Book")
+                inventories = inventories.Where(i => i.Book.Discriminator == type);
 
             if (bookId.HasValue)
                 inventories = inventories.Where(i => i.BookId == bookId);

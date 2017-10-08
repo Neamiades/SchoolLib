@@ -12,26 +12,37 @@ namespace SchoolLib.Controllers
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
-        readonly List<SelectListItem> _bookTypeDropdownList = new List<SelectListItem>();
-        readonly List<SelectListItem> _bookStatusDropdownList = new List<SelectListItem>();
+        private readonly List<SelectListItem> _bookTypeDropdownList;
+        private readonly List<SelectListItem> _bookStatusDropdownList;
 
         public BooksController(ApplicationDbContext context)
         {
             _context = context;
-            _bookTypeDropdownList.Add(new SelectListItem { Text = "Всі", Value = "Book", Selected = true });
-            _bookTypeDropdownList.Add(new SelectListItem { Text = "Підручники", Value = "StudyBook", Selected = false });
-            _bookTypeDropdownList.Add(new SelectListItem { Text = "Додаткова література", Value = "AdditionalBook", Selected = false });
 
-            _bookStatusDropdownList.Add(new SelectListItem { Text = "Неважливо", Value = "Any", Selected = true });
-            _bookStatusDropdownList.Add(new SelectListItem { Text = "В бібліотеці", Value = "InStock", Selected = false });
-            _bookStatusDropdownList.Add(new SelectListItem { Text = "У читача", Value = "OnHands", Selected = false });
+            _bookTypeDropdownList = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Всі", Value = "Book", Selected = true },
+                new SelectListItem { Text = "Підручники", Value = "StudyBook", Selected = false },
+                new SelectListItem { Text = "Додаткова література", Value = "AdditionalBook", Selected = false }
+            };
+
+            _bookStatusDropdownList = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Неважливо", Value = "Any", Selected = true },
+                new SelectListItem { Text = "В бібліотеці", Value = "InStock", Selected = false },
+                new SelectListItem { Text = "У читача", Value = "OnHands", Selected = false }
+            };
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             ViewData["bookTypesList"] = _bookTypeDropdownList;
             ViewData["bookStatusList"] = _bookStatusDropdownList;
+
+            ViewBag.BooksCount      = await _context.Books.CountAsync();
+            ViewBag.AddBooksCount   = await _context.AdditionalBooks.CountAsync();
+            ViewBag.StudyBooksCount = await _context.StudyBooks.CountAsync();
 
             return View();
         }
@@ -56,6 +67,7 @@ namespace SchoolLib.Controllers
             ViewData["type"] = type == "Book"      ? typeof(Book)      : 
                                type == "StudyBook" ? typeof(StudyBook) : 
                                                      typeof(AdditionalBook);
+
             return PartialView("_Books", await books.ToListAsync());
         }
         // GET: Books/Details/5
@@ -72,7 +84,8 @@ namespace SchoolLib.Controllers
             {
                 return NotFound();
             }
-            else if (book.Discriminator == "AdditionalBook")
+
+            if (book.Discriminator == "AdditionalBook")
             {
                 return RedirectToAction("Details", "AdditionalBooks", new { id });
             }
@@ -89,11 +102,13 @@ namespace SchoolLib.Controllers
             }
 
             var book = await _context.Books.SingleOrDefaultAsync(m => m.Id == id);
+
             if (book == null)
             {
                 return NotFound();
             }
-            else if (book.Discriminator == "AdditionalBook")
+
+            if (book.Discriminator == "AdditionalBook")
             {
                 return RedirectToAction("Edit", "AdditionalBooks", new { id });
             }
@@ -109,13 +124,14 @@ namespace SchoolLib.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var book = await _context.Books.SingleOrDefaultAsync(m => m.Id == id);
+
             if (book == null)
             {
                 return NotFound();
             }
-            else if (book.Discriminator == "AdditionalBook")
+
+            if (book.Discriminator == "AdditionalBook")
             {
                 return RedirectToAction("Delete", "AdditionalBooks", new { id });
             }

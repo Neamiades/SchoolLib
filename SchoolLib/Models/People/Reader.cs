@@ -22,7 +22,7 @@ namespace SchoolLib.Models.People
 
     [Table("Readers")]
     [DisplayName("Читач")]
-    abstract public class Reader
+    public abstract class Reader
     {
         [Required(ErrorMessage = "Необхідно надати ідентифікаційний номер")]
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None), Column("ReaderId")]

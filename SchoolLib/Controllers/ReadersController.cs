@@ -13,27 +13,38 @@ namespace SchoolLib.Controllers
     public class ReadersController : Controller
     {
         private readonly ApplicationDbContext _context;
-        List<SelectListItem> readerTypeDropdownList = new List<SelectListItem>();
-        List<SelectListItem> readerStatusDropdownList = new List<SelectListItem>();
+        readonly List<SelectListItem> _readerTypeDropdownList;
+        readonly List<SelectListItem> _readerStatusDropdownList;
 
         public ReadersController(ApplicationDbContext context)
         {
             _context = context;
-            readerTypeDropdownList.Add(new SelectListItem { Text = "Неважливо", Value = "Reader", Selected = true });
-            readerTypeDropdownList.Add(new SelectListItem { Text = "Учень", Value = "Student", Selected = false });
-            readerTypeDropdownList.Add(new SelectListItem { Text = "Співробітник", Value = "Worker", Selected = false });
 
-            readerStatusDropdownList.Add(new SelectListItem { Text = "Неважливо", Value = "Any", Selected = true });
-            readerStatusDropdownList.Add(new SelectListItem { Text = "Активний", Value = "Enabled", Selected = false });
-            readerStatusDropdownList.Add(new SelectListItem { Text = "Деактивований", Value = "Disabled", Selected = false });
-            readerStatusDropdownList.Add(new SelectListItem { Text = "Вибув", Value = "Removed", Selected = false });
+            _readerTypeDropdownList = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Неважливо", Value = "Reader", Selected = true},
+                new SelectListItem {Text = "Учень", Value = "Student", Selected = false},
+                new SelectListItem {Text = "Співробітник", Value = "Worker", Selected = false}
+            };
+
+            _readerStatusDropdownList = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Неважливо", Value = "Any", Selected = true},
+                new SelectListItem {Text = "Активний", Value = "Enabled", Selected = false},
+                new SelectListItem {Text = "Деактивований", Value = "Disabled", Selected = false},
+                new SelectListItem {Text = "Вибув", Value = "Removed", Selected = false}
+            };
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            ViewData["readerTypeList"] = readerTypeDropdownList;
-            ViewData["readerStatusList"] = readerStatusDropdownList;
+            ViewData["readerTypeList"] = _readerTypeDropdownList;
+            ViewData["readerStatusList"] = _readerStatusDropdownList;
+
+            ViewBag.StudentsCount = await _context.Students.CountAsync();
+            ViewBag.WorkersCount  = await _context.Workers.CountAsync();
+            ViewBag.ReadersCount  = await _context.Readers.CountAsync();
 
             return View();
         }

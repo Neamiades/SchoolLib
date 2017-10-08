@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using SchoolLib.Data;
 using SchoolLib.Models.Books;
 using SchoolLib.Models.People;
 using System.Globalization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SchoolLib.Controllers
 {
@@ -14,30 +16,83 @@ namespace SchoolLib.Controllers
     {
         private readonly ApplicationDbContext _context;
         readonly IFormatProvider _culture = new CultureInfo("uk-UA");
+        readonly List<SelectListItem> _bookTypeDropdownList;
 
-        public IssuancesController(ApplicationDbContext context) => _context = context;
+        public IssuancesController(ApplicationDbContext context)
+        {
+            _context = context;
+
+            _bookTypeDropdownList = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Всі",                  Value = "Book",           Selected = true  },
+                new SelectListItem { Text = "Підручники",           Value = "StudyBook",      Selected = false },
+                new SelectListItem { Text = "Додаткова література", Value = "AdditionalBook", Selected = false }
+            };
+        }
 
         // GET: Issuances
         public async Task<IActionResult> Index(int? readerId)
         {
-            var issuances = readerId.HasValue ? _context.Issuances
-                .Include(i => i.Book)
-                .Include(i => i.Reader)
-                .Where(i => i.ReaderId == readerId)
-                                              : _context.Issuances
-                                              .Include(i => i.Book)
-                                              .Include(i => i.Reader);
-            issuances = issuances
-                .OrderByDescending(i => DateTime.ParseExact(i.IssueDate, "dd.MM.yyyy", _culture))
-                .ThenByDescending(i => i.AcceptanceDate == null ? 
-                                                 DateTime.Today :
-                                                 DateTime.ParseExact(i.AcceptanceDate, "dd.MM.yyyy", _culture));
+            ViewBag.IssCount           = await _context.Issuances.CountAsync();
+            ViewBag.StudyBooksIssCount = await _context.Issuances.CountAsync(i => i.Book.Discriminator == "StudyBook");
+            ViewBag.AddBooksIssCount   = await _context.Issuances.CountAsync(i => i.Book.Discriminator == "AdditionalBook");
+
+            ViewData["bookTypesList"] = _bookTypeDropdownList;
 
             if (readerId.HasValue)
-                ViewData["Reader"] = await _context.Readers
-                    .SingleOrDefaultAsync(r => r.Id == readerId);
-            
-            return View(await issuances.ToListAsync());
+                ViewBag.Reader = await _context.Readers.SingleOrDefaultAsync(r => r.Id == readerId);
+
+            return View();
+        }
+
+        public async Task<IActionResult> Search
+        (
+            string type,
+            int? bookId,
+            int? readerId,
+            string name,
+            string author,
+            string issueDate,
+            string acceptanceDate,
+            string couse,
+            string note
+        )
+        {
+            var issuances = readerId.HasValue
+                ? _context.Issuances.Include(i => i.Book).Include(i => i.Reader).Where(i => i.ReaderId == readerId)
+                : _context.Issuances.Include(i => i.Book).Include(i => i.Reader);
+
+            if (type != "Book")
+                issuances = issuances.Where(i => i.Book.Discriminator == type);
+
+            if (bookId.HasValue)
+                issuances = issuances.Where(i => i.BookId == bookId);
+
+            if (!string.IsNullOrWhiteSpace(name))
+                issuances = issuances.Where(i => i.Book.Name == name);
+
+            if (!string.IsNullOrWhiteSpace(author))
+                issuances = issuances.Where(i => i.Book.Author == author);
+
+            if (!string.IsNullOrWhiteSpace(issueDate))
+                issuances = issuances.Where(i => i.IssueDate == issueDate);
+
+            if (!string.IsNullOrWhiteSpace(acceptanceDate))
+                issuances = issuances.Where(i => i.AcceptanceDate == acceptanceDate);
+
+            if (!string.IsNullOrWhiteSpace(couse))
+                issuances = issuances.Where(i => i.Couse == couse);
+
+            if (!string.IsNullOrWhiteSpace(note))
+                issuances = issuances.Where(i => i.Note == note);
+
+            issuances = issuances
+                .OrderByDescending(i => DateTime.ParseExact(i.IssueDate, "dd.MM.yyyy", _culture))
+                .ThenByDescending(i => i.AcceptanceDate == null ?
+                    DateTime.Today :
+                    DateTime.ParseExact(i.AcceptanceDate, "dd.MM.yyyy", _culture));
+
+            return PartialView("_Issuances", await issuances.ToListAsync());
         }
 
         // GET: Issuances/Details/5

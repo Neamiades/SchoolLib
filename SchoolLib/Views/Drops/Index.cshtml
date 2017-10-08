@@ -4,33 +4,60 @@
 
 <h2>@ViewData["Title"]</h2>
 
-<p>
-    <a asp-action="Create">Додати запис про вибуття</a>
-</p>
-<hr />
 <div class="form-horizontal row">
-    <div class="col-md-3">
+    <a asp-action="Create" class="col-md-12 btn btn-default">Додати запис про вибуття</a>
+</div>
+<hr />
+
+<div class="form-horizontal row">
+    <label class="col-md-12 col-md-pull-8 control-label">Кількість вибувших співробітників: @ViewBag.StudentsDropsCount</label>
+    <label class="col-md-12 col-md-pull-8 control-label">Кількість вибувших читачів:        @ViewBag.WorkersDropsCount</label>
+    <label class="col-md-12 col-md-pull-8 control-label">Кількість вибувших учнів:          @ViewBag.DropsCount</label>
+</div>
+
+<hr />
+
+<div class="form-horizontal row">
+    <div class="col-md-4 col-md-pull-1">
         <div class="form-group">
-            <div class="col-md-12">
-                <input type="number" name="readerId" id="readerId" placeholder="Ідентифікаційний №..." class="form-control" />
+            <label class="col-md-4 control-label">Тип</label>
+            <div class="col-md-8">
+                <select asp-items="ViewBag.readerTypeList" class="form-control" id="type"></select>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <div class="col-md-12">
-                <input type="text" name="date" id="date" placeholder="Дата прийняття..." class="form-control" />
+                <input class="form-control" id="readerId" name="readerId" placeholder="ІД №..." type="number" />
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="date" id="date" placeholder="Дата прийняття..." class="form-control"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-horizontal row">
+    <div class="col-md-4">
         <div class="form-group">
             <div class="col-md-12">
                 <input type="text" name="couse" id="couse" placeholder="Місце походження..." class="form-control" />
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" name="note" id="note" placeholder="Примітка..." class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
         <div class="form-group">
             <div class="col-md-12">
                 <input type="text" name="note" id="note" placeholder="Примітка..." class="form-control" />
@@ -38,23 +65,29 @@
         </div>
     </div>
 </div>
+
 <div class="form-group col-md-offset-5 col-md-7">
     <input type="submit" id="submit" name="search" value="Пошук" class="btn btn-default" />
 </div>
 
 <div id="results"></div>
+<br/>
+<br />
+<br />
+<br />
 
 @section Scripts {
     <script type="text/javascript">
             $(document).ready(function () {
                 $('#submit').click(function (e) {
-                    e.preventDefault();
+                    e.preventDefault();
+                    var type = encodeURIComponent($('#type').val());
                     var readerId = encodeURIComponent($('#readerId').val());
                     var date = encodeURIComponent($('#date').val());
                     var couse = encodeURIComponent($('#couse').val());
                     var note = encodeURIComponent(     $('#note').val());
 
-                    $('#results').load('@Url.Action("Search")?readerId=' + readerId + '&date=' + date +
+                    $('#results').load('@Url.Action("Search")?type=' + type + '&readerId=' + readerId + '&date=' + date +
                         '&couse=' + couse + '&note=' + note);
                 });
             });

@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolLib.Data;
 using SchoolLib.Models.People;
@@ -10,41 +12,56 @@ namespace SchoolLib.Controllers
     public class DropsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        readonly List<SelectListItem> _readerTypeDropdownList;
 
-        public DropsController(ApplicationDbContext context) => _context = context;
+        public DropsController(ApplicationDbContext context)
+        {
+            _context = context;
+            _readerTypeDropdownList = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Неважливо", Value = "Reader", Selected = true},
+                new SelectListItem {Text = "Учень", Value = "Student", Selected = false},
+                new SelectListItem {Text = "Співробітник", Value = "Worker", Selected = false}
+            };
+        }
 
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Drops.Include(d => d.Reader);
+
+            ViewData["readerTypeList"] = _readerTypeDropdownList;
+            ViewBag.DropsCount         = await _context.Drops.CountAsync();
+            ViewBag.StudentsDropsCount = await _context.Drops.CountAsync(d => d.Reader.Discriminator.Equals("Student"));
+            ViewBag.WorkersDropsCount  = await _context.Drops.CountAsync(d => d.Reader.Discriminator.Equals("Worker"));
+
             return View(await applicationDbContext.ToListAsync());
         }
 
-        //var readerId = encodeURIComponent($('#readerId').val());
-        //var date = encodeURIComponent($('#date').val());
-        //var couse = encodeURIComponent($('#couse').val());
-        //var note = encodeURIComponent(     $('#note').val());
-
         public async Task<IActionResult> Search
         (
+            string type,
             int? readerId,
             string date,
             string couse,
             string note
         )
         {
-            var drops = _context.Drops.Include(в => в.Reader).AsQueryable();
+            var drops = _context.Drops.Include(d => d.Reader).AsQueryable();
+
+            if (type != "Reader")
+                drops = drops.Where(d => d.Reader.Discriminator == type);
 
             if (readerId.HasValue)
-                drops = drops.Where(p => p.ReaderId == readerId);
+                drops = drops.Where(d => d.ReaderId == readerId);
 
             if (!string.IsNullOrWhiteSpace(date))
-                drops = drops.Where(p => p.Date == date);
+                drops = drops.Where(d => d.Date == date);
 
             if (!string.IsNullOrWhiteSpace(couse))
-                drops = drops.Where(p => p.Couse == couse);
+                drops = drops.Where(d => d.Couse == couse);
 
             if (!string.IsNullOrWhiteSpace(note))
-                drops = drops.Where(p => p.Note == note);
+                drops = drops.Where(d => d.Note == note);
 
             return PartialView("_Drops", await drops.ToListAsync());
         }
