@@ -1,5 +1,5 @@
-﻿@model StudyBook
-@using SchoolLib.Models.Books
+﻿@using SchoolLib.Models.Books
+@model SchoolLib.Models.Books.StudyBook
 
 @{
     ViewData["Title"] = "Видалення підручника";
@@ -10,7 +10,7 @@
 <h3>Ви впевнені в тому, що бажаєте видалити цей підручник?</h3>
 <div>
     <h4>@Html.DisplayNameFor(model => model)</h4>
-    <hr />
+    <hr/>
     <dl class="dl-horizontal">
         <dt>@Html.DisplayNameFor(model => model.Id)</dt>
         <dd>@Html.DisplayFor(model => model.Id)</dd>
@@ -43,7 +43,7 @@
     </dl>
     <form asp-action="Delete">
         <div class="form-actions no-color">
-            <input type="submit" value="Видалити" class="btn btn-default" /> |
+            <input type="submit" value="Видалити" class="btn btn-default"/> |
             <a asp-controller="Books" asp-action="Index">Повернутися до списку</a>
         </div>
     </form>

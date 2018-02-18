@@ -9,9 +9,9 @@
 <h3>Ви впевнені, що бажаєте видалити це?</h3>
 <div>
     <h4>@Html.DisplayNameFor(model => model)</h4>
-    <hr />
+    <hr/>
     <dl class="dl-horizontal">
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Id"/>
         <dt>@Html.DisplayNameFor(model => model.Book)</dt>
         <dd>
             <a asp-controller="Books" asp-action="Details" asp-route-id="@Model.Book.Id">
@@ -27,10 +27,10 @@
         <dt>@Html.DisplayNameFor(model => model.Note)</dt>
         <dd>@Html.DisplayFor(model => model.Note)</dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <div class="form-actions no-color">
-            <input type="submit" value="Видалити" class="btn btn-default" /> |
+            <input type="submit" value="Видалити" class="btn btn-default"/> |
             <a asp-action="Index">Назад до списку</a>
         </div>
     </form>

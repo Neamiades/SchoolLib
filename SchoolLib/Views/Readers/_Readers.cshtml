@@ -1,32 +1,33 @@
-﻿@model IEnumerable<Reader>
-@using SchoolLib.Models.People
+﻿@using SchoolLib.Models.People
+@model IEnumerable<SchoolLib.Models.People.Reader>
 
 <table class="table  table-bordered table-hover">
     <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Id)</th>
-            <th>@Html.DisplayNameFor(model => model.SurName)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
-            <th>@Html.DisplayNameFor(model => model.Patronimic)</th>
-            @if (ViewBag.type == typeof(Student))
-            {
-                <th>@Html.DisplayNameFor(model => ((Student)model).Grade)</th>
-            }
-            else if (ViewBag.type == typeof(Worker))
-            {
-                <th>@Html.DisplayNameFor(model => ((Worker)model).Position)</th>
-            }
-            else
-            {
-                <th>Посада/Клас</th>
-                <th>@Html.DisplayNameFor(model => model.Discriminator)</th>
-            }
-            <th>@Html.DisplayNameFor(model => model.Status)</th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Id)</th>
+        <th>@Html.DisplayNameFor(model => model.SurName)</th>
+        <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+        <th>@Html.DisplayNameFor(model => model.Patronimic)</th>
+        @if (ViewBag.type == typeof(Student))
+        {
+            <th>@Html.DisplayNameFor(model => ((Student) model).Grade)</th>
+        }
+        else if (ViewBag.type == typeof(Worker))
+        {
+            <th>@Html.DisplayNameFor(model => ((Worker) model).Position)</th>
+        }
+        else
+        {
+            <th>Посада/Клас</th>
+            <th>@Html.DisplayNameFor(model => model.Discriminator)</th>
+        }
+        <th>@Html.DisplayNameFor(model => model.Status)</th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>@Html.DisplayFor(modelItem => item.Id)</td>
             <td>@Html.DisplayFor(modelItem => item.SurName)</td>
@@ -34,20 +35,20 @@
             <td>@Html.DisplayFor(modelItem => item.Patronimic)</td>
             @if (ViewBag.type == typeof(Student))
             {
-                <td>@Html.DisplayFor(modelItem => ((Student)item).Grade)</td>
+                <td>@Html.DisplayFor(modelItem => ((Student) item).Grade)</td>
             }
             else if (ViewBag.type == typeof(Worker))
             {
-                <td>@Html.DisplayFor(modelItem => ((Worker)item).Position)</td>
+                <td>@Html.DisplayFor(modelItem => ((Worker) item).Position)</td>
             }
             else if (item.Discriminator == "Student")
             {
-                <td>@Html.DisplayFor(modelItem => ((Student)item).Grade)</td>
+                <td>@Html.DisplayFor(modelItem => ((Student) item).Grade)</td>
                 <td>Учень</td>
             }
             else
             {
-                <td>@Html.DisplayFor(modelItem => ((Worker)item).Position)</td>
+                <td>@Html.DisplayFor(modelItem => ((Worker) item).Position)</td>
                 <td>Співробітник</td>
             }
             <td>@Html.DisplayFor(modelItem => item.Status)</td>
@@ -57,6 +58,6 @@
                 <a asp-controller="Issuances" asp-action="Index" asp-route-readerId="@item.Id">Формуляр</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

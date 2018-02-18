@@ -1,7 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using SchoolLib.Models
-
-@inject SignInManager<ApplicationUser> SignInManager
+﻿@inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
 
@@ -19,7 +16,7 @@
         <li>
             <a asp-area="" asp-controller="Readers" asp-action="Index">
                 <img src="~/images/many-people-solid.png" class="img-rounded" style="height: 30px; width: 30px !important">
-                <strong>Читачі</strong> 
+                <strong>Читачі</strong>
             </a>
         </li>
 
@@ -30,8 +27,8 @@
     <li>
         <a asp-area="" asp-controller="Statistic" asp-action="Index">
             <img src="~/images/statistic.png" class="img-rounded" style="height: 30px; width: 30px !important">
-            <strong>Статистика</strong> 
+            <strong>Статистика</strong>
         </a>
     </li>
-    
+
 </ul>

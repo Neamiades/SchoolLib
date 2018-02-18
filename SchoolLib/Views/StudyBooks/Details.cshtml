@@ -1,11 +1,10 @@
-﻿@model StudyBook
-@using SchoolLib.Models.Books
+﻿@using SchoolLib.Models.Books
+@model SchoolLib.Models.Books.StudyBook
 
 @{
     ViewData["Title"] = "Деталі";
     if (Model.Status == BookStatus.OnHands)
     {
-
     }
 }
 
@@ -18,7 +17,7 @@
         <a asp-controller="Provenances" asp-action="Details" asp-route-id="@Model.Provenance?.Id" asp-route-bookId="@Model.Id" class="btn btn-default">Походження</a>
         <a asp-controller="Issuances" asp-action="Details" asp-route-bookId="@Model.Id" class="btn btn-default">Видача</a>
     </p>
-    <hr />
+    <hr/>
     <dl class="dl-horizontal">
         <dt>@Html.DisplayNameFor(model => model.Id)</dt>
         <dd>@Html.DisplayFor(model => model.Id)</dd>

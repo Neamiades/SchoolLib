@@ -1,5 +1,5 @@
-﻿@model Issuance
-@using SchoolLib.Models.People
+﻿@using SchoolLib.Models.People
+@model SchoolLib.Models.People.Issuance
 
 @{
     ViewData["Title"] = "Повернення книги";
@@ -11,35 +11,35 @@
 <form asp-action="Return">
     <div class="form-horizontal">
         <h4>@Html.DisplayNameFor(m => m)</h4>
-        <hr />
+        <hr/>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Id"/>
         <div class="form-group">
             <label asp-for="ReaderId" class="control-label col-md-2"></label>
             <div class="col-md-10">
                 <label asp-for="ReaderId" class="control-label">@Model.ReaderId</label>
-                <input type="hidden" asp-for="ReaderId" class="form-control" value="@Model.ReaderId" />
+                <input type="hidden" asp-for="ReaderId" class="form-control" value="@Model.ReaderId"/>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="BookId" class="control-label col-md-2"></label>
             <div class="col-md-10">
                 <label asp-for="BookId" class="control-label">@Model.BookId</label>
-                <input type="hidden" asp-for="BookId" class="form-control" value="@Model.BookId" />
+                <input type="hidden" asp-for="BookId" class="form-control" value="@Model.BookId"/>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="IssueDate" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <label asp-for="IssueDate" class="control-label">@Model.IssueDate</label>
-                <input type="hidden" asp-for="IssueDate" class="form-control" value="@Model.IssueDate" />
+                <input type="hidden" asp-for="IssueDate" class="form-control" value="@Model.IssueDate"/>
                 <span asp-validation-for="IssueDate" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="AcceptanceDate" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="AcceptanceDate" class="form-control" value="@ViewBag.AcceptanceDate" />
+                <input asp-for="AcceptanceDate" class="form-control" value="@ViewBag.AcceptanceDate"/>
                 <span asp-validation-for="AcceptanceDate" class="text-danger"></span>
             </div>
         </div>
@@ -47,33 +47,33 @@
             <label asp-for="Couse" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <label asp-for="Couse" class="control-label">@Model.Couse</label>
-                <input type="hidden" asp-for="Couse" class="form-control" value="@Model.Couse" />
+                <input type="hidden" asp-for="Couse" class="form-control" value="@Model.Couse"/>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="Note" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <label asp-for="Note" class="control-label">@Model.Note</label>
-                <input type="hidden" asp-for="Note" class="form-control" value="@Model.Note" />
+                <input type="hidden" asp-for="Note" class="form-control" value="@Model.Note"/>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="ReaderSign" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <label asp-for="ReaderSign" class="control-label">@Model.ReaderSign</label>
-                <input type="hidden" asp-for="ReaderSign" class="form-control" value="@Model.ReaderSign" />
+                <input type="hidden" asp-for="ReaderSign" class="form-control" value="@Model.ReaderSign"/>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="UserSign" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="UserSign" class="form-control" />
+                <input asp-for="UserSign" class="form-control"/>
                 <span asp-validation-for="UserSign" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Повернути книгу" class="btn btn-default" />
+                <input type="submit" value="Повернути книгу" class="btn btn-default"/>
             </div>
         </div>
     </div>

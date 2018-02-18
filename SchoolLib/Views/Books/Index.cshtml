@@ -5,19 +5,24 @@
 <h2>@ViewData["Title"]</h2>
 
 <div class="form-horizontal row">
-    <a asp-controller="Inventories" asp-action="Index" class="col-md-6 btn btn-default">Інвентаризація книг</a>
-    <a asp-controller="Provenances" asp-action="Index" class="col-md-6 btn btn-default">Походження книг</a>
-</div>
-<hr />
-<div class="form-horizontal row">
-    <a asp-controller="AdditionalBooks" asp-action="Create" class="col-md-6 btn btn-default">Додати нову книгу</a>
-    <a asp-controller="StudyBooks" asp-action="Create" class="col-md-6 btn btn-default">Додати новий підручник</a>
-</div>
-<hr />
-<div class="form-horizontal row">
-    <label class="col-md-12 col-md-pull-8 control-label">Кількість підручників у бібліотеці: @ViewBag.StudyBooksCount</label>
-    <label class="col-md-12 col-md-pull-8 control-label">Кількість інших книг у бібліотеці: @ViewBag.AddBooksCount</label>
-    <label class="col-md-12 col-md-pull-8 control-label">Кількість книг у бібліотеці загалом: @ViewBag.BooksCount</label>
+    <div class="form-horizontal col-md-6">
+        <div class="form-horizontal row">
+            <a asp-controller="Inventories" asp-action="Index" class="col-md-6 btn btn-default">Інвентаризація книг</a>
+            <a asp-controller="Provenances" asp-action="Index" class="col-md-6 btn btn-default">Походження книг</a>
+        </div>
+        <hr />
+        <div class="form-horizontal row">
+            <a asp-controller="AdditionalBooks" asp-action="Create" class="col-md-6 btn btn-default">Додати нову книгу</a>
+            <a asp-controller="StudyBooks" asp-action="Create" class="col-md-6 btn btn-default">Додати новий підручник</a>
+        </div>
+    </div>
+    <div class="form-horizontal col-md-6">
+        <div class="form-horizontal row">
+            <label class="col-md-12 col-md-pull-4 control-label">Кількість підручників у бібліотеці: @ViewBag.StudyBooksCount</label>
+            <label class="col-md-12 col-md-pull-4 control-label">Кількість інших книг у бібліотеці: @ViewBag.AddBooksCount</label>
+            <label class="col-md-12 col-md-pull-4 control-label">Кількість книг у бібліотеці загалом: @ViewBag.BooksCount</label>
+        </div>
+    </div>
 </div>
 <hr />
 
@@ -69,18 +74,26 @@
 
 @section Scripts {
     <script type="text/javascript">
-            $(document).ready(function () {
-        $('#submit').click(function (e) {
-            e.preventDefault();
-            var id = encodeURIComponent($('#id').val());
-            var name = encodeURIComponent($('#name').val());
-            var author = encodeURIComponent($('#author').val());
-            var type = encodeURIComponent($('#type').val());
-            var status = encodeURIComponent($('#status').val());
+        $(document).ready(function() {
+            $('#submit').click(function(e) {
+                e.preventDefault();
+                var id = encodeURIComponent($('#id').val());
+                var name = encodeURIComponent($('#name').val());
+                var author = encodeURIComponent($('#author').val());
+                var type = encodeURIComponent($('#type').val());
+                var status = encodeURIComponent($('#status').val());
 
-            $('#results').load('@Url.Action("Search")?type=' + type + '&id=' + id +
-                '&name=' + name + '&author=' + author + '&status=' + status);
-});
-    });
-</script>
+                $('#results').load('@Url.Action("Search")?type=' +
+                    type +
+                    '&id=' +
+                    id +
+                    '&name=' +
+                    name +
+                    '&author=' +
+                    author +
+                    '&status=' +
+                    status);
+            });
+        });
+    </script>
 }

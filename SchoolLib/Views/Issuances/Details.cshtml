@@ -1,6 +1,6 @@
-﻿@model Issuance
+﻿@using SchoolLib.Models.Books
 @using SchoolLib.Models.People
-@using SchoolLib.Models.Books
+@model SchoolLib.Models.People.Issuance
 
 @{
     ViewData["Title"] = "Деталі видачі";
@@ -10,7 +10,7 @@
 
 <div>
     <h4>@Html.DisplayNameFor(m => m)</h4>
-    <hr />
+    <hr/>
     <dl class="dl-horizontal">
         <dt>@Html.DisplayNameFor(model => model.Reader)</dt>
         <dd>

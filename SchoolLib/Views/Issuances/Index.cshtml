@@ -1,5 +1,5 @@
-﻿@model IEnumerable<Issuance>
-@using SchoolLib.Models.People
+﻿@using SchoolLib.Models.People
+@model IEnumerable<SchoolLib.Models.People.Issuance>
 
 @{
     Reader reader = ViewBag.Reader;
@@ -7,7 +7,7 @@
 }
 
 <h2>
-    
+
     @if (reader != null)
     {
         @:Формуляр читача
@@ -25,14 +25,14 @@
         <a asp-action="Create" class="col-md-12 btn btn-default" asp-route-readerId="@reader?.Id">Видати книгу</a>
     </div>
 }
-<hr />
+<hr/>
 
 <div class="form-horizontal row">
     <label class="col-md-12 col-md-pull-8 control-label">Кількість записів про видачу підручників: @ViewBag.StudyBooksIssCount</label>
     <label class="col-md-12 col-md-pull-8 control-label">Кількість записів про видачу інших книг: @ViewBag.AddBooksIssCount</label>
     <label class="col-md-12 col-md-pull-8 control-label">Кількість записів про видачу книг загалом: @ViewBag.IssCount</label>
 </div>
-<hr />
+<hr/>
 
 <div class="form-horizontal row">
     <div class="col-md-3 col-md-pull-1">
@@ -46,21 +46,21 @@
     <div class="col-md-3">
         <div class="form-group">
             <div class="col-md-12">
-                <input type="number" name="bookId" id="bookId" placeholder="Інвентарний №..." class="form-control" />
+                <input type="number" name="bookId" id="bookId" placeholder="Інвентарний №..." class="form-control"/>
             </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
             <div class="col-md-12">
-                <input type="text" name="name" id="name" placeholder="Назва..." class="form-control" />
+                <input type="text" name="name" id="name" placeholder="Назва..." class="form-control"/>
             </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
             <div class="col-md-12">
-                <input type="text" name="author" id="author" placeholder="Автор..." class="form-control" />
+                <input type="text" name="author" id="author" placeholder="Автор..." class="form-control"/>
             </div>
         </div>
     </div>
@@ -70,62 +70,76 @@
     <div class="col-md-3">
         <div class="form-group">
             <div class="col-md-12">
-                <input type="text" name="issueDate" id="issueDate" placeholder="Дата видачі..." class="form-control" />
+                <input type="text" name="issueDate" id="issueDate" placeholder="Дата видачі..." class="form-control"/>
             </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
             <div class="col-md-12">
-                <input type="text" name="acceptanceDate" id="acceptanceDate" placeholder="Дата прийняття..." class="form-control" />
+                <input type="text" name="acceptanceDate" id="acceptanceDate" placeholder="Дата прийняття..." class="form-control"/>
             </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
             <div class="col-md-12">
-                <input type="text" name="couse" id="couse" placeholder="Причина..." class="form-control" />
+                <input type="text" name="couse" id="couse" placeholder="Причина..." class="form-control"/>
             </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
             <div class="col-md-12">
-                <input type="text" name="note" id="note" placeholder="Примітка..." class="form-control" />
+                <input type="text" name="note" id="note" placeholder="Примітка..." class="form-control"/>
             </div>
         </div>
     </div>
 </div>
 
 <div class="form-group col-md-offset-5 col-md-7">
-    <input type="submit" id="submit" name="search" value="Пошук" class="btn btn-default" />
+    <input type="submit" id="submit" name="search" value="Пошук" class="btn btn-default"/>
 </div>
 
 <div id="results"></div>
-<br />
-<br />
-<br />
-<br />
+<br/>
+<br/>
+<br/>
+<br/>
 
 @section Scripts {
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('#submit').click(function (e) {
+        $(document).ready(function() {
+            $('#submit').click(function(e) {
                 e.preventDefault();
-                var type           = encodeURIComponent($('#type'          ).val());
-                var readerId       = @reader?.Id;
-                var bookId         = encodeURIComponent($('#bookId'        ).val());
-                var name           = encodeURIComponent($('#name'          ).val());
-                var author         = encodeURIComponent($('#author'        ).val());
-                var issueDate      = encodeURIComponent($('#issueDate'     ).val());
+                var type = encodeURIComponent($('#type').val());
+                var readerId = @reader?.Id;
+                var bookId = encodeURIComponent($('#bookId').val());
+                var name = encodeURIComponent($('#name').val());
+                var author = encodeURIComponent($('#author').val());
+                var issueDate = encodeURIComponent($('#issueDate').val());
                 var acceptanceDate = encodeURIComponent($('#acceptanceDate').val());
-                var couse          = encodeURIComponent($('#couse'         ).val());
-                var note           = encodeURIComponent($('#note'          ).val());
+                var couse = encodeURIComponent($('#couse').val());
+                var note = encodeURIComponent($('#note').val());
 
-                $('#results').load('@Url.Action("Search")?type=' + type + '&bookId=' + bookId +
-                    '&readerId=' + readerId + '&name=' + name + '&issueDate=' + issueDate +
-                    '&acceptanceDate=' + acceptanceDate + '&author=' + author +
-                    '&couse=' + couse + '&note=' + note);
+                $('#results').load('@Url.Action("Search")?type=' +
+                    type +
+                    '&bookId=' +
+                    bookId +
+                    '&readerId=' +
+                    readerId +
+                    '&name=' +
+                    name +
+                    '&issueDate=' +
+                    issueDate +
+                    '&acceptanceDate=' +
+                    acceptanceDate +
+                    '&author=' +
+                    author +
+                    '&couse=' +
+                    couse +
+                    '&note=' +
+                    note);
             });
         });
     </script>

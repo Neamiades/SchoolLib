@@ -1,7 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using SchoolLib.Models
-
-@inject SignInManager<ApplicationUser> SignInManager
+﻿@inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
 @if (SignInManager.IsSignedIn(User))
@@ -11,12 +8,13 @@
             <li>
                 <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">
                     <img src="~/images/user.png" class="img-rounded" style="height: 30px; width: 30px !important">
-                @UserManager.GetUserName(User)</a>
+                    @UserManager.GetUserName(User)</a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">
                     <img src="~/images/Exit-512.png" class="img-rounded" style="height: 30px; width: 30px !important">
-                Вийти</button>
+                    Вийти
+                </button>
             </li>
         </ul>
     </form>
@@ -24,11 +22,17 @@
 else
 {
     <ul class="nav navbar-nav nav-tabs navbar-right">
-        <li><a asp-area="" asp-controller="Account" asp-action="Register">
+        <li>
+            <a asp-area="" asp-controller="Account" asp-action="Register">
                 <img src="~/images/reg.jpg" class="img-rounded" style="height: 30px; width: 30px !important">
-            <strong>Зареєструватися</strong></a></li>
-        <li><a asp-area="" asp-controller="Account" asp-action="Login">
+                <strong>Зареєструватися</strong>
+            </a>
+        </li>
+        <li>
+            <a asp-area="" asp-controller="Account" asp-action="Login">
                 <img src="~/images/power.png" class="img-rounded" style="height: 30px; width: 30px !important">
-            <strong>Увійти</strong></a></li>
+                <strong>Увійти</strong>
+            </a>
+        </li>
     </ul>
 }
