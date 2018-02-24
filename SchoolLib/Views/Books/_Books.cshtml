@@ -2,37 +2,41 @@
 @model IEnumerable<SchoolLib.Models.Books.Book>
 
 <table class="table table-bordered table-hover">
-    <thead>
-    <tr>
-        <th>@Html.DisplayNameFor(model => model.Id)</th>
-        <th>@Html.DisplayNameFor(model => model.Author)</th>
-        <th>@Html.DisplayNameFor(model => model.Name)</th>
-        @if (ViewBag.type == typeof(Book))
-        {
-            <th>@Html.DisplayNameFor(model => model.Discriminator)</th>
-        }
-        <th>@Html.DisplayNameFor(model => model.Status)</th>
-        <th/>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.Id)</td>
-            <td>@Html.DisplayFor(modelItem => item.Author)</td>
-            <td>@Html.DisplayFor(modelItem => item.Name)</td>
-            @if (ViewBag.type == typeof(Book))
-            {
-                <td>@(item.Discriminator == "AdditionalBook" ? "Книга" : "Підручник")</td>
-            }
-            <td>@Html.DisplayFor(modelItem => item.Status)</td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
-                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
-            </td>
-        </tr>
-    }
-    </tbody>
+	<thead>
+	<tr>
+		<th>@Html.DisplayNameFor(model => model.Id)</th>
+		<th>@Html.DisplayNameFor(model => model.Author)</th>
+		<th>@Html.DisplayNameFor(model => model.Name)</th>
+		@if (ViewBag.type == typeof(Book))
+		{
+			<th>@Html.DisplayNameFor(model => model.Discriminator)</th>
+		}
+		<th>@Html.DisplayNameFor(model => model.Status)</th>
+		<th/>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>@Html.DisplayFor(modelItem => item.Id)</td>
+			<td>@Html.DisplayFor(modelItem => item.Author)</td>
+			<td>@Html.DisplayFor(modelItem => item.Name)</td>
+			@if (ViewBag.type == typeof(Book))
+			{
+				<td>@(item.Discriminator == "AdditionalBook" ? "Книга" : "Підручник")</td>
+			}
+			<td>@Html.DisplayFor(modelItem => item.Status)</td>
+			<td>
+				<a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
+				<a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a>
+				@if (item.Status != BookStatus.OnHands)
+				{
+                    @: |
+				    <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+				}
+			</td>
+		</tr>
+	}
+	</tbody>
 </table>

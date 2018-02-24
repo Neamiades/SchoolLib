@@ -41,6 +41,8 @@ namespace SchoolLib.Controllers
 		// GET: StudyBooks/Create
 		public IActionResult Create()
 		{
+			ViewBag.FreeId = _context.Books.Max(sb => sb.Id) + 1;
+
 			return View();
 		}
 

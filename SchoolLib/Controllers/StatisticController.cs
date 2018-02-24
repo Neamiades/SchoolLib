@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using SchoolLib.Data;
 using SchoolLib.Models.Books;
 using SchoolLib.Models.People;
 using SchoolLib.Models.StatisticViewModels;
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SchoolLib.Controllers
 {
@@ -26,6 +28,28 @@ namespace SchoolLib.Controllers
 		public IActionResult Index()
 		{
 			return View("Error");
+		}
+
+		public async Task<IActionResult> Search(
+			string type,
+			int? id,
+			string name,
+			string author,
+			BookStatus status)
+		{
+			var books = _context.Books.Where(b => status.HasFlag(b.Status));
+			if (type != "Book")
+				books = books.Where(b => b.Discriminator == type);
+			if (id.HasValue)
+				books = books.Where(b => b.Id == id);
+			if (!string.IsNullOrWhiteSpace(name))
+				books = books.Where(b => b.Name == name);
+			if (!string.IsNullOrWhiteSpace(author))
+				books = books.Where(b => b.Author == author);
+
+			ViewData["type"] = type == "Book" ? typeof(Book) : type == "StudyBook" ? typeof(StudyBook) : typeof(AdditionalBook);
+
+			return PartialView("_Books", await books.ToListAsync());
 		}
 
 		public async Task<IActionResult> BookSearch(
@@ -47,10 +71,10 @@ namespace SchoolLib.Controllers
 			{
 				query = actn == "iss_books"
 						? query.Where(i => Pe(i.IssueDate) >= start
-						                   && Pe(i.IssueDate) <= end)
+										   && Pe(i.IssueDate) <= end)
 						: query.Where(i => i.AcceptanceDate != null
-						                   && Pe(i.AcceptanceDate) >= start
-						                   && Pe(i.AcceptanceDate) <= end)
+										   && Pe(i.AcceptanceDate) >= start
+										   && Pe(i.AcceptanceDate) <= end)
 					;
 			}
 
@@ -139,19 +163,21 @@ namespace SchoolLib.Controllers
 			return PartialView("_ReadersDrop", readerData);
 		}
 
-		public static bool Tpe(string strDate, out DateTime date)
+
+
+		private static bool Tpe(string strDate, out DateTime date)
 		{
 			return DateTime.TryParseExact(strDate, "dd.MM.yyyy", Culture,
 				DateTimeStyles.AssumeLocal, out date);
 		}
 
-		public static DateTime Pe(string strDate)
+		private static DateTime Pe(string strDate)
 		{
 			return DateTime.ParseExact(strDate, "dd.MM.yyyy", Culture,
 				DateTimeStyles.AssumeLocal);
 		}
 
-		public static void PriceCheck(double? start, double? end, ref IQueryable<Issuance> query)
+		private static void PriceCheck(double? start, double? end, ref IQueryable<Issuance> query)
 		{
 			if (start.HasValue && end.HasValue)
 			{
@@ -159,7 +185,7 @@ namespace SchoolLib.Controllers
 			}
 		}
 
-		public static void YearCheck(short? start, short? end, ref IQueryable<Issuance> query)
+		private static void YearCheck(short? start, short? end, ref IQueryable<Issuance> query)
 		{
 			if (start.HasValue && end.HasValue)
 			{

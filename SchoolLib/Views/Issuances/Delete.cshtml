@@ -1,5 +1,4 @@
 ﻿@using SchoolLib.Models.Books
-@using SchoolLib.Models.People
 @model SchoolLib.Models.People.Issuance
 
 @{
@@ -70,7 +69,7 @@
     <form asp-action="Delete">
         <div class="form-actions no-color">
             <input type="submit" value="Видалити" class="btn btn-default"/> |
-            <a asp-action="Index">Назад до списку</a>
+            <a asp-action="Index" asp-route-readerId="@Model.Reader.Id">Назад до списку</a>
         </div>
     </form>
 </div>

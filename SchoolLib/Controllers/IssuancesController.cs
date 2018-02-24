@@ -126,8 +126,15 @@ namespace SchoolLib.Controllers
 		[HttpGet]
 		public IActionResult Create(int? bookId, int? readerId)
 		{
-			ViewData["BookId"] = bookId;
-			ViewData["ReaderId"] = readerId;
+			Reader reader =
+				_context.Students.SingleOrDefault(r => r.Id == readerId) ??
+				(Reader) _context.Workers.SingleOrDefault(r => r.Id == readerId);
+
+			Book book = _context.Books.SingleOrDefault(b => b.Id == bookId);
+
+			ViewData["Reader"] = reader;
+			ViewData["Book"] = book;
+
 			ViewData["IssueDate"] = DateTime.Today.ToString("dd.MM.yyyy");
 			return View();
 		}

@@ -1,69 +1,69 @@
 ﻿@{
-    ViewData["Title"] = "Книги";
+	ViewData["Title"] = "Книги";
 }
 
 <h2>@ViewData["Title"]</h2>
 
 <div class="form-horizontal row">
-    <div class="form-horizontal col-md-6">
-        <div class="form-horizontal row">
-            <a asp-controller="Inventories" asp-action="Index" class="col-md-6 btn btn-default">Інвентаризація книг</a>
-            <a asp-controller="Provenances" asp-action="Index" class="col-md-6 btn btn-default">Походження книг</a>
-        </div>
-        <hr />
-        <div class="form-horizontal row">
-            <a asp-controller="AdditionalBooks" asp-action="Create" class="col-md-6 btn btn-default">Додати нову книгу</a>
-            <a asp-controller="StudyBooks" asp-action="Create" class="col-md-6 btn btn-default">Додати новий підручник</a>
-        </div>
-    </div>
-    <div class="form-horizontal col-md-6">
-        <div class="form-horizontal row">
-            <label class="col-md-12 col-md-pull-4 control-label">Кількість підручників у бібліотеці: @ViewBag.StudyBooksCount</label>
-            <label class="col-md-12 col-md-pull-4 control-label">Кількість інших книг у бібліотеці: @ViewBag.AddBooksCount</label>
-            <label class="col-md-12 col-md-pull-4 control-label">Кількість книг у бібліотеці загалом: @ViewBag.BooksCount</label>
-        </div>
-    </div>
+	<div class="form-horizontal col-md-6">
+		<div class="form-horizontal row">
+			<a asp-controller="Inventories" asp-action="Index" class="col-md-6 btn btn-default">Інвентаризація книг</a>
+			<a asp-controller="Provenances" asp-action="Index" class="col-md-6 btn btn-default">Походження книг</a>
+		</div>
+		<hr />
+		<div class="form-horizontal row">
+			<a asp-controller="AdditionalBooks" asp-action="Create" class="col-md-6 btn btn-default">Додати нову книгу</a>
+			<a asp-controller="StudyBooks" asp-action="Create" class="col-md-6 btn btn-default">Додати новий підручник</a>
+		</div>
+	</div>
+	<div class="form-horizontal col-md-6">
+		<div class="form-horizontal row">
+			<label class="col-md-12 col-md-pull-4 control-label">Кількість підручників у бібліотеці: @ViewBag.StudyBooksCount</label>
+			<label class="col-md-12 col-md-pull-4 control-label">Кількість інших книг у бібліотеці: @ViewBag.AddBooksCount</label>
+			<label class="col-md-12 col-md-pull-4 control-label">Кількість книг у бібліотеці загалом: @ViewBag.BooksCount</label>
+		</div>
+	</div>
 </div>
 <hr />
 
 
 <div class="form-horizontal row">
-    <div class="col-md-4">
-        <div class="form-group">
-            <label class="col-md-4 control-label">Тип</label>
-            <div class="col-md-8">
-                <select asp-items="ViewBag.bookTypesList" class="form-control" id="type"></select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-4 control-label">Статус</label>
-            <div class="col-md-8">
-                <select asp-items="ViewBag.bookStatusList" class="form-control" id="status"></select>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="form-group">
-            <div class="col-md-12">
-                <input type="number" name="id" id="id" placeholder="Інвентарний №..." class="form-control" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-12">
-                <input type="text" name="name" id="name" placeholder="Назва..." class="form-control" />
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="form-group">
-            <div class="col-md-12">
-                <input type="text" name="author" id="author" placeholder="Автор..." class="form-control" />
-            </div>
-        </div>
-    </div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="col-md-4 control-label">Тип</label>
+			<div class="col-md-8">
+				<select asp-items="ViewBag.bookTypesList" class="form-control" id="type"></select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-md-4 control-label">Статус</label>
+			<div class="col-md-8">
+				<select asp-items="ViewBag.bookStatusList" class="form-control" id="status"></select>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<div class="col-md-12">
+				<input type="number" name="id" id="id" placeholder="Інвентарний №..." class="form-control" />
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<input type="text" name="name" id="name" placeholder="Назва..." class="form-control" />
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<div class="col-md-12">
+				<input type="text" name="author" id="author" placeholder="Автор..." class="form-control" />
+			</div>
+		</div>
+	</div>
 </div>
 <div class="form-group col-md-offset-5 col-md-7">
-    <input type="submit" id="submit" name="search" value="Пошук" class="btn btn-default" />
+	<input type="submit" id="submit" name="search" value="Пошук" class="btn btn-default" />
 </div>
 
 <div id="results"></div>
@@ -73,27 +73,27 @@
 <br />
 
 @section Scripts {
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#submit').click(function(e) {
-                e.preventDefault();
-                var id = encodeURIComponent($('#id').val());
-                var name = encodeURIComponent($('#name').val());
-                var author = encodeURIComponent($('#author').val());
-                var type = encodeURIComponent($('#type').val());
-                var status = encodeURIComponent($('#status').val());
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#submit').click(function(e) {
+				e.preventDefault();
+				var id = encodeURIComponent($('#id').val());
+				var name = encodeURIComponent($('#name').val());
+				var author = encodeURIComponent($('#author').val());
+				var type = encodeURIComponent($('#type').val());
+				var status = encodeURIComponent($('#status').val());
 
-                $('#results').load('@Url.Action("Search")?type=' +
-                    type +
-                    '&id=' +
-                    id +
-                    '&name=' +
-                    name +
-                    '&author=' +
-                    author +
-                    '&status=' +
-                    status);
-            });
-        });
-    </script>
+				$('#results').load('@Url.Action("Search")?type=' +
+					type +
+					'&id=' +
+					id +
+					'&name=' +
+					name +
+					'&author=' +
+					author +
+					'&status=' +
+					status);
+			});
+		});
+	</script>
 }

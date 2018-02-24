@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Blend for Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolLib", "SchoolLib\SchoolLib.csproj", "{7960E40A-32B6-4836-BD55-9B61F392B892}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolLib", "SchoolLib\SchoolLib.csproj", "{7960E40A-32B6-4836-BD55-9B61F392B892}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{D98198E5-565F-43CA-9770-19680FC638C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,17 @@ Global
 		{7960E40A-32B6-4836-BD55-9B61F392B892}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7960E40A-32B6-4836-BD55-9B61F392B892}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7960E40A-32B6-4836-BD55-9B61F392B892}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D98198E5-565F-43CA-9770-19680FC638C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D98198E5-565F-43CA-9770-19680FC638C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D98198E5-565F-43CA-9770-19680FC638C9}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D98198E5-565F-43CA-9770-19680FC638C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D98198E5-565F-43CA-9770-19680FC638C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D98198E5-565F-43CA-9770-19680FC638C9}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E1A1FCD2-688E-4A90-9B1A-367405E46B30}
 	EndGlobalSection
 EndGlobal

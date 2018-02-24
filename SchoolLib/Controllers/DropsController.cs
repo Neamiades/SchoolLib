@@ -85,7 +85,11 @@ namespace SchoolLib.Controllers
 		[HttpGet]
 		public IActionResult Create(int? readerId)
 		{
-			ViewData["ReaderId"] = readerId;
+			Reader reader =
+				_context.Students.SingleOrDefault(r => r.Id == readerId) ??
+				(Reader) _context.Workers.SingleOrDefault(r => r.Id == readerId);
+
+			ViewData["Reader"] = reader;
 			return View();
 		}
 

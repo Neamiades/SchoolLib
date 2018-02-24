@@ -5,7 +5,7 @@ using SchoolLib.Data.Validators;
 
 namespace SchoolLib.Models.People
 {
-	[DisplayName("Вибуття")]
+	[DisplayName("Вибуття читача")]
 	public class Drop
 	{
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -47,6 +47,8 @@ namespace SchoolLib.Controllers
 		public IActionResult Create()
 		{
 			ViewData["FirstRegistrationDate"] = ViewData["LastRegistrationDate"] = DateTime.Today.ToString("dd.MM.yyyy");
+			ViewBag.FreeId = _context.Readers.Max(w => w.Id) + 1;
+
 			return View();
 		}
 

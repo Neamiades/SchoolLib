@@ -38,6 +38,8 @@ namespace SchoolLib.Controllers
 
 		public IActionResult Create()
 		{
+			ViewBag.FreeId = _context.Books.Max(ab => ab.Id) + 1;
+
 			return View();
 		}
 

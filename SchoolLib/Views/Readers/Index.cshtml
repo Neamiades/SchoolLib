@@ -1,77 +1,77 @@
 ﻿@{
-    ViewData["Title"] = "Читачі";
+	ViewData["Title"] = "Читачі";
 }
 
 <h2>@ViewData["Title"]</h2>
 
 <div class="form-horizontal row">
-    <div class="form-horizontal col-md-6">
-        <div class="form-horizontal row">
-            <a asp-controller="Drops" asp-action="Index" class="col-md-12 btn btn-default">Вибуття</a>
-        </div>
-        <hr />
-        <div class="form-horizontal row">
-            <a asp-controller="Students" asp-action="Create" class="col-md-6 btn btn-default">Додати учня</a>
-            <a asp-controller="Workers" asp-action="Create" class="col-md-6 btn btn-default">Додати співробітника</a>
-        </div>
-    </div>
-    <div class="form-horizontal col-md-6">
-        <div class="form-horizontal row">
-            <label class="col-md-12 col-md-pull-4 control-label">Кількість учнів у бібліотеці: @ViewBag.StudentsCount</label>
-            <label class="col-md-12 col-md-pull-4 control-label">Кількість співробітників у бібліотеці: @ViewBag.WorkersCount</label>
-            <label class="col-md-12 col-md-pull-4 control-label">Кількість читачів у бібліотеці загалом: @ViewBag.ReadersCount</label>
-        </div>
-    </div>
+	<div class="form-horizontal col-md-6">
+		<div class="form-horizontal row">
+			<a asp-controller="Drops" asp-action="Index" class="col-md-12 btn btn-default">Вибуття</a>
+		</div>
+		<hr />
+		<div class="form-horizontal row">
+			<a asp-controller="Students" asp-action="Create" class="col-md-6 btn btn-default">Додати учня</a>
+			<a asp-controller="Workers" asp-action="Create" class="col-md-6 btn btn-default">Додати співробітника</a>
+		</div>
+	</div>
+	<div class="form-horizontal col-md-6">
+		<div class="form-horizontal row">
+			<label class="col-md-12 col-md-pull-4 control-label">Кількість учнів у бібліотеці: @ViewBag.StudentsCount</label>
+			<label class="col-md-12 col-md-pull-4 control-label">Кількість співробітників у бібліотеці: @ViewBag.WorkersCount</label>
+			<label class="col-md-12 col-md-pull-4 control-label">Кількість читачів у бібліотеці загалом: @ViewBag.ReadersCount</label>
+		</div>
+	</div>
 </div>
 <hr/>
 
 <div class="form-horizontal row">
-    <div class="col-md-4">
-        <div class="form-group">
-            <label class="col-md-4 control-label">Тип</label>
-            <div class="col-md-8">
-                <select asp-items="ViewBag.readerTypeList" class="form-control" id="type"></select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-4 control-label">Статус</label>
-            <div class="col-md-8">
-                <select asp-items="ViewBag.readerStatusList" class="form-control" id="status"></select>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="form-group">
-            <div class="col-md-12">
-                <input type="number" name="id" id="id" placeholder="Ідентифікаційний №..." class="form-control"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-12">
-                <input type="text" name="surName" id="surName" placeholder="Призвіще..." class="form-control"/>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="form-group">
-            <div class="col-md-12">
-                <input type="text" name="firstName" id="firstName" placeholder="Ім'я..." class="form-control"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-12">
-                <input type="text" name="patronimic" id="patronimic" placeholder="По-батькові..." class="form-control"/>
-            </div>
-        </div>
-    </div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="col-md-4 control-label">Тип</label>
+			<div class="col-md-8">
+				<select asp-items="ViewBag.readerTypeList" class="form-control" id="type"></select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-md-4 control-label">Статус</label>
+			<div class="col-md-8">
+				<select asp-items="ViewBag.readerStatusList" class="form-control" id="status"></select>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<div class="col-md-12">
+				<input type="number" name="id" id="id" placeholder="Ідентифікаційний №..." class="form-control"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<input type="text" name="surName" id="surName" placeholder="Прізвище..." class="form-control"/>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<div class="col-md-12">
+				<input type="text" name="firstName" id="firstName" placeholder="Ім'я..." class="form-control"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<input type="text" name="patronimic" id="patronimic" placeholder="По-батькові..." class="form-control"/>
+			</div>
+		</div>
+	</div>
 </div>
 <div class="form-group row">
-    <div class="col-md-offset-3 col-md-3">
-        <input type="submit" id="submit" name="search" value="Пошук" class="btn btn-default"/>
-    </div>
-    <div class="col-md-6">
-        <input type="submit" id="submit" name="activate" value="Активувати читачів" class="btn btn-default"/>
-    </div>
+	<div class="col-md-offset-3 col-md-3">
+		<input type="submit" id="submit" name="search" value="Пошук" class="btn btn-default"/>
+	</div>
+	<div class="col-md-6">
+		<input type="submit" id="submit" name="activate" value="Активувати читачів" class="btn btn-default"/>
+	</div>
 </div>
 
 <div id="results"></div>
@@ -81,33 +81,33 @@
 <br/>
 
 @section Scripts {
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#submit').click(function(e) {
-                e.preventDefault();
-                var id = encodeURIComponent($('#id').val());
-                var firstName = encodeURIComponent($('#firstName').val());
-                var surName = encodeURIComponent($('#surName').val());
-                var patronimic = encodeURIComponent($('#patronimic').val());
-                var type = encodeURIComponent($('#type').val());
-                var status = encodeURIComponent($('#status').val());
-                var actn = $(this).attr('name');
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#submit').click(function(e) {
+				e.preventDefault();
+				var id = encodeURIComponent($('#id').val());
+				var firstName = encodeURIComponent($('#firstName').val());
+				var surName = encodeURIComponent($('#surName').val());
+				var patronimic = encodeURIComponent($('#patronimic').val());
+				var type = encodeURIComponent($('#type').val());
+				var status = encodeURIComponent($('#status').val());
+				var actn = $(this).attr('name');
 
-                $('#results').load('@Url.Action("SearchActions")?type=' +
-                    type +
-                    '&id=' +
-                    id +
-                    '&firstName=' +
-                    firstName +
-                    '&surName=' +
-                    surName +
-                    '&patronimic=' +
-                    patronimic +
-                    '&status=' +
-                    status +
-                    '&actn=' +
-                    actn);
-            });
-        });
-    </script>
+				$('#results').load('@Url.Action("SearchActions")?type=' +
+					type +
+					'&id=' +
+					id +
+					'&firstName=' +
+					firstName +
+					'&surName=' +
+					surName +
+					'&patronimic=' +
+					patronimic +
+					'&status=' +
+					status +
+					'&actn=' +
+					actn);
+			});
+		});
+	</script>
 }

@@ -1,113 +1,113 @@
-﻿@model SchoolLib.Models.People.Student
-
+﻿@using SchoolLib.Models.People
+@model Student
 @{
-    ViewData["Title"] = "Редагування запису учня";
+	ViewData["Title"] = "Редагування запису учня";
 }
 
 <h2>@ViewData["Title"]</h2>
 
 <form asp-action="Edit">
-    <div class="form-horizontal">
-        <h4>@Html.DisplayNameFor(model => model)</h4>
-        <hr/>
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" name="curId" value="@Model.Id"/>
-        <div class="form-group">
-            <label asp-for="Id" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <label asp-for="Id" class="control-label">@Model.Id</label>
-                <input type="hidden" asp-for="Id" class="form-control" value="@Model.Id"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="SurName" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="SurName" class="form-control"/>
-                <span asp-validation-for="SurName" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="FirstName" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="FirstName" class="form-control"/>
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Patronimic" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Patronimic" class="form-control"/>
-                <span asp-validation-for="Patronimic" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Street" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Street" class="form-control"/>
-                <span asp-validation-for="Street" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="House" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="House" class="form-control"/>
-                <span asp-validation-for="House" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Apartment" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Apartment" class="form-control"/>
-                <span asp-validation-for="Apartment" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Grade" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Grade" class="form-control"/>
-                <span asp-validation-for="Grade" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="FirstRegistrationDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <label asp-for="FirstRegistrationDate" class="control-label">@Model.FirstRegistrationDate</label>
-                <input asp-for="FirstRegistrationDate" class="form-control hidden" value="@Model.FirstRegistrationDate"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="LastRegistrationDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <label asp-for="LastRegistrationDate" class="control-label">@Model.LastRegistrationDate</label>
-                <input asp-for="LastRegistrationDate" class="form-control hidden" value="@Model.LastRegistrationDate"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Status" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <label asp-for="Status" class="control-label">@Html.DisplayFor(model => model.Status)</label>
-                <input asp-for="Status" class="form-control hidden" value="@Model.Status"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Note" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Note" class="form-control"/>
-                <span asp-validation-for="Note" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Зберегти" class="btn btn-default"/>
-            </div>
-        </div>
-    </div>
+	<div class="form-horizontal">
+		<h4>@Html.DisplayNameFor(model => model)</h4>
+		<hr />
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<input type="hidden" name="curId" value="@Model.Id" />
+		<div class="form-group">
+			<label asp-for="Id" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<label asp-for="Id" class="control-label">@Model.Id</label>
+				<input type="hidden" asp-for="Id" class="form-control" value="@Model.Id" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="SurName" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="SurName" class="form-control" />
+				<span asp-validation-for="SurName" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="FirstName" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="FirstName" class="form-control" />
+				<span asp-validation-for="FirstName" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Patronimic" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Patronimic" class="form-control" />
+				<span asp-validation-for="Patronimic" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Street" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Street" class="form-control" />
+				<span asp-validation-for="Street" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="House" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="House" class="form-control" />
+				<span asp-validation-for="House" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Apartment" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Apartment" class="form-control" />
+				<span asp-validation-for="Apartment" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Grade" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Grade" class="form-control" />
+				<span asp-validation-for="Grade" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="FirstRegistrationDate" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="FirstRegistrationDate" class="form-control" />
+				<span asp-validation-for="FirstRegistrationDate" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="LastRegistrationDate" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="LastRegistrationDate" class="form-control" />
+				<span asp-validation-for="LastRegistrationDate" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Status" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<label asp-for="Status" class="control-label">@Html.DisplayFor(model => model.Status)</label>
+				<input asp-for="Status" class="form-control hidden" value="@Model.Status"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Note" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Note" class="form-control" />
+				<span asp-validation-for="Note" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Зберегти" class="btn btn-default" />
+			</div>
+		</div>
+	</div>
 </form>
 
 <div>
-    <a asp-action="Index">Назад до списку</a>
+	<a asp-action="Index">Назад до списку</a>
 </div>
 
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

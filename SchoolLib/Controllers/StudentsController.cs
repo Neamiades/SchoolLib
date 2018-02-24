@@ -20,7 +20,7 @@ namespace SchoolLib.Controllers
 		}
 
 		// GET: Students
-		public async Task<IActionResult> Index()
+		public IActionResult Index()
 		{
 			return RedirectToAction("Index", "Readers");
 			//return View(await _context.Students.ToListAsync());
@@ -44,6 +44,8 @@ namespace SchoolLib.Controllers
 		public IActionResult Create()
 		{
 			ViewData["FirstRegistrationDate"] = ViewData["LastRegistrationDate"] = DateTime.Today.ToString("dd.MM.yyyy");
+			ViewBag.FreeId = _context.Readers.Max(s => s.Id) + 1;
+
 			return View();
 		}
 
